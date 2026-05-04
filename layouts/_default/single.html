@@ -1,0 +1,14 @@
+{{ define "main" }}
+<div class="container with-sidebar">
+  {{ partial "sidebar.html" . }}
+  <article class="page">
+    <h1>{{ .Title }}</h1>
+    {{ if and (eq .Section "news") (not .Date.IsZero) }}
+      <p class="meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time></p>
+    {{ end }}
+    <div class="prose">
+      {{ .Content }}
+    </div>
+  </article>
+</div>
+{{ end }}

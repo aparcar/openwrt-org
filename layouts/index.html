@@ -1,0 +1,38 @@
+{{ define "main" }}
+<section class="hero">
+  <div class="container hero-inner">
+    <img class="hero-logo" src="/images/openwrt-icon-white-and-blue.svg" alt="" aria-hidden="true">
+    <div class="hero-text">
+      <p class="tagline">{{ .Site.Params.tagline }}</p>
+      <p class="lede">The OpenWrt Project is a Linux operating system targeting embedded devices. Instead of trying to create a single, static firmware, OpenWrt provides a fully writable filesystem with package management. This frees you from the application selection and configuration provided by the vendor and allows you to customize the device through the use of packages to suit any application. For developers, OpenWrt is the framework to build an application without having to build a complete firmware around it; for users this means the ability for full customization, to use the device in ways never envisioned.</p>
+      <p class="lede">See the <a href="https://toh.openwrt.org/">Table of Hardware</a> for supported devices. For more information about OpenWrt project organization, see the <a href="/about/">About OpenWrt</a> pages.</p>
+    </div>
+  </div>
+</section>
+
+<section class="container home-grid">
+  <div class="home-col">
+    <h2>News</h2>
+    <ul class="post-list">
+      {{ range first 8 (where .Site.RegularPages "Section" "news").ByDate.Reverse }}
+        <li>
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </li>
+      {{ end }}
+    </ul>
+    <p class="more"><a href="/news/">All news →</a></p>
+  </div>
+
+  <div class="home-col">
+    <h2>Latest development</h2>
+    <p>Track ongoing work in the main OpenWrt repository:</p>
+    <ul class="link-list">
+      <li><a href="https://git.openwrt.org/?p=openwrt/openwrt.git;a=summary">openwrt.git on git.openwrt.org</a></li>
+      <li><a href="https://github.com/openwrt/openwrt/commits/main">commits to main on GitHub</a></li>
+      <li><a href="https://patchwork.ozlabs.org/project/openwrt/list/">patchwork — pending patches</a></li>
+    </ul>
+    <p class="more"><a href="https://git.openwrt.org/">Browse all repositories →</a></p>
+  </div>
+</section>
+{{ end }}

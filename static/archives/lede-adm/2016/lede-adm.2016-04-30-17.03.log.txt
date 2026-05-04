@@ -1,0 +1,617 @@
+17:03:48 <Hauke> #startmeeting
+17:03:48 <lede-bot> Meeting started Sat Apr 30 17:03:48 2016 UTC.  The chair is Hauke. Information about MeetBot at http://wiki.debian.org/MeetBot.
+17:03:48 <lede-bot> Useful Commands: #action #agreed #help #info #idea #link #topic.
+17:04:23 <Hauke> #action Overall Timeline for next weeks
+17:04:47 <blogic> this week is WBM in porto
+17:04:54 <blogic> and next weekend is wcw in berlin
+17:05:05 <blogic> i think jow is already in porto and felix will arrive tomorrow
+17:05:18 <blogic> so ideally they polish the mail to -hackers and -devel
+17:05:38 <blogic> then felix can send it and we are at that point public and launched
+17:06:31 <blogic> not sure what will happen next, we have been working towards that :-)
+17:06:37 <Hauke> do we also want to send informations to other list exept -devel ?
+17:06:46 <blogic> yes
+17:06:51 <jow_laptop> we should decide when we take down the access restrictions
+17:06:57 <blogic> now ?!
+17:07:00 <jow_laptop> I want to do it rather sooner than later
+17:07:08 <Hauke> yes I am fine with now
+17:07:17 <neoraider> +1
+17:07:19 <Noltari> I'm fine too
+17:07:25 <blogic> shall we quickly vote on that ?
+17:07:33 <thess> +1
+17:07:38 <stintel> +1
+17:07:39 <jow_laptop> I thinke we just did
+17:07:40 <jow_laptop> +1
+17:07:41 <blogic> wait
+17:07:43 <Hauke> +1
+17:07:49 <blogic> hauke needs to start the vote thing
+17:07:51 <blogic> :-)
+17:08:00 <Hauke> blogic: jow_laptop  which command?
+17:08:16 <jow_laptop> Just note it with "#agreed" in the minutes
+17:08:22 <jow_laptop> there is no dedicated vote thing
+17:08:32 <blogic> +1
+17:08:45 <Hauke> #agreed taking down the access restriction for the website and co.
+17:09:36 <Hauke> do we have a press release or something like that we can send to a more broder groupe?
+17:09:46 <blogic> http://piratepad.net/ArjcbcV6ck
+17:09:47 <lede-bot> Title: PiratePad: ArjcbcV6ck (at piratepad.net)
+17:10:11 <blogic> felix is working on the mail to -devel
+17:10:24 <blogic> it will be a mix of the 2 text sections
+17:10:35 <Hauke> ok
+17:10:40 <jow_laptop> I suggested that people put themselves on the signers list at the end of the docuemnt
+17:10:47 <jow_laptop> we didn't want to impose somebody
+17:11:32 <neoraider> As we don't have a draft of the -devel mail yet, there's no signer list yet, is there?
+17:11:51 <blogic> well it would be a mix of the 2 text passages
+17:13:04 <Hauke> I think we should also send something to -users and to some communities using OpenWrt
+17:13:12 <blogic> erm yes
+17:13:25 <Hauke> that could be that same mail as to -devel
+17:13:28 <blogic> -devel, -users, FF, ninux, WBM, ...
+17:14:01 <Hauke> any other suggestion?
+17:14:07 <blogic> http://piratepad.net/eeJLCt008w
+17:14:08 <lede-bot> Title: PiratePad: eeJLCt008w (at piratepad.net)
+17:14:31 <blogic> why prpl ?
+17:14:41 <blogic> right now i think we should inform our communites
+17:14:42 <Hauke> just to inform them
+17:14:49 <blogic> prpl is a lobby that has never contributed anything
+17:14:54 <blogic> companies should come later on
+17:14:57 <Hauke> I think we should inform everybody how might be intrsted
+17:15:04 <blogic> yes
+17:15:08 <blogic> lets do a company list
+17:15:35 <Hauke> and this should be all at the same time
+17:15:40 <blogic> yes
+17:15:48 <blogic> 1 mail for community
+17:15:55 <blogic> and then one mail for companies
+17:16:04 <Hauke> why different mails?
+17:16:08 <blogic> we do not want to create the impression that we intermingel the 2 things
+17:16:20 <Hauke> some people from companies are already on the devel list
+17:16:34 <blogic> the mix between company and community interests caused headaches within owrt i think
+17:16:38 <Hauke> we should handel them the same way as the communities
+17:16:46 <blogic> i dont agree
+17:17:01 <blogic> we stated very early on to first handle our communities
+17:17:05 <blogic> then the companies
+17:17:11 <blogic> we can vote on this i guess
+17:17:25 <jow_laptop> please clarify
+17:17:34 <Hauke> our rules say that we want to handle companies like communities so individuals from comapnies can interact
+17:17:44 <blogic> well
+17:17:54 <blogic> our rules say that companies should act like community members
+17:18:08 <blogic> and they are welcome to contribute under those same rules
+17:18:08 <Hauke> when we inform -devel and so on also many companies are informed because they have people on the list
+17:18:17 <blogic> yes
+17:18:38 <Hauke> and why not send them the same information as the communities?
+17:18:38 <blogic> if we inform companies using owrt/lede we need to inform them all
+17:18:43 <blogic> and the list would be very long
+17:18:58 <blogic> adding prpl to the list suggests a special relation which does not exist
+17:18:58 <Hauke> for pepl I would only send something to their public list
+17:19:12 <blogic> and lets face it they will monotenize that implicit suggestion
+17:19:12 <Hauke> *prpl
+17:19:30 <blogic> well i had my say
+17:19:42 <blogic> jow_laptop: was that clarification enough ?
+17:19:44 <Noltari> I think they're going to get the message either way
+17:19:58 <blogic> they have a very bad record at getting the message
+17:20:19 <jow_laptop> blogic: do you want to send them a different message?
+17:20:22 <blogic> but that is just my PoV
+17:20:24 <jow_laptop> companies, that is
+17:20:27 <blogic> no
+17:20:41 <blogic> same text but separate email
+17:20:59 <blogic> basically send the email once to communities and once to companies
+17:21:10 <Hauke> ok with me
+17:21:33 <jow_laptop> that sounds okay to me. first broadcast message to community members and contributors
+17:21:41 <blogic> yes
+17:21:46 <jow_laptop> second broadcast message with same content to legal entities
+17:21:52 <blogic> yep
+17:21:55 <Hauke> ok vote?
+17:22:06 <jow_laptop> +1
+17:22:08 <Hauke> +1
+17:22:08 <blogic> +1
+17:22:08 <Noltari> +1
+17:22:12 <thess> +1
+17:22:20 <stintel> +1
+17:22:39 <Hauke> #agreed first broadcast message to community members and contributors, second broadcast message with same content to legal entities
+17:22:39 <neoraider> +1
+17:23:18 <jow_laptop> nevertheless we need to discuss how to handle prpl
+17:23:31 <Hauke> do we have a date when we want to need the mails?
+17:23:35 <blogic> lets do that as last point in the meeting ?
+17:23:36 <Hauke> prpl is also on the agenda
+17:23:47 <blogic> Hauke: monday
+17:23:47 <Hauke> yes talk about prpl later
+17:23:58 <jow_laptop> in the spirit of leaving no burned bridges we need to be aware that they're essentially organizing a summit around a project which is about to lose a fair number of contributors
+17:24:03 <jow_laptop> ok
+17:24:51 <blogic> ok, whats next ..
+17:24:54 <blogic> mission statement
+17:24:59 <jow_laptop> yes, I really do hope that I'll be able to finish all material on monday together with felix
+17:25:11 <Hauke> #topic Infrastructure
+17:25:27 <blogic> i would like to thank jopw at this point
+17:25:37 <blogic> he did most of the work on the infrastructure part
+17:25:42 <blogic> *jow ;)
+17:25:51 <Noltari> very nice work, btw
+17:25:52 <Hauke> I also want to thank him
+17:26:24 <Hauke> jow_laptop: do you have new information?
+17:26:27 <blogic> i thik we are mostly done and in good shape
+17:26:27 <jow_laptop> yes
+17:26:30 <Hauke> I think this is your topic ;-)
+17:26:40 <jow_laptop> first of all I'd like to once again welcome thess
+17:26:58 <thess> Hi
+17:27:24 <jow_laptop> he did offer some of his precious time to help out with administration and already received access to most of our servers
+17:27:55 <jow_laptop> so thess will be able to do thing on the servers if I am getting hit by a bus
+17:28:02 <thess> I don't know how precious my time is, but I am glad to be on-board to help
+17:28:27 <jow_laptop> I just finished the buildbot setup more or less
+17:28:44 <jow_laptop> for the moment we're doing continuos builds based on lede source.git master branch
+17:28:49 <jow_laptop> the final urls are;
+17:28:58 <jow_laptop> http://phase1.builds.lede-project.org/waterfall
+17:28:59 <lede-bot> Title: BuildBot: LEDE Project (at phase1.builds.lede-project.org)
+17:29:03 <jow_laptop> http://phase2.builds.lede-project.org/waterfall
+17:29:04 <lede-bot> Title: BuildBot: LEDE Project (at phase2.builds.lede-project.org)
+17:29:22 <Hauke> what does phase1 and 2 stand for?
+17:29:29 <jow_laptop> phase1 builds targets along with base and kernel packages, images and sdk
+17:29:59 <jow_laptop> phase2 builds all different package architectures from all external feeds to populate the shared package repositories
+17:30:26 <Hauke> ok
+17:30:36 <jow_laptop> imagebuilder and sdk as well as opkg in installed images will use the repositories populated by phase2
+17:31:06 <Hauke> is it documented who has access to which part of our  infrastructure
+17:31:26 <jow_laptop> it is internally documented yet and I'll put the document online asap, most likely until monday
+17:32:13 <blogic> Hauke: the list has server name, function, owner, people with access, contact person
+17:32:14 <Hauke> #action jow puts documentation online about who has acces to which part of the infrastructure
+17:32:18 <jow_laptop> the document describes who is paying for a given machine and who is admainstrative contact for a given server, service etc.
+17:32:45 <Hauke> ok that is good, so In case of a problem I know whom to contact
+17:32:49 <jow_laptop> as it contains no really sensitive information we can likely maintain it publicly
+17:33:01 <jow_laptop> it will likely be yet another asciidoc file in web.git
+17:33:23 <thess> I've started to look at the requirements for backups and deploying gitolite for access control
+17:33:46 <thess> Additionally, I can update jow's document as I get more familiar with the environment
+17:33:48 <Hauke> especilly for the build bots that would be nice as they broke very often in OpenWrt
+17:33:50 <stintel> I need to say this. why do so many people use until when they mean before ?
+17:34:18 <jow_laptop> stintel: maybe its yet another germanism
+17:34:59 <stintel> jow_laptop: Bulgarians do it too. /end off-topic
+17:35:02 <jow_laptop> Hauke: I plan to put the buildbot master configs online as well
+17:35:17 <Hauke> that is nice
+17:35:19 <jow_laptop> Hauke: the configs evolved quite a bit and contain almost no "secret source" anymore
+17:35:26 <stintel> preferably in a git repo
+17:35:52 <jow_laptop> Hauke: but I need to factor out secret information yet - certain credentials like rsync upload keys are yet hardcoded in the config and need to be moved into external files
+17:36:05 <jow_laptop> Hauke: so that we can push the remaining non-secret parts unmodified to git
+17:36:33 <Hauke> ok that would be nice so if someone wants to replicate the setup
+17:37:07 <Hauke> I do not see the "broken packages" link in the build bots any more
+17:37:28 <thess> Yes, I noticed that
+17:37:37 <jow_laptop> yes, thats a differnece compared to the openwrt setup
+17:37:58 <jow_laptop> the openwrt setup used a soon-to-be-deprecated public_html functionality of buildbot
+17:38:04 <Hauke> that was a nice feature, but take your time
+17:38:13 <jow_laptop> while I developed the lede system to simply upload the logs to the rsync server
+17:38:20 <jow_laptop> you cna find the broken package logs here: https://downloads.lede-project.org/snapshots/faillogs/
+17:38:21 <lede-bot> Title: Index of /snapshots/faillogs/ (at downloads.lede-project.org)
+17:39:02 <Hauke> ok
+17:39:32 <Hauke> anything else regarding infrastructure?
+17:39:37 <jow_laptop> yes, some final remarks
+17:39:38 <Hauke> regarding build bots
+17:40:04 <jow_laptop> we're already hitting resource constraints so I'll prepare a list of things we could use sponsoring for
+17:40:18 <jow_laptop> the most important part is mirror space for downloads
+17:40:21 <Hauke> that would be nice
+17:40:45 <blogic> we could do with 3-5 more servers
+17:40:55 <jow_laptop> but we als oneed further build capacity, some decent machine to host git on (away from the io constrained system atm)
+17:41:27 <jow_laptop> and we need to start figuring out how to deal with the project domain
+17:41:53 <jow_laptop> I'd like to hand it over to a proper registrar but someone has to own and pay it
+17:41:55 <Hauke> spi? they do nothing but that is ok for such things
+17:42:29 <blogic> would be an option
+17:42:44 <blogic> lets gather ideas over the next week and then do this in the next meeting ?
+17:42:49 <jow_laptop> ok, but lets defer that and talk about it at the next meeting
+17:42:51 <Hauke> yes
+17:42:52 <stintel> how much mirror space would we need exactly? I talked with someone who is willing to offer a mirror on a 10gig link in Belgium
+17:43:07 <jow_laptop> stintel: around 800GB
+17:43:25 <Hauke> #action talk about domain registrar in next meeting
+17:43:29 <stintel> I'll ask him if ~1TB is possible
+17:44:08 <jow_laptop> that would be great
+17:44:10 <blogic> i also plan to ping a few universities
+17:44:42 <Hauke> I think if we say that we need that and do not act stupid then it should work
+17:44:54 <jow_laptop> I think so as well.
+17:45:15 <jow_laptop> final remark regarding the infrastructure: the basic auth should be gone now
+17:45:23 <jow_laptop> if you still see one, ping me
+17:45:42 <blogic> ok
+17:45:48 <jow_laptop> action item for me during the next two weeks: grant thess access to the remaining services
+17:45:50 <blogic> patchwork is in the making
+17:46:03 <blogic> and then only bug tracking is the big TBD
+17:46:12 <jow_laptop> publish (high level service) documentation
+17:46:24 <Hauke> #action jow:during the next two weeks: grant thess access to the remaining services
+17:46:50 <Hauke> should we talk about bug tracing in the next meeting?
+17:46:58 <blogic> yes
+17:47:07 <blogic> i want to test ride mantis
+17:47:09 <Hauke> #action next meeting: bug tracing
+17:47:11 <blogic> failed to do so this week
+17:47:15 <jow_laptop> there's nothing new to discuss here
+17:47:50 <Hauke> ok anything else about infrastructure?
+17:48:12 <Hauke> do we want to do staging trees now?
+17:48:22 <Hauke> jump in the agenda ;-)
+17:48:40 <jow_laptop> yes, infra done
+17:48:56 <Hauke> #topic Staging trees
+17:49:07 <jow_laptop> I very much prefer them
+17:49:12 <Hauke> me to
+17:49:34 <jow_laptop> I think anyone here knows the problem with pushing stuff to the repo only to discover that something was overlooked, accidentally committed etc.
+17:49:35 <Hauke> would also make it possible to publish work in progress stuff
+17:49:55 <Hauke> yes ;-)
+17:50:01 <jow_laptop> within an own staging tree one can force-push revert, squash stuff until it looks clean and then merge that to the master in one go
+17:50:13 <blogic> yay
+17:50:18 <jow_laptop> additionally you're free to host it wherever it can be cloned by people
+17:50:26 <jow_laptop> so even on github ;)
+17:50:44 <blogic> yes
+17:50:57 <Hauke> I would like to see them on git.lede-projects.org
+17:51:05 <neoraider> I'm wondering if having "official" staging trees (as branches of source.git) makes sense
+17:51:06 <Hauke> so they are not spread arround
+17:51:07 <Noltari> jow_laptop: when can we start publishing lede stuff on github? :P
+17:51:11 <neoraider> And if so, how to organize them
+17:51:33 <blogic> Noltari: once the mail is out to -hackers i guess
+17:51:37 <blogic> so monday/tuesday
+17:51:38 <jow_laptop> from my side I only want to know whether we want to provide some kind of "officially endorsed" trees, think "http://git.lede-project.org/~jow/source.git" or should contributors organize their own hosting?
+17:51:39 <lede-bot> Title: git.lede-project.org Git (at git.lede-project.org)
+17:51:54 <blogic> jow_laptop: either
+17:52:08 <blogic> we should offer them on the lede server but allow people to use anything they want
+17:52:10 <neoraider> jow_laptop, usually having branches instead of separate repos makes more sense
+17:52:21 <blogic> neoraider: not sure
+17:52:31 <neoraider> jow_laptop, what system do we use to manage Git privileges? Gitolite?
+17:52:31 <blogic> would just create a huge monster tree with 100 branches
+17:52:35 <jow_laptop> neoraider: you mean for mergability?
+17:52:52 <Hauke> you can have multiple remotes in your local git tree
+17:53:00 <jow_laptop> neoraider: yes, thess and me are working on deploying gitolite
+17:53:09 <Hauke> I would prefere an extra repo so it is clear that this is unofficial
+17:53:10 <blogic> Hauke: yes
+17:53:32 <Noltari> I think we should maybe have some target specific staging trees where different ppl can work at the same time and them let each user have its own repo hosted somewhere else
+17:53:33 <blogic> i will put the lantiq/ralink/mediatek/ar71xx tree on github
+17:53:49 <Noltari> then*
+17:54:21 <blogic> and accept board support patches for those targets on that tree
+17:54:29 <blogic> and merge stuff from the mailing list to the same tree
+17:54:51 <Hauke> so we would have one tree per target?
+17:54:57 <blogic> no
+17:55:05 <blogic> i will have a tree on my account where i stage stuff
+17:55:10 <blogic> i dont want 4 trees
+17:55:28 <Hauke> so there will be a blogic.git with ar71xx lantiq,... branches?
+17:55:34 <blogic> i think anyone should decide for the subsystems that he maintains how to handle it best for his work flow
+17:55:40 <blogic> no
+17:55:46 <jow_laptop> I think the natural way is tree per user, not tree per target or some other technical definition
+17:55:54 <blogic> there will be a staging.git in my account with one staging branch
+17:56:05 <Hauke> yes I wuld also prefere one repo per user
+17:56:12 <blogic> Hauke: i will do it in a way that reduces workload for me
+17:56:34 <blogic> and then when we merge we need to see about the merge order
+17:56:49 <blogic> so i would like to contine having the target stuff i maintain flow via my trwe
+17:57:11 <blogic> Hauke: as an example if you have LTQ patches you can send me a PR via github or email
+17:57:34 <Hauke> ok
+17:57:58 <blogic> with ar71xx we need to see how to handle it. i will continue doing it with felix until we find a dedicated maintainer
+17:58:01 <jow_laptop> personally I think we should only define the process for final master merges at this point
+17:58:07 <blogic> right now the issue is that i do not have access to datasheets
+17:58:23 <blogic> jow_laptop: yes
+17:58:24 <jow_laptop> how secondary staging trees are organized is something we all need to figure out
+17:58:47 <jow_laptop> I already sense some very different ideas and viewpoints here
+17:58:49 <Hauke> ok, how do we request a staging tree at lede-project.org?
+17:59:04 <blogic> right now i think we should simply allow people to merge their staging trees whenever they think they are good
+17:59:15 <Hauke> blogic: agree
+17:59:18 <thess> It might make sense to have both private and public repos as does github
+17:59:30 <jow_laptop> thess: I think we cna do that as soon as we have gitolite in place
+17:59:45 <jow_laptop> right now its all ad-hoc unix permission ssh nginx stuff
+18:00:03 <Hauke> ok, so we will implement the staging tree when gitlotite is in place?
+18:00:09 <jow_laptop> Hauke: yes
+18:00:28 <blogic> ok so we have master and staging
+18:00:39 <blogic> anyone can throw stuff into staging as he pleases
+18:00:50 <blogic> and then before merging it to master we can do cleanups etc
+18:00:55 <blogic> ?
+18:01:00 <jow_laptop> what is staging? A yet-to-be-created git.lede-project.org/staging.git ?
+18:01:11 <blogic> that is what i am asking
+18:01:14 <Hauke> blogic: one staging or multiple?
+18:01:31 <thess> staging - your private workspace
+18:01:38 <blogic> ok
+18:01:39 <blogic> good
+18:02:38 <blogic> oh
+18:02:43 <blogic> one small thing, fixes ...
+18:03:06 <Hauke> stintel: good idea for the beginning lets just implement per committer reposeorires when gitlotite is there, and figure out the process later
+18:03:06 <blogic> if we get fixes etc then we should be able to put them straight to master
+18:03:49 <Hauke> blogic: agree
+18:04:18 <stintel> Hauke: I am confused. weird completion fail ?
+18:05:12 <jow_laptop> ok to summarize:
+18:05:20 <blogic> stintel: yeah ;)
+18:05:39 <jow_laptop> - we'll provide per user repositories where people can stage stuff according to their needs, be it remotes, brnaches, whatever
+18:05:54 <jow_laptop> - at this point in time we do not specify any policies for staging -> master merges
+18:06:25 <jow_laptop> - we'll try to finish the gitolite stuff asap
+18:06:48 <thess> yes - familiarizing myself with it as we speak
+18:07:08 <Hauke> afree
+18:07:13 <Hauke> agree
+18:07:35 <blogic> agreed
+18:07:38 <neoraider> ok
+18:08:26 <Noltari> ok
+18:08:33 <jow_laptop> +1
+18:09:08 <thess> One could use github for now and add an additonal named remote to your private clone for merging
+18:09:48 <blogic> thess: that is what i do
+18:10:53 <stintel> github, or gitlab is also a possibility afaik
+18:11:42 <thess> next topic?
+18:12:08 <Hauke> #agreed user repositories where people can stage stuff according to their needs
+18:12:38 <Hauke> #topic Mission statement
+18:13:04 <blogic> we currently have "Goals" listed on the front page
+18:13:25 <blogic> these should/might be extended and/or agreed on
+18:13:37 <Hauke> I like them
+18:13:57 <blogic> me too
+18:14:07 <blogic> i would like to reorganize the front page
+18:14:17 <blogic> put the PR statement on the top
+18:14:28 <blogic> then name, goals, endorsement, about
+18:14:37 <blogic> and eventually drop about
+18:14:49 <blogic> or even drop it now in favour of the PR text
+18:16:06 <Hauke> blogic: sounds good
+18:16:07 <neoraider> I think as long as the PR statement is on the top, we don't need the "about"
+18:16:20 <stintel> maybe rename it to "Home" and have the goals there, add an About page at the end of the "menu" and keep there the name and about sections
+18:16:36 <thess> About could be a separately mantained page for general historical reasons
+18:16:42 <neoraider> At some time in the future, when LEDE is established etc, we might want to move the PR statement to a subpage, and revive the about section on top above a "news" section
+18:16:53 <stintel> thess: something like that, indeed
+18:16:57 <blogic> ok
+18:17:06 <blogic> i'll make those changes later today
+18:17:12 <blogic> and polish of a few other things
+18:17:19 <blogic> the procd config page still point to nowhere
+18:17:52 <jow_laptop> at some place we should also put a standard documentation disclaimer stating that lede is largely openwrt compatible [at this point in time]
+18:17:52 <Hauke> the Corporate Contact
+18:18:03 <Hauke> the Corporate Contact mail is missing
+18:18:30 <blogic> Hauke: yes
+18:18:47 <blogic> are we done with the current opic ? then i would like to drop 2 lines on email
+18:18:53 <blogic> s/on/about/
+18:19:07 <Hauke> #topic Corporate Contact mail
+18:20:15 <Hauke> blogic: ?
+18:20:17 <blogic> ok
+18:20:33 <blogic> so we currenlty have twitter and FB registered
+18:20:42 <blogic> both running on one of may mail accounts
+18:20:56 <blogic> i would like to ask felix to setup emails for the project domain
+18:21:13 <blogic> then point twitter and FB at that account
+18:21:25 <blogic> and also point the company contact at that account
+18:21:35 <blogic> then hand out imap to who ever wants it
+18:21:47 <jow_laptop> so a simple shared mailbox
+18:21:48 <jow_laptop> ?
+18:21:51 <blogic> yes
+18:21:59 <Hauke> +1
+18:22:10 <blogic> +1
+18:22:13 <Hauke> do we have google+?
+18:22:13 <neoraider> +1
+18:22:17 <jow_laptop> +1
+18:22:20 <blogic> Hauke: no
+18:22:23 <stintel> +1
+18:22:26 <thess> +1
+18:22:42 <stintel> how do we disagree btw? -1 ?
+18:22:53 <blogic> probably
+18:23:00 <jow_laptop> it is just a convention
+18:23:04 <blogic> what would you prefer ?
+18:23:13 <Hauke> #agreed felix sets up a mail account for project admin and everyone intrested can get imap access
+18:23:14 <blogic> stintel: this is just an idea i had that seemed simpe
+18:23:20 <jow_laptop> voice it in a way that a human reader would understand it
+18:23:29 <jow_laptop> "no", "I disagree", "nak" would work
+18:23:58 <Hauke> could someone setup official google + account?
+18:24:18 <blogic> we need that mail account for that purpose i guess
+18:24:20 <jow_laptop> I need to leave now
+18:24:23 <Hauke> yes
+18:24:25 <blogic> jow_laptop: thanks !
+18:24:31 <Hauke> jow_laptop: thanks
+18:24:33 <jow_laptop> have on somewhat related comment:
+18:24:35 <blogic> jow_laptop: enjoy the sun
+18:24:47 <stintel> well +1 and -1 is less typing. but it's all fine by me. it's just a question that came to mind
+18:24:59 <jow_laptop> I registered https://github.com/lede-project
+18:25:00 <lede-bot> Title: lede-project · GitHub (at github.com)
+18:25:23 <blogic> ah yes we have a github project aswell
+18:25:24 <jow_laptop> please sne me your github handles if you want to be admin of this org, then you cna host your staging trees under its label if you like
+18:25:35 <Hauke> next topic?
+18:25:50 <blogic> only prpl is left now i think
+18:26:03 <stintel> I am not a fan of -project or so in urls or usernames. but I guess we need to use what's available
+18:26:04 <Hauke> #action send jow your github handles to get access to project account
+18:26:17 <neoraider> stintel, well, it matches the domain
+18:26:31 <Hauke> #topic Interaction with old OpenWrt project
+18:26:43 <blogic> i dont understand the topic
+18:26:48 <blogic> what aspect is meant ?
+18:27:17 <Hauke> will most of you still work on openwrt?
+18:27:26 <blogic> ah ok
+18:27:39 <blogic> i plan to merge fixes in both for a while
+18:27:50 <blogic> and i plan to continue CC+2 support
+18:27:54 <stintel> difficult one for those of us who have no openwrt commit access
+18:28:18 <jow_laptop> I'll likely play the community hotline for a while to come but will officially announce that I am not going to commit anymore
+18:28:19 <stintel> if I can commit to LEDE I will probably not send those changes to the OpenWrt ML anymore
+18:28:22 <Hauke> stintel: for you: will you still send patches to OpenWrt?
+18:28:39 <Noltari> +1 to stintel
+18:28:47 <stintel> if that is prefered, I can stil do it, but I am lazy
+18:28:50 <blogic> stintel: you can
+18:29:05 <blogic> i will slowly phase out
+18:29:19 <Hauke> ok
+18:29:34 <blogic> but right now, if i stop openwrt will see 20 patches / month or less unless someone picks up my role
+18:29:39 <thess> stintel: I agree, will probably phase out
+18:29:50 <stintel> for the packages repo nothing changes for now ?
+18:29:56 <stintel> (and other external repos)
+18:29:56 <jow_laptop> stintel: correct
+18:29:57 <Hauke> blogic: yes I think so too
+18:30:15 <blogic> Hauke: i will handover the CC key to ime
+18:30:18 <blogic> *imre
+18:30:19 <jow_laptop> packages repo might see a rename eventually and otherwise cater to whatever its dominant platform is I guess
+18:30:25 <Hauke> What should we suggest to the people sending patches to OpeNWrt mailing list?
+18:30:26 <blogic> and destroy my local copy
+18:30:50 <jow_laptop> Hauke: personally I'll still take openwrt list patches if they make sense
+18:30:54 <blogic> Hauke: up to anyone to decide
+18:31:01 <blogic> jow_laptop: me too
+18:31:06 <Hauke> ok
+18:31:10 <stintel> Hauke: I am not sure we should suggest anything - it might look hostile
+18:31:19 <blogic> Hauke: my guess is that the vast majority wont get megred
+18:31:19 <jow_laptop> but I will not tell people to send to use, I wait for the spread of word for that
+18:31:29 <jow_laptop> *to send to us instead
+18:31:34 <thess> Packages will eventually need to be able to build in either environment if there
+18:31:50 <thess> are significant differnces with the tools, etc.
+18:31:54 <stintel> I agree with jow_laptop
+18:31:59 <blogic> thess: yes
+18:32:14 <blogic> thess: i think we have a few months before this becomes a real issue
+18:32:24 <neoraider> For me, the basic issue is how quickly LEDE and OpenWrt will grow apart. As long as the same patches will easily apply to both repos, I'll probably continue to send patches to owrt as well
+18:32:26 <blogic> and we can always backport stuff to openwrt to keep the compatibility
+18:32:40 <stintel> if the significant changes are good, ideally they should end up in both projects
+18:32:43 <neoraider> As soon as porting patches gets painful, I'll probably stop
+18:33:38 <Hauke> ok then lets see what happens
+18:34:23 <Hauke> next topic?
+18:34:32 <blogic> ok
+18:34:40 <Hauke> #topic prpl
+18:34:44 <blogic> ok
+18:34:50 <blogic> may i quickly start on this ?
+18:34:55 <Hauke> yes
+18:35:04 <Noltari> I don't know much about prpl
+18:35:05 <blogic> believe me i spent a lot of time thinking about this
+18:35:08 <blogic> ok
+18:35:15 <blogic> so prpl started like this
+18:35:20 <blogic> when imgtec bought MIPS
+18:35:40 <blogic> they felt the need to built something like linaro to keep up with their rival ARM on that market segment
+18:36:26 <blogic> at the time i spoke with graham about this, who eventually left. he worked with ian, managing the MIPS kernel team at IMGTEC
+18:36:54 <blogic> they then launched prpl and had a ceo who managed to leave such a footprint that no one knows he existed and what he did
+18:37:12 <blogic> they stated their goals as IoT and cloud and $buzzword
+18:37:31 <blogic> then they gathered members, namely the SoC vendors buying the MIPS licenses
+18:38:05 <blogic> and then quickly shifted their main focus onto openwrt as this was to my understanding what the members were really interested in
+18:38:20 <blogic> so much for my personaly view on the history of what prpl is
+18:38:30 <blogic> fast forward a couple of year to today
+18:38:50 <blogic> now we have an entity that is trying to play a role in the openwrt eco system
+18:39:01 <blogic> it is by first look at it a community member
+18:39:10 <blogic> but at second look it is a different kind of member
+18:39:40 <blogic> normaly you have a person doing tinkering for fun, working on a project like freifunk or a employee of a company
+18:40:24 <blogic> each of these has a personal technical agenda, as in fixing something, adding a functionality to push say mesh networking or simply adding support for the SoC/board of the company they work for.
+18:40:36 <blogic> prpl does not fit into any of those categories
+18:40:59 <blogic> prpl has people that get paid to endorse the interests of its paying member companies
+18:41:08 <blogic> these are not technical interest but political ones
+18:41:29 <blogic> so per-se to my understanding this is the definition of a lobby
+18:42:12 <blogic> from my perception the interest of the lobby is to shift/change the eco system to better fit the needs of their paying members, none of whom play an active part in the community nor contribute anything back to the project
+18:42:39 <blogic> i have the feeling they are trying to make the ecosystem part of their supply chain
+18:43:08 <blogic> they do so by trying to build parallel infrastructures - the summit, the PEG, the funding, backroom deals ...
+18:43:38 <blogic> and they like to make claims of close relations, support and funding, of which i have, in the last 2 years, not seen much
+18:43:47 <blogic> ...
+18:43:57 <blogic> sorry, had to get that of my chest ;)
+18:44:11 <blogic> so now for the discussion ... comments ?
+18:44:12 <neoraider> Wasn't there also the prplwrt thing?
+18:44:21 <blogic> bingo
+18:44:26 <Hauke> I think prpl does the summit and co because they need a prupose otherwise the people working for prpl get fired
+18:44:28 <thess> Thanks for the insight as to why we are here among other reasons
+18:44:36 <blogic> neoraider: it had a clone of trunk that was never rebased and had 0 patches applied
+18:45:04 <blogic> neoraider: it has been taken offline in the meantime i think
+18:45:16 <stintel> I have to go, sorry
+18:45:25 <blogic> stintel: thanks for your time
+18:45:33 <Hauke> as the big members of prpl are intrested in OpenWrt as they are using it in their sdks, supporting openwrt is a a way to give prpl a purpose
+18:45:46 <blogic> Hauke: yes
+18:46:11 <blogic> but until they understand they are part of our supply chain and not the other way around, i think there is no point of doing anything with them
+18:46:30 <blogic> and they have been very good at ignoring any kind of feedback and are simply not getting the point
+18:46:56 <blogic> i had very big hopes in the entity
+18:47:05 <Hauke> just to inform you, I am working for one of the member companies of prpl and a am visiting some public prpl meetings
+18:47:16 <blogic> cool
+18:47:18 <blogic> i know
+18:47:19 <Hauke> I do not know what happens incide of prpl
+18:47:25 <blogic> i actually watch the youtube videos
+18:47:26 <Hauke> *inside
+18:47:41 <blogic> lots of yeha, woow, amazing, great
+18:47:44 <thess> agreed - however, a lobby has to be more than a smile and a handshake.
+18:47:53 <blogic> thess: yes
+18:48:04 <blogic> show us the code that resulted from all this basically ;)
+18:48:12 <blogic> rough consensus and running code
+18:48:19 <blogic> i dont see either
+18:48:26 <Hauke> I think we should put onto our webiste that lede is not represented by any external organisaition or companie, but only by its committers
+18:49:16 <blogic> https://prplfoundation.org/projects/
+18:49:17 <lede-bot> Title: Projects | prpl Foundation (at prplfoundation.org)
+18:49:19 <blogic> look here
+18:49:27 <blogic> openwrt is listed as a prpl project
+18:49:44 <blogic> we asked them twice over the last 6 months to make it obvious that we are not one of their projects
+18:49:46 <Hauke> to make it clear that prpl or any other company or organisation is not the representative of lede
+18:49:56 <blogic> Hauke: yes
+18:50:14 <Hauke> if they want to spend money we should take it ;-)
+18:50:23 <blogic> Hauke: is nothing
+18:50:42 <blogic> the funding they had is enough to pay the developement of 1 ethernet driver or 1/2 a wifi driver
+18:50:56 <blogic> that is the capital that eric so verbosily announced
+18:51:06 <Hauke> yes, but it is a beginning
+18:51:11 <blogic> sure
+18:51:22 <blogic> it might be
+18:51:27 <blogic> but they should sell it as such
+18:51:30 <Hauke> these companies and prpl are not used to work with open source
+18:51:37 <blogic> otherwise i might be tempted to call them populistic
+18:51:43 <blogic> sure
+18:52:16 <blogic> Hauke: well actually they are
+18:52:21 <blogic> they have been told many times
+18:52:24 <blogic> many many many times
+18:52:38 <blogic> i had hundreds of hours explaining it all to exactly those companies
+18:53:05 <Hauke> the problem is that these companies have someone that is responsible for like the ethernet driver
+18:53:05 <blogic> the problem is that they reluctantly want the eco sytem to be part of their supply chain
+18:53:17 <Hauke> if you outsource it this person is not needed any more
+18:53:24 <blogic> wrong
+18:53:25 <Hauke> so this person is against outsourcing
+18:53:46 <blogic> it is simply not the case and wont happen
+18:53:50 <Hauke> and what they currently do is what their big customers want
+18:53:57 <blogic> yes
+18:54:23 <blogic> and owrt is simply a small building block and to sustain their processes it needs to be shaped to fit their supply chain
+18:54:37 <Hauke> yes
+18:54:49 <blogic> and that is where our ideas go 2 ways
+18:55:03 <blogic> they can be part of our community, we do not want to be in their supply chain
+18:55:14 <Hauke> what do you mean  eactly with "shaped to fit their supply chain" ?
+18:55:14 <blogic> that would be a pure community sell out
+18:55:22 <blogic> build a lobby
+18:56:08 <thess> How do we prevent this from playing out again with LEDE? A public statement on the home page regarding affiliations?
+18:56:31 <Hauke> thess: I would prefere that
+18:56:53 <blogic> cool
+18:57:09 <blogic> thess: the problem is not what the developers / members do
+18:57:15 <blogic> it is the public message they transport
+18:57:27 <blogic> people really think that there is a close tie between prpl and owrt
+18:57:38 <blogic> because they simply claim so at every opportunity
+18:57:52 <blogic> so making a public statement that the project is independent is good
+18:58:43 <Hauke> yes that is true they are probably talking to managers that will not look at our web page
+18:59:21 <blogic> i am more worried about what our community thinks
+19:00:10 <blogic> and they look at our webpage
+19:00:14 <Hauke> is anybody against putting a staement onto the website that says that we are not affiliationed with any company indursty organisation?
+19:00:32 <jow_laptop> no
+19:00:35 <blogic> we should write a proposal
+19:00:42 <jow_laptop> no objection, but yes, propose a text
+19:00:43 <blogic> and vote on the text next meeting
+19:00:50 <Hauke> ok
+19:00:54 <blogic> thanks
+19:00:57 <blogic> sorry for the rant
+19:01:09 <Hauke> #action: write a propose about no affiliationed with any company indursty organisation?
+19:01:45 <Hauke> to interact with prpl there are multiple options:
+19:02:11 <Hauke> 1. explicitly say that lede does not want to do any thing with prpl
+19:02:21 <Hauke> 2. ignore them and let them do something
+19:02:40 <blogic> i see a 3rd option
+19:02:53 <Hauke> 3. try to work with them on some topics when it looks ok
+19:02:59 <thess> Hauke: 1 is too harsh
+19:03:00 <Hauke> I am for 3. option
+19:03:07 <blogic> i am for 4.
+19:03:25 <Hauke> 2. will not solve any problems
+19:03:30 <blogic> 4. tell them that they are free to do what they want, but explain that we do not liberally use their name to push our project agenda
+19:03:40 <blogic> and that we expect them to be honourable and not use ours
+19:03:56 <blogic> if we used theirs, we would have lawyers on our front door within 2 days
+19:04:25 <blogic> i personally think it is amazing that $corp finally organized itself and wants to be part of the ecosystem
+19:04:35 <blogic> but they need to follow simple rules of decency
+19:05:29 <thess> I think 4 is just a variant of 2 with an apology
+19:05:31 <blogic> first and foremost, do not liberally use other projects names to push your own agenda that might not be aligned with those of said project
+19:05:55 <blogic> it is 2 with a clear "there is a line, kindly dont cross it"
+19:06:04 <blogic> pretty please with cherry on top ;)
+19:06:19 <blogic> ok i am ranting again, i took this very serious as you can tell
+19:06:44 <neoraider> I agree with blogic
+19:06:54 <thess> yes, it is.
+19:07:36 <Noltari> well, I see your point blogic, but they will probably not care and keep on doing what they want :$
+19:07:39 <Hauke> blogic: what should prpl do that you would accept anything from them?
+19:07:58 <blogic> i'd accept anything from them
+19:08:06 <blogic> until now we were not offered anything i think
+19:09:12 <blogic> i am very opportunistic
+19:09:17 <blogic> the project does not belong to us
+19:09:20 <Hauke> they want to organize an OpenWrt summit this year again
+19:09:26 <blogic> it is a community effort
+19:09:31 <blogic> so anyone can play
+19:09:35 <blogic> Hauke: sure
+19:10:25 <blogic> i prefer community run events
+19:10:39 <blogic> but that is just my personal favour
+19:10:44 <blogic> i never opposed to the event
+19:10:49 <Hauke> yes, but till nodoby did
+19:11:01 <blogic> did anyone even attend ?
+19:11:08 <Hauke> we were talking about an openwrt summit 5 years ago
+19:11:21 <blogic> we have one at wcw essentially every year
+19:11:30 <blogic> and i consider WBM to somehow be a owrt summit
+19:11:43 <blogic> it does not need owrt to be printed on it, that is just a name
+19:11:56 <blogic> wmb and wcw are gatherings of those that make owrt what it is
+19:12:31 <Hauke> yes
+19:12:53 <thess> What is wmb and wcw (world championship wrestling)?
+19:13:00 <blogic> yes
+19:13:10 <neoraider> thess, Wireless Battle Mesh and Wireless Community Weekend
+19:13:23 <thess> thanks
+19:13:42 <blogic> thess: mesh communities have always been a huge part of our community
+19:13:44 <neoraider> WBM is happening next week in Porto, WCW the days after that in Berlin
+19:14:21 <neoraider> Both are yearly events, WBM switching places over all of Europe, WCW always in Berlin
+19:14:24 <blogic> ok
+19:14:36 <blogic> we are diverging and this is infact all still part of the meeting ;)
+19:14:43 <neoraider> Indeed
+19:14:45 <blogic> i think the prpl topic is done
+19:15:05 <Hauke> yes
+19:15:06 <blogic> my fault, prpl always gets me ranting
+19:15:11 <Hauke> any other topics?
+19:15:50 <neoraider> While not on the Agenda, what about the IRC privileges?
+19:16:01 <blogic> which ones ?
+19:16:06 <Hauke> #topic IRC privileges
+19:16:14 <neoraider> I think I read that #lede-adm is supposed to be read-only by non-commiters when the project is public?
+19:16:22 <blogic> yes
+19:16:37 <blogic> we will add a moderate flag and give people a +v
+19:16:47 <blogic> jow_laptop: did you register the channel ?
+19:17:53 <Hauke> anything else which was not on the agenda?
+19:18:09 <thess> Nope
+19:18:10 <neoraider> I don't think so
+19:18:14 <Hauke> #endmeeting

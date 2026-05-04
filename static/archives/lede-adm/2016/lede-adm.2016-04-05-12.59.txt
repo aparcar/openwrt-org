@@ -1,0 +1,146 @@
+=================
+#lede-adm Meeting
+=================
+
+
+Meeting started by jow_laptop at 12:59:43 UTC. The full logs are
+available at
+http://meetings.lede-project.org/lede-adm/2016/lede-adm.2016-04-05-12.59.log.html
+.
+
+
+
+Meeting summary
+---------------
+* Meeting agenda  (jow_laptop, 12:59:54)
+
+* Infrastrucutre  (jow_laptop, 13:01:39)
+  * I am in the progress of syncing downloads.openwrt.org to our
+    buildserver so that we have a complete mirror copy, just in case
+    (jow_laptop, 13:02:14)
+  * John contacted dwvm about the mailinglists, the setup is pending
+    (jow_laptop, 13:02:41)
+  * I did a little bit of work on the website but otherwise not much yet
+    (jow_laptop, 13:03:00)
+  * ACTION: I plan to document our current server infrastrucutre and the
+    responsible people in the next days  (jow_laptop, 13:04:01)
+  * ACTION: I'll write a proposol for this to the list  (jow_laptop,
+    13:11:36)
+
+* Repository  (jow_laptop, 13:15:07)
+  * Hauke suggested Gerrit as possible alternative  (jow_laptop,
+    13:17:01)
+  * ACTION: Hauke will find out if gerrit can interact with email
+    threads  (blogic, 13:19:12)
+  * LINK: https://patchwork.linux-mips.org/patch/12771/   (blogic,
+    13:25:10)
+  * LINK: https://www.mantisbt.org/demo.php   (blogic, 13:34:35)
+  * LINK: https://www.mantisbt.org/wiki/doku.php/mantisbt:emailreporting
+    (jow_laptop, 13:38:50)
+  * AGREED: For now, rely on self hosted Git + Patchwork + mailing lists
+    and try Mantis for bug tracking  (jow_laptop, 13:43:27)
+
+* Release signing  (jow_laptop, 13:43:43)
+  * AGREED: We'll pool pubkeys in a keyring.git, let opkg trust any of
+    those pubkeys. System will be refined in the future and signed
+    manifests introduced for images  (jow_laptop, 13:59:29)
+
+* Engagements  (jow_laptop, 14:00:05)
+  * ACTION: Anyone will reach out to his respective communities when we
+    start the project  (jow_laptop, 14:16:35)
+  * ACTION: We'll prepare a template message we can use to send it to
+    the various lists of relevant projects, asking for endorsements and
+    inviting them to collaborate  (jow_laptop, 14:17:09)
+  * ACTION: We'll prepare a press release  (jow_laptop, 14:17:27)
+  * ACTION: We'll setup another etherpad where we pool community and
+    develoepr suggestions  (jow_laptop, 14:17:46)
+  * LINK: http://lede:g3h3im@www.lede-project.org/todo.html
+    (jow_laptop, 14:20:10)
+
+* Roadmap  (jow_laptop, 14:21:43)
+  * blogic wrote down a number of todos in semirandom order
+    (jow_laptop, 14:22:14)
+  * LINK: http://www.lede-project.org/todo.html   (jow_laptop, 14:22:23)
+  * ACTION: jow_laptop will setup an etherpad where we can work on a
+    roadmap/timeline draft  (jow_laptop, 14:24:38)
+
+* Votes  (jow_laptop, 14:28:43)
+  * AGREED: 6/6 attendees accept the new rule draft  (jow_laptop,
+    14:33:22)
+  * ACTION: jow_laptop will commit it asap  (jow_laptop, 14:33:30)
+  * AGREED: 6/6 attendees agree on putting the logo and website
+    resources under the CC BY-SA 4.0 unported license  (jow_laptop,
+    14:43:10)
+  * LINK:
+    https://www.fsf.org/blogs/licensing/creative-commons-by-sa-4-0-declared-one-way-compatible-with-gnu-gpl-version-3
+    (jow_laptop, 14:44:12)
+
+* Links  (jow_laptop, 14:54:54)
+  * LINK: http://piratepad.net/J10bwpdbQJ Next meeting agenda
+    (jow_laptop, 14:55:29)
+
+Meeting ended at 14:56:00 UTC.
+
+
+
+
+Action Items
+------------
+* I plan to document our current server infrastrucutre and the
+  responsible people in the next days
+* I'll write a proposol for this to the list
+* Hauke will find out if gerrit can interact with email threads
+* Anyone will reach out to his respective communities when we start the
+  project
+* We'll prepare a template message we can use to send it to the various
+  lists of relevant projects, asking for endorsements and inviting them
+  to collaborate
+* We'll prepare a press release
+* We'll setup another etherpad where we pool community and develoepr
+  suggestions
+* jow_laptop will setup an etherpad where we can work on a
+  roadmap/timeline draft
+* jow_laptop will commit it asap
+
+
+
+
+Action Items, by person
+-----------------------
+* jow_laptop
+  * jow_laptop will setup an etherpad where we can work on a
+    roadmap/timeline draft
+  * jow_laptop will commit it asap
+* **UNASSIGNED**
+  * I plan to document our current server infrastrucutre and the
+    responsible people in the next days
+  * I'll write a proposol for this to the list
+  * Hauke will find out if gerrit can interact with email threads
+  * Anyone will reach out to his respective communities when we start
+    the project
+  * We'll prepare a template message we can use to send it to the
+    various lists of relevant projects, asking for endorsements and
+    inviting them to collaborate
+  * We'll prepare a press release
+  * We'll setup another etherpad where we pool community and develoepr
+    suggestions
+
+
+
+
+People Present (lines said)
+---------------------------
+* jow_laptop (180)
+* blogic (97)
+* nbd (58)
+* Hauke_1 (32)
+* neoraider (22)
+* Noltari (9)
+* lede-bot (7)
+
+
+
+
+Generated by `MeetBot`_ 0.1.4
+
+.. _`MeetBot`: http://wiki.debian.org/MeetBot

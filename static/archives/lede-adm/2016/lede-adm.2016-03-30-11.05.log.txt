@@ -1,0 +1,392 @@
+11:05:17 <jow_laptop> #startmeeting Kickoff
+11:05:17 <lede-bot> Meeting started Wed Mar 30 11:05:17 2016 UTC.  The chair is jow_laptop. Information about MeetBot at http://wiki.debian.org/MeetBot.
+11:05:17 <lede-bot> Useful Commands: #action #agreed #help #info #idea #link #topic.
+11:05:39 <blogic> Hi everyone and welcome to the lede-project kickoff meeting
+11:06:20 <blogic> does meeting bot list the people present or should I list them ?
+11:06:27 <jow_laptop> I It does list them
+11:06:43 <jow_laptop> I'll start here with presenting with what we've done so far
+11:06:50 <blogic> thanks !
+11:07:21 <jow_laptop> in the past week I've spent considerable amounts of time to convert the openwrt svn to a proper git repository with mapped author information, svn branches and tags converted to git branches and tags
+11:07:37 <jow_laptop> I also broke out packages/ and feeds/ from svn and made the seaprate git repositories
+11:08:03 <jow_laptop> I've set up a gitweb where you can browse the repositories at https://git.lede-project.org/
+11:08:16 <jow_laptop> the login in is git:geh3im
+11:08:42 <cyrusff> ;)
+11:09:20 <jow_laptop> We plan to lift any logins as soon as we announce the project officially
+11:09:41 <jow_laptop> #info SVN has been converted to git
+11:09:47 <jow_laptop> #link https://git.lede-project.org/
+11:09:48 <Hauke_1> so this is a 1:1 copy of the svn with no changes?
+11:09:54 <blogic> ... and publish all communication as logs and mboxs leading up to the community reboot
+11:10:17 <cyrusff> its basically the same i did for github?
+11:10:19 <blogic> Hauke_1: some emails have been rewritten and the svn commit strings/hashes were replaced by a new format
+11:10:42 <blogic> we added a tag on our new rev0 and will consider this to be rev0
+11:10:50 <blogic> apart from that the content is identical
+11:10:54 <jow_laptop> Hauke_1, cyrusff: it is more. I first did a full git-svn clone, then I rebuilt a new git repo from scratch laying out the branch topology manually and replaying all commits with git am
+11:11:17 <Hauke_1> ok
+11:11:37 <jow_laptop> it also properly maps the history of trunk (master) which has been changes at least two times in the past
+11:11:47 <jow_laptop> trunk -> wr -> buildroot-ng -> trunk
+11:12:21 <jow_laptop> I also added proper amended svn tags for anything which has been tagged in svn
+11:12:38 <cyrusff> okay
+11:12:58 <jow_laptop> I then repeated the same procedure for packages/ and mapped things like branches/packages_12.09/ as git branches to the packages.git
+11:13:02 <cyrusff> yeah i skipped pre-aa because nobody cared really. but nice work anyway
+11:13:44 <jow_laptop> on top of that I globally mapped committer names to proper authors
+11:13:58 <jow_laptop> in the form Real Name <mail@address.org>
+11:14:46 <jow_laptop> Bootstrapping the repositories was one thing
+11:16:08 <jow_laptop> blogic did also throw together a few pages and a very rough draft for future governance rules we'd like to follow (they're still subject to change but should illustrate the idea): https://www.lede-project.org/rules.html
+11:16:16 <jow_laptop> the login here is lede:g3h3im
+11:16:40 <blogic> 1 There is two roles in the project: committer and non-committer
+11:16:40 <blogic> 2 Committers have the right to vote on general project decisions
+11:16:40 <blogic> 3 General project questions are decided with a simple majority vote
+11:16:40 <blogic> 4 Committers being unreachable for three months in a row loose their commit and voting rights
+11:16:43 <blogic> 5 Commit means full commit. there is no partial or restricted commit.
+11:16:46 <blogic> 6 Frequent contributors may become committers when a simple majority among existing committers agrees
+11:16:49 <blogic> 7 Votes and decisions will be made public
+11:16:51 <blogic> 8 Infrastructure should be outsourced to the community where possible
+11:16:54 <blogic> 9 Any Infrastructure that cannot be outsourced needs to be accessible by at elast 3 people.
+11:16:57 <blogic> 10 The project does not offer email accounts under the project domain (apart from abuse, admin, …)
+11:17:00 <blogic> 11 Changes to these rules require a two third majority among the committers holding voting rights and shall be documented
+11:17:03 <blogic> these are not final or decided on but a proposal
+11:17:07 <blogic> can be changed and amended as we decide to do
+11:17:38 <jow_laptop> what we envision is:
+11:17:44 <jow_laptop> - simplify infrastructure
+11:18:38 <jow_laptop> - transparent governance, means frequent public meetings and simple, binding votes
+11:18:54 <blogic> ... no closed mailing lists or channels
+11:19:17 <blogic> .. this channel will be moderated with commiters and frequent contributors getting +v flags
+11:19:28 <blogic> ... anyone can read what we discuss at any point
+11:19:42 <blogic> ... same is tru for the -adm mailing list
+11:21:30 <blogic> - stability, there should not be a tradeoff between bleeding edge and stability
+11:22:00 <blogic> ... we plan to do this by not commiting directly to master but instead have staging trees that get merged during a merge window
+11:22:34 <blogic> ... big conceptual changes need to first be proposed
+11:22:48 <blogic> ... outside the merge window only fixes will get merged into master
+11:23:30 <blogic> - involve the community alot more / offload the resonsibility to test to users
+11:23:52 <blogic> ... binary releases will only include binaries that have been tested on device by community members
+11:24:18 <jow_laptop> ^ which is a point that needs further debate imho but thats something that can still be decided later
+11:24:32 <blogic> yep
+11:24:46 <blogic> none of this is final, it is the result of our first few brainstorms
+11:25:09 <blogic> - corporate, make them understand that we are not and do not want to be part of their supply chain
+11:25:27 <blogic> ... they may join the community under the exact same rules as any community member
+11:26:03 <cyrusff> so no plans on becoming a legal Entity?
+11:26:22 <jow_laptop> no specific plans just yet but no outright refusal either
+11:26:55 <jow_laptop> personally I'd like to have a lean legal umbrella entity, e.g. something I can transfer the domain ownership to
+11:27:42 <jow_laptop> but that is something which needs to be decided in a wider audience, once formal governance processes are in place
+11:27:42 <blogic> we just need to be aware of the risks
+11:27:51 <blogic> exactly
+11:27:57 <blogic> it is not us that should decide
+11:28:08 <jow_laptop> at least not use exclusively
+11:28:16 <blogic> sorry, that is what i meant
+11:29:02 <cyrusff> yeah question is mainly if there is a plan to go with e.g. lf or similar
+11:29:20 <cyrusff> since spi was totally useless
+11:29:30 <jow_laptop> in my opinion mid- to long-term; yes
+11:29:36 <Hauke_1> does anybody have experiences with lf?
+11:29:45 <blogic> but we should be aware the LF is owned by corporate
+11:29:53 <blogic> well that is harsh but you get my point
+11:30:16 <rmilecki> what does it stand for?
+11:30:23 <blogic> it should be an entity that has the focus on community and not on corporate lobby activities
+11:30:28 <jow_laptop> Hauke_1: not yet but I suppose we could get in touch with some people operating under them
+11:30:28 <blogic> Linux Foundation
+11:30:32 <rmilecki> ah, thanks
+11:31:00 <jow_laptop> but before we distract ourselves with too much detail lets wrap the main idea up somewhat
+11:31:09 <blogic> agreed
+11:31:28 <blogic> shall we quickly talk about corporate involvement ?
+11:31:36 <jow_laptop> blogic: not yet
+11:32:11 <jow_laptop> or do you mean to elaborate on https://www.lede-project.org/communication.html ?
+11:32:19 <blogic> yes
+11:32:48 <jow_laptop> ok, go on
+11:33:00 <blogic> again a proposal not anything final
+11:33:10 <blogic> under the link jow posted you will find this text
+11:33:14 <blogic> There is a special email address that companies wanting to colaborate with the project can contact commiters confidentially. These type of "first contact" only have the purpose of helping companies understand the mode of operations. Once the intent is communicated, companies are invited to participate in the project just like any other community member. This means that engagement should be done in public.
+11:33:20 <blogic> Ideally companies simply allow part of their R&D team to participate in the normal developement process as normal community members. There will be no special treatment beyond the "first contact". Please see the project rules for further information.
+11:34:41 <blogic> not sure what your thoughts are on this
+11:35:22 <jow_laptop> its acceptable for me
+11:35:45 <jow_laptop> still allows corps to "rent a committer" but urges them to just send patches
+11:36:59 <Hauke_1> yes that is ok with me
+11:37:59 <jow_laptop> Ok, I'd like to go on quickly explaining the domain / name / infrastructure situation and plans
+11:38:05 <blogic> please
+11:38:07 <Hauke_1> yes go on
+11:38:15 <jow_laptop> #topic Infrastructure
+11:38:45 <jow_laptop> ok so we've access to three servers (not counting resources currently in use by openwrt.org) atm
+11:39:16 <jow_laptop> 1) (www.)lede-project.org - this is a vhost hosted on linux-mips org, currently hosting the website
+11:39:56 <jow_laptop> 2) git.lede-project.org - former, now unused luci.usbsignal.org hosting a readonly openwrt svn mirror, the git repositories and gitweb interface
+11:40:30 <jow_laptop> 3) mein.io - my private machine hosting meeting protocols and the irc bot
+11:40:44 <jow_laptop> other resources which exist but are not actively used yet are:
+11:40:59 <jow_laptop> 1) build.mein.io - the machine we've used to build openwrt releases on
+11:41:13 <jow_laptop> 2) build2.mein.io - another build machine provided by blogic
+11:41:30 <jow_laptop> in the near term we plan to:
+11:41:57 <jow_laptop> - ask for mirror sponsoring (like e.g. tuwien)
+11:42:05 <jow_laptop> - offload mailing list hosting
+11:42:09 <jow_laptop> - offload patchwork
+11:42:42 <cyrusff> so we still want to keep svn?
+11:42:49 <blogic> mailing lists will go on infradead, Ralf Baechle will help us setup a contact to David Woodhouse (who has made several contributions over the years)
+11:42:52 <blogic> no
+11:42:55 <jow_laptop> only the openwrt svn for archive purposes
+11:43:21 <blogic> patchwork will go on ozlabs, i am sure jeremy will help us out like he did int he past.
+11:43:26 <jow_laptop> my idea was to decide its shutdown in a later meeting
+11:43:33 <Hauke_1> tickets?
+11:43:41 <jow_laptop> thats a topic we need to tackle yet
+11:43:50 <blogic> lets do tickets in a sec, its complex
+11:43:50 <jow_laptop> let me summarize my thoughts:
+11:43:55 <blogic> or so ...
+11:44:38 <jow_laptop> - current trac submissions are of poor quality and swamped with "me too" and +1 style comments as well as obscure, vague or outright incomplete reports
+11:45:05 <jow_laptop> - a tiny fraction of the actual committer base really uses the ticket system or if at all, only focuses on specific issues
+11:45:24 <jow_laptop> - since we do not require a registration we have no reliable channel for counterquestions
+11:45:56 <jow_laptop> - since the effort to create an issue is rather low, people are not inclined to keep watching their own reports
+11:46:27 <jow_laptop> this led me to the suggestion to solely use mailing lists for bug reports
+11:47:02 <jow_laptop> advantages are: you only get reports from people who really care, the quality of submission tends to be higher, reports will reach a wider audience
+11:47:56 <jow_laptop> disadvantages are: no formal way to manage issues, like inability to "close" things, would only work by convention (e.g. putting a [BUG] in the subject)
+11:47:59 <Hauke_1> ok, but the mailing list will be accessible without registartion
+11:48:10 <blogic> no you will need to register
+11:48:13 <jow_laptop> Hauke_1: well you'd need to be subscribed
+11:48:21 <blogic> same as the kernel
+11:48:35 <jow_laptop> a moderated lsit would be an alternative but moderation (spam etc.) ties up a lot of precious developer time
+11:48:38 <Hauke_1> in the kernel most lists are open to all also unsubscribed
+11:48:56 <blogic> ok, i think there are bith
+11:49:00 <blogic> *both
+11:49:02 <Hauke_1> yes
+11:49:11 <blogic> we need to decide
+11:49:25 <blogic> basically on an average day i experience this twice
+11:49:25 <Hauke_1> at least we have the mail address of the reporter in this way
+11:49:29 <jow_laptop> I also suggested to evluate "RT" as issue tracker
+11:49:35 <blogic> ticket gets posted on tracd
+11:49:49 <blogic> ticket gets referenced on github
+11:49:51 <Hauke_1> RT?
+11:49:53 <blogic> i get an email from github
+11:50:01 <blogic> and then en email from the submitter telling me the links
+11:50:37 <jow_laptop> Hauke_1: https://bestpractical.com/rt-and-rtir/
+11:50:59 <jow_laptop> RT is an "enterprise grade" issue tracker but its free and also features mail as a primary interface for manage issues
+11:51:15 <jow_laptop> without having evaluated it in details my hope was that we can use it in a patchwork-style manner
+11:51:34 <Hauke_1> ok
+11:52:16 <Hauke_1> anyway ignoring issues reported some months ago with no activity is no problem for me
+11:52:17 <jow_laptop> however, our topmost priority with any solution we consider should be the following: keep it as simple and lean as possible
+11:52:44 <Hauke_1> ok, no problem we will find a solution for the ticketing problem
+11:53:10 <blogic> i think the main focus should be on having a single channel and handle it by some governance rules
+11:53:19 <jow_laptop> which brings me to another practical problem we have atm:
+11:53:30 <jow_laptop> people do not know what to report where
+11:53:52 <jow_laptop> we tend to close issues on github and tell people to report in trac and vice versa
+11:54:18 <jow_laptop> this is frustrating from a submitter pov and we should consider treating issues raised on github to be "legal"
+11:55:36 <jow_laptop> ok so much on the ticket topic from me for now, we need to further discuss this down the road
+11:56:21 <cyrusff> if we have a github mirror and we should we could write an api script which autocloses tickets and prs
+11:57:00 <jow_laptop> I believe we could also simply make the bug mailinglist a recipient of the issue notifications
+11:57:20 <jow_laptop> it is possible to reply via mail and it ends up on github and vice/versa
+11:58:25 <cyrusff> thats even better
+11:59:32 <jow_laptop> if no further remarks at this point I'd like to move on to contributor invitations, roadmap, timeline
+12:00:07 <blogic> ok
+12:01:02 <Hauke_1> ok
+12:01:03 <jow_laptop> - blogic and me want to invite certain people to increase our manpower and to get the wider community more involved with the project
+12:01:58 <blogic> yes
+12:02:10 <blogic> lets consider the current commiters as those present + felix
+12:02:27 <blogic> who else would yout liek to see join the team ?
+12:03:21 <jow_laptop> - I propose: hnyman (he's doing a lot of community communication, luci and package work), yousong zhou (lot of github feed work)
+12:03:52 <cyrusff> stintel?
+12:04:03 <blogic> alvero (RPi)
+12:06:10 <blogic> zoltan (sunxi)
+12:06:16 <blogic> gabor
+12:06:34 <jow_laptop> ted hess (feeds), naoir (feeds)
+12:06:55 <jow_laptop> dangole (oxnas, ramips, feeds)
+12:06:57 <blogic> lynxsis ? (ar71xx)
+12:09:09 <blogic> matthias schiffer (ar71xx
+12:09:23 <jow_laptop> #info Proposed invitations: hnyman, yousong, stintel, alvero, zoltan, gabor, thess, naoir, dangole, lynxsis, mschiffer
+12:09:27 <blogic> specially ar71xx needs maintainers and we should try to get more than 3
+12:09:49 <Hauke_1> so all the current active contributors, I think it is easier to talk about this on a mailing list, we probably forgot some people
+12:10:08 <jow_laptop> Hauke_1: yes
+12:10:19 <blogic> agreed
+12:10:28 <jow_laptop> I also consider approaching the Gluon üeople
+12:10:32 <jow_laptop> *people
+12:11:07 <jow_laptop> they have experience with maintaining OpenWrt downstream, backporting board support stuff etc.
+12:11:27 <blogic> yes
+12:11:36 <cyrusff> makes sense
+12:11:47 <blogic> that is the next thing we need to get ourt main communities in the community involved much more
+12:11:54 <blogic> drive tsuff in the direction they need
+12:13:01 <cyrusff> what communities are there aside freifunk/gluon?
+12:13:06 <cyrusff> that would be relevant
+12:13:14 <blogic> ninux
+12:13:28 <blogic> and i would love to see us build a bridge to asia
+12:13:47 <jow_laptop> entware-ng
+12:13:47 <blogic> taiwan, japan, hong kong china ... all have thriving communities
+12:15:35 <jow_laptop> qmp, guifi, confine
+12:15:39 <jow_laptop> openmesh
+12:16:51 <Hauke_1> ok lets also talk to all the other communities after the anouncment how we could improve so that it is easier for them to work more closely with us
+12:17:01 <blogic> well not really
+12:17:11 <blogic> ah ok, lets talk about improvement afterwards
+12:17:24 <blogic> i think we should however inform key players of those communities up front
+12:17:35 <blogic> a few days prior to a public annoucnement
+12:17:45 <blogic> they are part of this and should get a lead time
+12:17:56 <blogic> it is only fair and the whole point of what we are doing
+12:19:24 <jow_laptop> then I guess it is time to move to the timeline now
+12:19:44 <blogic> please
+12:20:01 <jow_laptop> let me document the action items first
+12:20:30 <blogic> thanks !
+12:20:31 <jow_laptop> #action discuss contributor proposals on a to-be-set-up mailinglist
+12:21:07 <jow_laptop> #action get in touch with community key players upfront to involve them in the decision making process
+12:21:25 <jow_laptop> #topic Timeline
+12:22:16 <jow_laptop> we only have one fixed date so far more or less which is during the timeframe of the upcoming battlemesh
+12:22:22 <nbd> moin
+12:22:25 <blogic> he just came online in jabber ;)
+12:22:43 <jow_laptop> nbd: http://meetings.lede-project.org/lede-adm/2016/lede-adm.2016-03-30-11.05.log.txt
+12:22:47 <cyrusff> where is the next battlemesh?
+12:22:58 <blogic> cyrusff: slovenia
+12:23:05 <nbd> jow_laptop: user/pw?
+12:23:10 <Hauke_1> no porto
+12:23:15 <jow_laptop> nbd: lede:g3h3im
+12:23:16 <blogic> ah sorry
+12:23:26 <blogic> in parallel there is WCW which i will attend
+12:23:29 <nbd> jow_laptop: thx
+12:23:46 <blogic> and we are considering to do a videoconf between the 2
+12:23:57 <blogic> might be a good time to announce this community reboot
+12:24:15 <Hauke_1> ok so one month till then
+12:24:48 <blogic> yes
+12:24:51 <nbd> i will leave from porto one day early so i can be at most of WCW
+12:25:23 <cyrusff> hmm, since i'm working in Berlin anyway now I will try to attend WCW
+12:25:31 <jow_laptop> #info We plan to announce the community reboot simultaneously at WBM and WCW
+12:25:32 <cyrusff> but not 100% sure yet
+12:26:04 <blogic> those are 2 of the biggest *wrt related events so its the natural place
+12:26:07 <jow_laptop> Hauke_1: you're in porto too?
+12:26:51 <Hauke_1> yes I plan to
+12:27:22 <jow_laptop> #action nbd, Hauke_1, jow_laptop plan to present the project at the WBM
+12:27:37 <Hauke_1> but probably only till Thursday
+12:27:40 <jow_laptop> #action blogic, cyrusff, nbd plan to present the project at the WCW
+12:28:31 <Hauke_1> I think that is a possible timeframe
+12:28:49 <jow_laptop> It would be great if we could have a few more meetings until then
+12:28:53 <Hauke_1> which topics are still mising on the agenda?
+12:28:57 <blogic> i think we should invite new commiters 2 weeks before that date
+12:29:13 <blogic> and have at least 1 meeting with all involved before the launch
+12:29:41 <blogic> it should be semi public before we should not suprise folks but gradually be more public
+12:29:49 <blogic> if there is a leak then that is ok i guess
+12:29:53 <jow_laptop> Hauke_1: I think we covered most, last remaing item would be a few quick decisions on a few questions
+12:30:03 <Hauke_1> ok
+12:30:33 <Hauke_1> what does lede stands for?
+12:30:40 <blogic> ah ...
+12:30:41 <blogic> :-)
+12:30:53 <jow_laptop> it was suggested by nbd . Linux Embedded Development Environment
+12:30:59 <blogic> The name LEDE is an abbreviation for Linux Embedded Development Environment, a reference to its flexibility and embedded buildroot origins, making it a solid choice for embedded Linux applications far beyound the wireless router and network appliance realm.
+12:31:03 <blogic> The word LEDE is also an alternation of the phrase to lead, describing an introductory section of a news story that is intended to entice the reader to read the full story.
+12:31:26 <jow_laptop> it might not be the most cracy marketing name but it is easy to spell and remember
+12:31:43 <blogic> we also have the domain linux-ede.org
+12:31:47 <blogic> its only a name
+12:31:58 <jow_laptop> additionally I also got wrt-project.org and wrtproject.org
+12:32:16 <jow_laptop> but that "w" is always problematic in english abbreviations
+12:32:23 <blogic> and cpewrt.org linuxcpe.org
+12:32:24 <Hauke_1> so how is the transition from OpenWrt planed? It looks like most OpenWrt core developers are in LEDE now
+12:32:42 <blogic> good question
+12:33:00 <blogic> one thing we need to put emphazie on id that we wont tear down bridges
+12:33:01 <jow_laptop> Initially we plan to bootstrap the project and shape it in a way we deem useful to use and the community
+12:33:12 <blogic> we will keep all infrastructire running and maintain if for the time being
+12:33:18 <jow_laptop> yes
+12:33:35 <blogic> i do not consider this a fork, but more a reboot
+12:33:39 <jow_laptop> there are several possible scenarios
+12:34:02 <jow_laptop> 1) lede continues maintaing the openwrt codebase for a while, openwrt eventually stalls and lede becomes its successor
+12:34:34 <jow_laptop> 2) lede continues maintaing the openwrt codebase, openwrt dies, lede adopts it as umbrella organization
+12:34:40 <Hauke_1> and how do we communicate this to the current OpenWrt core develoeprs that are not in this channel?
+12:34:45 <jow_laptop> 3) both lede and openwrt continue to evolve differently
+12:35:26 <jow_laptop> I planned to send an open letter of resignation as soon as lede becomes official, offering the other developers to join in under the agreed upon governance framework
+12:35:43 <Hauke_1> and is the renaming a good idea? LEDE is a better name than OpenWrt, but OpenWrt is known by many people
+12:36:47 <cyrusff> the thing is, openwrt is a trademark
+12:36:52 <blogic> no
+12:36:56 <Hauke_1> yes
+12:37:00 <blogic> the trademark is not registered properly
+12:37:07 <cyrusff> ah it isn't ?
+12:37:11 <blogic> OpenWrt vs OpenWRT
+12:37:13 <jow_laptop> blogic: it is. I've been told that the different casing is not a problem
+12:37:17 <Hauke_1> I am not intrested in a legal fight
+12:37:17 <blogic> ah ok
+12:37:24 <blogic> Hauke_1: hence the rename
+12:37:32 <blogic> we do not want to damage anyones work
+12:37:44 <blogic> it is our private and personal choice what we do
+12:37:50 <blogic> and the code is GPL
+12:38:07 <Hauke_1> yes as long as it is not named OpenWrt there is no legal problem
+12:38:15 <blogic> i hope there will be understanding and cooperation on both sides
+12:38:17 <blogic> i really do
+12:38:20 <Hauke_1> I think OpenWrt is dead without us
+12:38:20 <jow_laptop> Hauke_1: we considered the brand value of openwrt as well but I personally think that the history and expectations tied to the name are problematic for a clean start
+12:38:48 <blogic> it is also as clear a signal we can send for a reboot
+12:38:49 <cyrusff> not only that but also the problems, the lack of communication and the drama
+12:39:06 <jow_laptop> whenever I got in touch with users our outsiders it was percived as a cathedral kind of thing with very opague development hierarchies and decision processes
+12:39:28 <blogic> personally i think we should not launder our dirty washing now
+12:39:35 <blogic> the future is too bright for that
+12:40:07 <jow_laptop> exactly, we plan to be neutral, professional and welcoming to openwrt to keep the door open for a future reintrgration
+12:40:25 <jow_laptop> I could think of openwrt as just a distribution of lede in the future but thats just my personal take
+12:40:52 <Hauke_1> I would like to stay with OpenWrt, to do so we could anounce these plans to the the remaining people and ask if they want to join under the rules given and if they are ok to use the trade mark
+12:41:10 <blogic> no
+12:41:12 <Hauke_1> the trade mark is not hold by one person but by an organisation in the name of OpenWrt
+12:41:19 <blogic> i dont think we should intermingel
+12:41:49 <blogic> it will just add to the cinfusion
+12:42:04 <Hauke_1> jow_laptop: do you have different technical plans with LEDE compared to OpenWrt?
+12:42:44 <blogic> Hauke_1: the ones listed at 12:18
+12:42:45 <jow_laptop> Hauke_1: not really. I plan to put more effort on stabilization and polishing, less on "hunting kernel releases"
+12:43:01 <blogic> pppoe is utterly broken
+12:43:06 <blogic> so is ipv6
+12:43:11 <blogic> art71xx needs a ot of work
+12:43:22 <jow_laptop> I could for example imagine keeping the tree mostly as is for two to three months and only fix regressions
+12:43:22 <blogic> buildbots aswell
+12:43:24 <cyrusff> is there a list of things broken with v6?
+12:43:26 <nbd> i think we need to communicate clearly that the openwrt core developer team decided to reboot the project under a different name
+12:43:31 <nbd> and that everybody should move over
+12:43:34 <blogic> cyrusff: not yet
+12:43:49 <blogic> cyrusff: been a few recent changes causing people to complain not looked in detail
+12:43:53 <cyrusff> okay
+12:44:13 <jow_laptop> cyrusff: its a bad mix of various little issues, changed defaults leading to broken configs (or wrong expecations), resource issues etc.
+12:44:19 <cyrusff> okay
+12:44:42 <blogic> i for myself want to stop spending endless hours just merging and start developing again
+12:44:52 <blogic> i curently spend 20+ hours a week on $foo
+12:44:58 <jow_laptop> Hauke_1: I could also imagine cutting down some targets
+12:45:06 <blogic> jow_laptop: please
+12:45:09 <jow_laptop> like xburst which is broken since 6 months or so
+12:47:16 <jow_laptop> my opinion regarding LEDE/OpenWrt naming: while we establish the reboot and work out governance rules, infrastructure responsibilities and the like I'd like to use LEDE name
+12:47:27 <blogic> yes
+12:47:27 <rmilecki> what about making it a new rule? handling hald-abonded targets
+12:47:33 <rmilecki> &half
+12:47:36 <blogic> sure
+12:47:49 <blogic> you could propose it upfront for the next meetig and we make a vote
+12:47:53 <rmilecki> just a side note, to be discussed later
+12:47:54 <jow_laptop> once this is in place I'd lake to stage another majority vote about the future project name etc.
+12:47:55 <blogic> that should be the process
+12:48:10 <blogic> jow_laptop: good idea
+12:48:37 <nbd> ack
+12:49:08 <nbd> with infratstructure there should be a hard rule 'no single point of failure'
+12:49:18 <nbd> in terms of admin access
+12:49:24 <jow_laptop> + documented responsibilities
+12:49:26 <nbd> yes
+12:49:52 <jow_laptop> git -> nbd, jow, blogic; web -> blogic, hauke, rafal; etc.
+12:50:05 <jow_laptop> (just an example)
+12:50:20 <jow_laptop> it should be three people at least
+12:50:34 <nbd> ack
+12:51:14 <jow_laptop> and the general idea is to make everything as simple as possible and automate whatever can be automated
+12:51:25 <jow_laptop> like building releases with buildbots
+12:52:02 <jow_laptop> we made some considerable progress on this front and will likely fully solve it soon
+12:52:45 <jow_laptop> ok, I'd like to move to the final vote agenda item so that we can finish the official meeting
+12:52:57 <jow_laptop> if you agree, respond with "+"
+12:53:04 <jow_laptop> if you disagree, respond with "-"
+12:53:19 <jow_laptop> #topic Vote
+12:53:25 <blogic> small intermezzo on web
+12:53:35 <blogic> web is asciidoc in a git tree
+12:53:46 <jow_laptop> #item Project Rules
+12:53:49 <blogic> a cronjob will regenerate the html code every few hours and redeploy it
+12:54:11 <jow_laptop> #info Project Rules
+12:54:54 <jow_laptop> Do you agree with rules outlined at https://www.lede-project.org/rules.html as a working draft for further discussion?
+12:54:59 <jow_laptop> +
+12:55:12 <blogic> +
+12:55:33 <cyrusff> +
+12:55:55 <nbd> +
+12:58:22 <jow_laptop> Hauke_1, rmilecki ?
+12:58:29 <rmilecki> + just fix the typos ;) s/elast/least/ s/the project/The project/
+12:59:16 <blogic> rmilecki: yes ;)
+12:59:26 <cyrusff> There _are_ two roles... ;)
+12:59:43 <blogic> there are far worse typos still on the pages
+13:00:12 <nbd> this is just draft stuff anyway, typos can be discussed separately ;)
+13:00:47 * rmilecki is going afk for some dinner
+13:01:06 <Hauke_1> +
+13:01:10 * nbd will go to sleep soon-ish
+13:01:13 <jow_laptop> #agreed 6/6 attendees agree to accept the rules as outlined in https://git.lede-project.org/?p=web.git;a=blob;f=pages/rules.txt;h=13ad62790d69d92c4a24122d664dc498c750a005 as a wroking draft for further refinement
+13:02:33 <jow_laptop> Ok, anything else?
+13:02:51 <blogic> mailing list
+13:02:59 <blogic> please invite the others to the mailing list
+13:03:11 <jow_laptop> #action jow_laptop Invites the other to the mailing list
+13:03:15 <blogic> so we can discuss when to invite and inform the next crowd and organize the next meeting
+13:03:37 <jow_laptop> #action next meeting date and agenda items will be dicussed on the list
+13:04:06 <blogic> thanks and lets try to recude the meetings to 30-60 minutes next time ;)
+13:04:25 <jow_laptop> Do you agree to close this meeting now and creating an agenda and a date on the list? [+/-]
+13:04:32 <blogic> +
+13:05:14 <jow_laptop> +
+13:05:18 <Hauke_1> +
+13:05:19 <cyrusff> +
+13:05:49 <jow_laptop> thats enough :)
+13:05:51 <jow_laptop> #agreed 4/6 attendees agree to create and agenda and finding a date on the mailing list
+13:05:54 <jow_laptop> #endmeeting

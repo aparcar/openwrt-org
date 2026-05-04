@@ -1,0 +1,13 @@
+07:57:48 <jow_laptop> #startmeeting
+07:57:48 <lede-bot> Meeting started Wed Mar 30 07:57:48 2016 UTC.  The chair is jow_laptop. Information about MeetBot at http://wiki.debian.org/MeetBot.
+07:57:48 <lede-bot> Useful Commands: #action #agreed #help #info #idea #link #topic.
+07:58:01 <jow_laptop> #topic Kickoff session
+07:58:11 <jow_laptop> test
+07:58:12 <jow_laptop> blah
+07:58:13 <jow_laptop> blah
+07:58:36 <jow_laptop> #info An info item
+07:58:41 <jow_laptop> #agree An agreement
+07:58:48 <jow_laptop> #link http://lede-project.org
+07:59:11 <jow_laptop> #idea Lets use Meetbot for minutes
+07:59:16 <jow_laptop> #help Volunteers wanted
+07:59:19 <jow_laptop> #endmeeting

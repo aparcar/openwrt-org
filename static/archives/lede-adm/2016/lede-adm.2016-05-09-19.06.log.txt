@@ -1,0 +1,608 @@
+19:06 <+Hauke> #startmeeting
+19:06 <+Hauke> blogic: please allow the meeting bot to write
+19:06 <+neoraider> I guess it should get mod privs, so it can set topic etc.
+19:07 -!- ILOVEPIE [~ILOVEPIE@2600:8801:8200:85:78a9:a7a9:507:5823] has quit [Ping timeout: 250 seconds]
+19:07 <@blogic> what nick does it have ?
+19:07 <@blogic> there is no lede-bot here :-)
+19:08 <@blogic> this is starting well
+19:09 <+Hauke> first item is     Infrastructure -> bug tracing
+19:09 <@blogic> ok
+19:09 <+Hauke> the agenda can be found here: http://piratepad.net/RRwsaOrqIK
+19:10 <@blogic> ok
+19:10 <+thess> Is mantis available on a host somewhere or do we need stage our own?
+19:10 <@blogic> we need to stage our own, stalled by not having an email account for it yet
+19:11 <@blogic> with out that account we cannot make the email 2 mantis plugin work which is the thing we want to test ride
+19:11 <@blogic> nbd: will you have time for that email setu durign this week ?
+19:11 <+Hauke> someone at wcw said that he has experience with makeing trac fast
+19:11 <+nbd> blogic: yes
+19:11 <+nbd> Hauke: yes, it was roh
+19:11 <@blogic> Hauke: that is option 2, trac without the commit/broswe/timeline foo
+19:12  * stintel here too
+19:12 <@blogic> stintel: hi
+19:12 <+Noltari> hi, sorry I'm late, the conference lasted longer than expected
+19:12 <+Hauke> blogic: did you had a closer look at mentis?
+19:13 <@blogic> Hauke: yes
+19:13 <@blogic> the scary bit that put me off, its written in php
+19:13 <@blogic> next the email account was not up and running so i tured to more pressing matters
+19:13 <+Noltari> blogic: what's the problem with php? :?
+19:13 -!- ILOVEPIE [~ILOVEPIE@ip68-7-179-68.sd.sd.cox.net] has joined #lede-adm
+19:14 <@blogic> https://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/
+19:14 <+thess> blogic: Not so scary, I did quite a bit of work with PHP a few years ago. No worse than any other scripting thingie
+19:14 <@blogic> thess: yeah
+19:14 <@blogic> we would just need to be aware of it and make sure we keep it updated
+19:15 <@blogic> thess: could you help setup a test instance ?
+19:15 <+Hauke> can you configure some mandatory fields, like affetcetd version number?
+19:15 <+neoraider> I've used Mantis only once and found it very confusing, but maybe that changes when you get used to it
+19:15 <+thess> blogic: certainly - just tell me where you want it
+19:16 <@blogic> neoraider: compared to trac, whats your feeling ?
+19:16 <+neoraider> A collegue also recommended Bugspray to me, it is much simpler than other bug trackers and might be powerful enough: http://www.flyspray.org/
+19:16 -!- Frowned [~ILOVEPIE@2600:8801:8200:85:69d1:94f:f959:64f6] has quit [Ping timeout: 260 seconds]
+19:16 <+neoraider> blogic, I found Mantis's interface more confusing than that of Trac
+19:17 -!- ILOVEPIE [~ILOVEPIE@ip68-7-179-68.sd.sd.cox.net] has quit [Read error: Connection reset by peer]
+19:17 <@blogic> neoraider: ok
+19:17 <+stintel> from the brief time I used mantis I remember not liking it much, but that's a few years ago
+19:17 <@blogic> fine
+19:17 <@blogic> so lets assume it was a bad idea ?
+19:17 <+Noltari> neoraider: that one looks good and pretty simple to use
+19:18 <+stintel> I have to say I like Jira, but I woulnd't want to host it really
+19:19 <@blogic> ok, lets discuss this further during the week
+19:19 -!- ilario [~ilario@62.57.102.203.dyn.user.ono.com] has quit [Quit: ciaociao]
+19:19 <+Hauke> I also like jira as a user ;-)
+19:19 <@blogic> and not stall on this, looks like we wont get to a conclusion today
+19:20 <+Hauke> ok so no real progress on the bug tracing
+19:20 <@blogic> yep
+19:20 <+Hauke> next topic domain registrar
+19:20 <+neoraider> While it's not nice, using the Github tracker will have to do for now
+19:20 <+lynxis> wait. I would like to discuss the github issues
+19:20 <+lynxis> because they are already used atm.
+19:21 <+stintel> indeed. do we want that or do we disable the issue tracker ?
+19:21 <+Hauke> ok back to issues ;-)
+19:21 <+stintel> because if we are not going to follow up issues there it will upset users
+19:21 <+neoraider> I think we should keep it enabled until we have a proper tracker
+19:21 <+lynxis> +1
+19:21 <+Hauke> is tehre an API to the github issue tracker?
+19:22 <+lynxis> yes
+19:22 <+stintel> looks like it: https://developer.github.com/v3/issues/
+19:23 <@blogic> so we can extract them if we have something new
+19:23 <@blogic> goodie
+19:23 <+Hauke> ok so we let github issue open for now
+19:24 <@blogic> ok
+19:24 <+Hauke> next topic?
+19:24 <+thess> I have a system here, I can stage some bug/iss
+19:24 <+thess> ue tracking software for us to try
+19:24 -!- i4freegr [57b1895e@gateway/web/freenode/ip.87.177.137.94] has joined #lede-adm
+19:24 <@blogic> sure
+19:25 <@blogic> let us discuss which to use during the next week
+19:25 <+Hauke> next topic domain registrar
+19:25 <+Hauke> thess: can you take this please
+19:25 <+thess> Yes, I pointed jow at EasyDNS earlier, haven't heard back from himm
+19:26 <+thess> I have been using EasyDNS for both personal and corporate registrations for many years.
+19:26 <@blogic> i have to admit i have no insight into that stuff
+19:26 <+Hauke> what about http://osuosl.org/ ?
+19:27 <@blogic> thess: what country is that hosted in ?
+19:27 <@blogic> looks like canada ?
+19:27 <+thess> Toronto,CA
+19:27 <+lynxis> i don't think they provide dns service.
+19:27 <@blogic> lynxis: which of the 2
+19:28 <+lynxis> osuosl.org ^
+19:28 <+thess> lynxis: you mean OSL?
+19:29 <+thess> EasyDNS is a full service, IANA registrar. Their service folks always answer quick and are incredibly helpful resolving issues
+19:29 <+thess> I have not vested interest - just a very satisfied customer
+19:29 <+Hauke> thess: if you already have positive experience with easydns we can take them
+19:29 <+Hauke> who should own the domains?
+19:30 <@blogic> SPI
+19:30 <+Hauke> I am for giving them to spi
+19:30 -!- carldani [~carldani@coreboot.org] has joined #lede-adm
+19:30 <@blogic> +1
+19:30 <+stintel> +1 SPI
+19:30 <+thess> sure
+19:30  * lynxis have no opinion on that
+19:30 <+neoraider> Makes sense, +1
+19:30 <+Hauke> anybody against API + easyDNS?
+19:30 <+Hauke> SPI
+19:31 <@blogic> cool
+19:31 <+neoraider> I don't have a opinion on the registrar
+19:31 <+nbd> ack
+19:31 <+lynxis> ack
+19:31 <+Noltari> ack
+19:31 <@blogic> neoraider: me neither so i'll go witht he majority
+19:31 <+Hauke> ack
+19:31 <+thess> Will SPI own the account for management or only be the owner. Domains registrations have
+19:31 <+Hauke> next topic: admin mail account
+19:31 <@blogic> yeah
+19:32 <@blogic> so we need 3-4 email addrs
+19:32 <@blogic> social@ for the social media accounts
+19:32 <@blogic> security@ for crypted bug reports
+19:32 <+thess> EasyDNS provides excellent mail services (SMTP, POP, IMAP) as well as re-direction
+19:32 <@blogic> corp@ for companies wanting to ping us
+19:33 <@blogic> ideally we have a shared folder with several users being able to access the accoutns
+19:33 <@blogic> not sure if we should outsource the mail server
+19:33 <+nbd> i agree
+19:33 <+nbd> i think we should use easydns for dns only
+19:33 -!- ilario [~ilario@62.57.102.203.dyn.user.ono.com] has joined #lede-adm
+19:33 <+lynxis> +1
+19:34 <+nbd> we can do mail stuff ourselves. i can host it if needed
+19:34 <+Hauke> do we also support sending under these mail aliases?
+19:34 <+Hauke> I am for doing mail ourself
+19:34 <+thess> They can be the backup MX too if you want. If you want to host your own server, just point your MX to that.
+19:35 <@blogic> ok
+19:35 <@blogic> does anyone mind if felix hosts the 3 accoutns until a different/better solution is found ?
+19:36 <+thess> nope
+19:36 <+stintel> I don't
+19:36 <+lynxis> me neither.
+19:36 <+neoraider> ok
+19:36 <@blogic> that would give us the accounts in a few days and we can worry when we have more time
+19:36 <@blogic> ok from me aswell
+19:36 <@blogic> and probably from felix also
+19:36 <+thess> nbd: Take a look at EasyDNS services - you might like what you see.
+19:37 <+Hauke> ack (fleix hosting it till we find something better)
+19:37 <+Noltari> ack
+19:38 <+Hauke> next topic: irc
+19:38 <@blogic> ok?
+19:38 <+lynxis> i'll take it.
+19:38 <+Hauke> lynxis: go on
+19:38 <+lynxis> so we're now registered and have rights of both channels.
+19:39 <@blogic> great thanks for the effor
+19:39 <@blogic> +t
+19:39 <+thess> thx
+19:39 <+lynxis> everybody gots the same right, but the founder status
+19:40 <+lynxis> founder means you can remove the channel. should everybody have the right to remove it or should I give those rights to 2 more people?
+19:40 <+Hauke> lynxis: give it to 2 more people
+19:40 <+Hauke> but I do not really care
+19:40 <@blogic> works for me as long as i am not one of those 2
+19:40 <+Noltari> one question, are we going to keep the channel writable except for meetings?
+19:41 <@blogic> yes
+19:41 <+Hauke> yes
+19:41 <@blogic> we planned otherwise but its working out
+19:41 <+Noltari> oks, sounds logical
+19:41 <@blogic> i would also like to remove the subscibe only stuff on the lede-dev mailing list
+19:41 <@blogic> it breaks cross postings between lists
+19:42 <@blogic> anyone mind ?
+19:42 <+neoraider> Nope, I hate closed lists
+19:42 <+Hauke> yes, please remove that restriction
+19:42 <+thess> nope
+19:42 <@blogic> good
+19:42 <+nbd> ack
+19:42 <+lynxis> ack
+19:42 <+neoraider> I just had to deal with sending patches to a closed dev ML again yesterday...
+19:42 <@blogic> neoraider: its a pita
+19:43 <+lynxis> next topic on irc is cloaks.
+19:43 <+Hauke> when we are at it, I would like make lede-adm mailing list writeable by all registered users
+19:43 <@blogic> ok
+19:43 <@blogic> one one have a problem with that ?
+19:43 <+lynxis> ack writeable lede-adm for registered
+19:43 <+Hauke> blogic: wil you talk do david about the mailing lists?
+19:43 <+thess> ack
+19:43 <+nbd> ack
+19:44 <+Hauke> ack
+19:44 <@blogic> Hauke: we have admin logins
+19:44 <@blogic> i just wrote it onto my todo list
+19:44 <+Hauke> blogic: ah ok, will you change it ;-)
+19:44 <@blogic> Hauke: sure
+19:44 <@blogic> right now jow and me know the password
+19:44 <@blogic> but i'll happily hand it over to others
+19:45 <+Hauke> can some take over mod
+19:46 <@blogic> if anyone wants it just let e know
+19:47 <+lynxis> blogic: are we finished with mailinglist topics?
+19:47 <@blogic> y
+19:47 <+Hauke> i am on phone
+19:48 <@blogic> next topic git
+19:48 <@blogic> thess: was kind and setup gitolite
+19:48 <@blogic> anyone can now create a staging tree
+19:49 <+Noltari> thanks thess :)
+19:49 <+thess> any changes to what I've already sent out?
+19:49 <@blogic> no
+19:49 <+thess> Noltari: 'welcome
+19:49 <@blogic> i plan to try the howto tomrrow and setup a tree for myself
+19:50 <@blogic> "How to decide merge of PRs
+19:50 <@blogic> "
+19:50 <+stintel> my biggest question is how are we going to use this. I see commits happening to source.git:master, some on github/staging, now there is gitolite..
+19:50 <@blogic> stintel: yeah
+19:50 <@blogic> commits should not be made in master directly
+19:50 <@blogic> but always via a staging tree
+19:50 <@blogic> we already agreed on a process last meeting
+19:51 <+stintel> ah, I dropped out before the end of that meeting so I missed that. sorry
+19:51 <@blogic> i will put it all into a howto and put that into web.git and send out a link during this week for review
+19:51 <@blogic> would that be ok for everyone ?
+19:51 <+stintel> +1
+19:51 <+nbd> +1
+19:51 <+lynxis> +1
+19:51 <+neoraider> ok
+19:51 <@blogic> cool
+19:51 <@blogic> so PR merge policy
+19:51 <+Noltari> ack
+19:52 <@blogic> i have been picking up the obvious from github
+19:52 <@blogic> and will ping people i thin have a qualified opinion on stuff where i am not sure
+19:52 <+thess> stintel: source.git:master is gitolite. You can set multiple remotes on your own working repo and push when appropriate
+19:52 <@blogic> anyone can hel pof course
+19:52 <@blogic> get involved, comment on the PRs
+19:53 <@blogic> have your say, that counts for anyone and everyone, not just people with commit access
+19:53 <@blogic> the comment field is public so please anyone participate
+19:53 <+stintel> thess: have the multiple remotes already, but gitolite main + staging + github staging was a bit confusing to me
+19:53 <+Hauke> +1 for blogic writing a proposel
+19:53 <+neoraider> If we just commit to staging, we need a solid process 1. how commits from staging are applied to master, and 2. when staging is rebased
+19:53 <@blogic> neoraider: yes
+19:54 <@blogic> i'll add tuff to the howto
+19:54 <+neoraider> Rebasing the github staging will also break all PRs open at that moment
+19:54 <@blogic> and i plan to merge staging back to master tomorrow
+19:54 <@blogic> neoraider: no it does not
+19:54 <+neoraider> At least if the PRs are not based on master, buton staging
+19:54 <@blogic> i did a rebase + forced update and they were still working
+19:54 <@blogic> although my fix was minimal
+19:55 <@blogic> i just updated the commit message
+19:55 <+neoraider> When people just clone staging and open a PR, the PR will contain commit duplicates with the old IDs
+19:55 <@blogic> neoraider: ideally we dont have a single staging but themed ones
+19:55 <@blogic> or user ones
+19:55 <@blogic> where it is clear what goes where
+19:55 <+neoraider> blogic, yes, something like that
+19:55 <@blogic> as in a lantiq-staging
+19:55 <+Noltari> btw, I think that process should have an exception: bug fixes, because at some point we may need to fix something directly in source.git
+19:56 <@blogic> neoraider: yes
+19:56 <@blogic> i'll put it into a doc and send it as a proposal
+19:56 <+Noltari> it may seem obvious, but should be documented
+19:56 <+neoraider> As long as there is only one staging, we really need to urge people not to based their PRs on it if possible
+19:56 <+Hauke> we also need a documentation for external developers where to send aptches and based on what tree
+19:56 <@blogic> Hauke: ok
+19:56 <@blogic> lets put that on the website aswell
+19:56 <@blogic> so that there are links
+19:56 <+Hauke> yes
+19:57 <@blogic> ok, next topic Kernel.org hosting offer (http://lists.infradead.org/pipermail/lede-dev/2016-May/000081.html )
+19:57 <@blogic> jow wanted to have a look at that
+19:57 <@blogic> i am in favour of making use of that
+19:58 <+Hauke> me too
+19:58 -!- koniu [~koniu@176.249.31.223] has joined #lede-adm
+19:58 <+Hauke> we use that for backports: https://backports.wiki.kernel.org
+19:58 <+Hauke> this way someone else takes care of the wiki
+19:58 <@blogic> great
+19:58 <+stintel> good
+19:58 <+Hauke> and the admin gets paid to do that
+19:58 <+thess> forum too?
+19:58 -!- ILOVEPIE [~ILOVEPIE@ip68-7-179-68.sd.sd.cox.net] has joined #lede-adm
+19:59 <@blogic> i thnk wiki / mirror
+19:59 <+Hauke> do they offer forum hosting?
+19:59 <@blogic> i dot think so
+19:59 <@blogic> we'll get to forum later on
+19:59 <@blogic> convert HTML mails to plain text
+19:59 -!- zer0def [~zer0def@linux-jord1.cryptostorm.net] has quit [Ping timeout: 246 seconds]
+19:59 <@blogic> i'll do that aswell should work already but maybe i messed u the config, will test it
+19:59 <+Hauke> for mirror I see a problem in cases like the b43 package which contains the broadcom wifi firmware which is not 100% legally ok
+20:00 <@blogic> is it not ?
+20:00 <+thess> +++ HTML mail to plain text
+20:00 <@blogic> ouch
+20:00 <@blogic> Hauke: we hould exclude firmwares then
+20:00 <+stintel> can we put excludes in rsync daemon ?
+20:00 <@blogic> so kernel.org hosting yes with footnote, make sure no fws are copied there
+20:00 <+Hauke> the firmware is extracted from some broadcom driver and I do not know if we are allowed to redistribute it in a different way
+20:01 <@blogic> stintel: i am sure there will be some solutio to that problem
+20:01 <@blogic> Hauke: so we need to add a todo "verify redistribution of b43 FW
+20:01 <+Hauke> yes
+20:02 <@blogic> ok
+20:02 <@blogic> next topic ?
+20:02 <+Hauke> next topic?
+20:02 -!- e [watching@freenode/staff/uptime] has joined #lede-adm
+20:02 <@blogic> convert HTML mails to plain text
+20:02 <@blogic> +1
+20:02 <+Hauke> +1 also from me, is that possible?
+20:02 <@blogic> yes
+20:02 <@blogic> should ork but does not
+20:02 <+Noltari> +1
+20:02 <+Hauke> or is that possible with our mailing list hoster
+20:03 <+stintel> cool. +1 then, otherwise I'd say reject them entirely
+20:03 <@blogic> i possibly messed up the config
+20:03 <@blogic> stintel: yeah ! :-)
+20:03 <+stintel> same with top-posting
+20:03 <+stintel> imo
+20:03 <+Hauke> there are also many clients sending html + text, but also some that only send html
+20:03 <@blogic> stintel: :-) i do my best to not do it
+20:04 <+Hauke> so blogic you want to take care of this?
+20:04 <@blogic> yes
+20:04 <+thess> stintel: I'm trying to reform, but my mail client on Windows makes it hard
+20:04 <@blogic> on my todo list aready
+20:04 <+Hauke> thess: thunderbird should do it correctly at least you can configure it to do so
+20:05 <+Hauke> good luck doing the same with outlook ;-)
+20:05 <+stintel> thunderbird can be configured indeed, defaults to top
+20:05 <+Hauke> next topic
+20:05 <@blogic> thunderbird has become a cpu hog on the latest version i upgraded to 4 days ago
+20:05 <@blogic> device testing infrastructure
+20:05 <+stintel> but if you default to top and reply to non-tech people you get answers like "why do you send me empty mails"
+20:05 <@blogic> ok, i spoke with felix and jow and hauke on this already
+20:06 <@blogic> we will have a near 0 admin setup
+20:06 <+thess> I like my mail client and anti-spam. Not changing clients.
+20:06 <@blogic> people can grab OTPs to send us tests results
+20:06 <@blogic> it will be sub/target+ profile based
+20:06 <@blogic> registration works without us needing to do anything
+20:06 <+thess> I will proably create another mail account for lede business and read it with evolution on a linux box
+20:07 <@blogic> and once that works we will add some code to run on device to hel patuomated the testing
+20:07 <@blogic> i am hoping to have the basic stuff running soonish so we can start using it to get a feel for what needs ot be fixed for the first release
+20:07 <@blogic> i started writing a proposal and will send it around
+20:08 <@blogic> but that'll take till early next week
+20:08 <@blogic> it is int he making and its starting to take shape
+20:08 <+lynxis> sounds great. we should have some api so other people can use to create nice graphs and reports.
+20:08 <@blogic> yes
+20:08 <@blogic> lynxis: just jso dumps i would say
+20:08 <+Hauke> we should start with a basic version and extend it later on with new features
+20:08 <@blogic> put the test results onto the mirror
+20:09 <@blogic> Hauke: yep
+20:09 <@blogic> KISS
+20:09 <@blogic> the whole "testing on device code" will be added once everything else works
+20:09 <@blogic> for now, DB, user registration, receiving reports, listing results
+20:09 <@blogic> that is all v1 can do
+20:10 <+thess> good start
+20:10 <+lynxis> blogic: sounds nice. please write up a proposal. I think nobody disagree and we can continue to the next topic.
+20:10 <@blogic> ok
+20:10 <@blogic> next wpuld be prpl
+20:10 <@blogic> not sure if there is anything new, we spoke about it last week
+20:10 <+Hauke> yes lets skip
+20:11 <+thess> ok
+20:11 <@blogic> ok telephone numbers
+20:11 <@blogic> if anyone wants mine send me an email
+20:11 <+Hauke> same for me
+20:11 <+neoraider> same
+20:11 <+stintel> same for me
+20:11 <+lynxis> same for me.
+20:11 <+neoraider> Although I prefer IRC for most things
+20:11 <@blogic> neoraider: me too
+20:12 <@blogic> ah
+20:12 <+thess> sure - me too
+20:12 <@blogic> holger from debian pinged me
+20:12 <+Hauke> I think this is usefull for urgend stuff
+20:12 <+stintel> prefer irc too, but in case something urgent comes up..
+20:12 <+nbd> same here
+20:12 <+neoraider> Ah, you don't even need to mail me, you can find my phone number in various website's "Impressum"s ;)
+20:12 <+thess> email best for me. TZ diffs from you guys
+20:12 <@blogic> thess: yep
+20:12 <+lynxis> ok. I think this topic is done ;) that was fast.
+20:12 <@blogic> hehe
+20:12 <@blogic> holger from debian pinged me
+20:13 <@blogic> he proposed a new rule "be nice to eachother"
+20:13 <+lynxis> i like that rule
+20:13 <+lynxis> +1
+20:13 <+stintel> +1000
+20:13 <+Hauke> was that a reaction to the reboot?
+20:13 <@blogic> we could do a CoC but i guess for now we should just keep it simple and use that as a best intent thing
+20:13 <+thess> yup
+20:13 <+Hauke> +1
+20:13 <+neoraider> It's a good rule. In our Verein we phrased it "Don't be a dick" ;)
+20:13 <@blogic> Hauke: nope
+20:13 <@blogic> it was a "you are missing a rule"
+20:14 <+nbd> i also like 'be excellent to each other'
+20:14 <+nbd> seen that in some other projects
+20:14 <@blogic> neoraider: very gender neutral"
+20:14 <@blogic> nbd: would also work for me
+20:14 <@blogic> nice or excellent ?
+20:14 <+lynxis> excellent!
+20:14 <+Hauke> I prefere nice
+20:14 <+nbd> excellent is a reference to 'Bill & Ted's Excellent Adventure' ;)
+20:14 <+stintel> +1 nice
+20:14 <+Hauke> keep it in simple english
+20:14 <+neoraider> nice sounds nicer
+20:15 <+neoraider> :P
+20:15 <+nbd> and boring
+20:15 <+nbd> ;)
+20:15 <@blogic> nice
+20:15 <+nbd> i'm fine with either
+20:15 <@blogic> so we have 5 nice and 1 excellent ond a "dont care"
+20:15 <@blogic> so nice it is
+20:15 <+thess> What-ev
+20:16 <@blogic> next topic ?
+20:16 <+Hauke> yes
+20:16 <@blogic>  introduce a policy on how to encourage people to upstream their work. biot pointed out a huge technical debt that we need to adress one way or the other.
+20:16 <@blogic> so biot pinged me
+20:16 <@blogic> he says we have a technical debt to resolve
+20:16 <@blogic> he mailed some stats, they were not perfectly accurate as they looked at more than 1 kernel rev
+20:16 <@blogic> however it does outline the problem at ahnd
+20:17 <+thess> long-term goals - could take a while, no?
+20:17 <@blogic> i plan to invest a lot of time this year to continue upstreaming my stuff
+20:17 <@blogic> but that is kernel only
+20:17 <+Hauke> could we add a rule that a aptch need a coment which explains why it is needed
+20:17 <@blogic> Hauke: ok
+20:17 <+nbd> ack
+20:17 <@blogic> Hauke: encourage people to upstream in parallel
+20:18 <+Hauke> so something similar to what you have to put into a kernel commit message
+20:18 <+Hauke> yes and also encurage to upstream
+20:18 <+stintel> easy: submit upstream, and use format-patch to add in patches/
+20:18 <+stintel> should be the main goal imo
+20:18 <@blogic> and ideally try to build a team to sieve through packages etc to see whats actually there and what can be and what cannot be upstreamed
+20:18 <@blogic> stintel: ok
+20:18 <@blogic> shall i draft a "rules proposal for upstreaming"
+20:18 <@blogic> ?
+20:18 <+neoraider> OE has a Upstream-Status: tag in all of its patches
+20:19 <@blogic> neoraider: ok
+20:19 <+Hauke> for some patches I looked how to upstream them but they ahve no documentation and also the commit log of the initial commit was not really good
+20:19 <@blogic> Hauke: yes
+20:19 <+neoraider> With values submitted|backport|inapproprioate etc. and maybe extra info
+20:19 <@blogic> i know the problem
+20:19 <@blogic> Hauke:  i am most worrid about all the small package fixes
+20:20 <@blogic> kernel part seems almost easy in comparison
+20:20 <+Hauke> yes
+20:20 <+Hauke> because every package has a different process to upstream
+20:20 <@blogic> yep
+20:20 <@blogic> so we can agree that this is an important issue that we must attend to and take serious
+20:20 <+thess> for some old packages, I feel we are the upstream
+20:21 <@blogic> but need a bit of time to figure out how to resolve ?
+20:21 <@blogic> thess: hehe
+20:21 <+Hauke> can we put a statement onto the website that everybody how want to can take a patch and upsream it
+20:21 <@blogic> and for some others like mtd aswell
+20:21 <@blogic> Hauke: would be a good idea
+20:22 <@blogic> Hauke: shall we get aligned during the week and draft som eideas together on this ?
+20:22 <+Hauke> yes
+20:22 <@blogic> good
+20:22 <+Hauke> next topic?
+20:22 <@blogic> yes
+20:22 <@blogic> last one and then we get to the most important one, apologizing to openwrt
+20:23 <@blogic>  maintainer ship of platforms /target/linux/*
+20:23 <@blogic> i would like to see the rules being loosend
+20:23 <+Hauke> how?
+20:23 <@blogic> but what does everyone else think ?
+20:24 <@blogic> well i passed ltq on to you for a start
+20:24 <@blogic> i am not even wanting to be able to push to others subsystems but want others to push to mine
+20:24 <@blogic> :-)
+20:25 <+Hauke> I have also no problem when someone applies a simple patch to one of the parts I maintain
+20:25 <+stintel> allow NMU in specific case, e.g. important fix that is already in linus' tree and maintainer MIA
+20:25 <+Hauke> when it is changing the system please ask and when unsure also please ask
+20:26 <+nbd> i think we should strongly encourage people to check in with maintainers before committing non-trivial stuff in their packages/targets, but avoid having strict rules about it
+20:26 <+Hauke> I am also for allowing this for adding a new device which has nothing special
+20:26 <@blogic> Hauke: would work for me as a rough guideline
+20:26 <+nbd> if it becomes a problem to the point where we need a rule, we can add it later
+20:26 <@blogic> Hauke: +1
+20:26 <@blogic> ok
+20:26 <+neoraider> In any case, we have aggress to only commit to staging and never to master
+20:26 <@blogic> yeah
+20:27 <@blogic> last topic ?
+20:27 <+neoraider> So the maintainers always have time to reject changes after they are committed to staging
+20:27 <@blogic> neoraider: exactly
+20:27 <+Hauke> I think there are also different elevls of maintainer ship for packages for example it looks like many people o not really take care about their packages
+20:27 <+Hauke> for core packages
+20:28 <+Hauke> yes next topic
+20:28 <+lynxis> what about the others target/* which are maintained by non-lede people
+20:28 <@blogic> ok
+20:28 <@blogic> 2 topics
+20:28 <+stintel> lynxis: we ideally invite them to join?
+20:28 <@blogic> stintel: yep
+20:28 <+Hauke> +1
+20:29 <+neoraider> :)
+20:29 -!- zer0def [~zer0def@linux-jord1.cryptostorm.net] has joined #lede-adm
+20:29 <+lynxis> ok. next topic.
+20:29 <@blogic> so let me just bring up one more thing
+20:29 <+lynxis> please
+20:29 <@blogic> i would like to ask all "active" feed maintainers to be ont he voting aswell
+20:29 <@blogic> the rules say commiter have a voting right
+20:30 <@blogic> but it is not specified what tree
+20:30 <@blogic> i would like to see this specified as trunk and feeds
+20:30 <@blogic> they do an amazing job and should be part of the process
+20:30 <+Hauke> ok, can we mark then somehow in the irc channel?
+20:30 <@blogic> which, if we agree on will require us to
+20:31 <@blogic> 1) define what active maintainer is - ie must have N packages since x months and push updats regulary
+20:31 <@blogic> 2) define what should be voted on and under what rules - changes to rues require a minimum of so many votes, what topic can be voted on, wh needs ot be present
+20:32 <@blogic> for example votes on mac80211 would require nbd to be present and have a say
+20:32 <@blogic> 3) introduce something like liquid democracy
+20:33 <@blogic> could other live with sucha  setup
+20:33 <@blogic> details to be defined
+20:33 <+lynxis> if it's KISS, let's do it
+20:33 <@blogic> i think the more people we involve int he democratic process the better
+20:33 <+nbd> we might be able to ask the liquid feedback guys to host an instance for us
+20:33 <@blogic> liquid democracy is very kiss
+20:33 <@blogic> yep
+20:33 <@blogic> that should be possible
+20:33 <+nbd> and it is suitable for more convenient handling of voting when we add more people to the process
+20:33 <+nbd> since not everybody always has to be present for every vote
+20:33 <@blogic> it will reduce the voting in meetings yet give us more votes
+20:34 <+nbd> and there's a defined process for introducing new things to vote on
+20:34 <@blogic> and makes the whole thing async
+20:34 <+nbd> => fewer meetings necessary
+20:34 <@blogic> with a communal review and moderation process in place
+20:34 <@blogic> => while having more refined votes
+20:34 <+Hauke> like the idea
+20:34 <+Hauke> who wants to create a proposel?
+20:35 <@blogic> felix ?
+20:35 <+neoraider> I don't known LF, but it sounds nice
+20:35 <+nbd> i'd suggest blogic and i do some research on this and propose it for a vote for the next meeting
+20:35 <@blogic> neoraider: i am new to it but what i have seen is nice
+20:35 <@blogic> ok
+20:35 <+stintel> had never heard of it either but sounds nice
+20:35 <@blogic> so can we already agree that we want all $active feed maintainers to be able to vote but need to define the details
+20:36 <+stintel> ok for me
+20:36 <+Noltari> yes
+20:36 <@blogic> +1
+20:36 <+neoraider> +1
+20:36 <+lynxis> +1
+20:36 <+thess> ok - definitely
+20:36 <+nbd> +1
+20:36 <+Hauke> +1
+20:36 <@blogic> thanks, i think this is a very important vote
+20:37 <@blogic> we missed Linux Foundation CII
+20:37 <@blogic> what is that ?
+20:37 <+Hauke> https://bestpractices.coreinfrastructure.org/
+20:37 <+Hauke> but I haven't read the details
+20:38 <+lynxis> I think it's a funding program. reproducible-builds.org is funded by them. we could ask h01lger to explain it to us
+20:38 <+Hauke> ok looks like nobody is here who knows about this
+20:39 <@blogic> ok
+20:39 <+Hauke> who proposed it?
+20:39 <@blogic> postpone to next meeting ?
+20:39 <+Hauke> yes
+20:39 <@blogic> any comments ? otherwise we get to the most important part of the meeting
+20:39 <+Hauke> Copyright notice (just came up on the mailing list)
+20:40 <+Hauke> I think the (c) OpenWrt.org is wrong
+20:40 <@blogic> where ?
+20:40 <+lynxis> i think the most important question is: do we accept funding from a foundation?! but let postpone this and prepare this over the ml
+20:40 <+Hauke> as a German I am not able to give my copyright to anybody
+20:40 <@blogic> i did not get such a mail
+20:40 <+Hauke> only if they pay me the hours
+20:40 <+nbd> the OpenWrt.org copyright notices are legally meaningless
+20:40 <+Hauke> nbd: yes
+20:40 <@blogic> Hauke: i only add them to makefiles
+20:41 <+thess> What the outcome on copyright. I think owrt attribution should be kept.
+20:41 <@blogic> on source code add your private mail account
+20:41 <@blogic> thess: yes
+20:41 <+thess> s/What/Whatever/
+20:41 <+Hauke> I would propose that we just add our normal names, of the person who edited it
+20:41 <+Hauke> if you think your change is not trivial
+20:42 <+nbd> i think we probably don't need copyright notices on most files
+20:42 <+nbd> it simply gets annoying to maintain
+20:42 <+Hauke> I will not discuss if something is trivial or not
+20:42 <@blogic> Hauke: if you feel you own the copyright then add it
+20:42 <@blogic> same as anyone else
+20:42 <@blogic> for makefiles i would personally add lede-project
+20:42 <+Hauke> ok
+20:42  * lynxis has no opinion on the topic
+20:42 <@blogic> but i guess its up to each to decide
+20:43 <@blogic> as per local law and so on
+20:43 <+Hauke> ok
+20:43 <@blogic> openwrt apolgy next ?
+20:43 <+Hauke> ok, next topic
+20:43 <+thess> Copyright is bounded by the attendent license. IANAL but that is what I've come to believe
+20:43 <@blogic> main errors we admitly did are
+20:43 <@blogic> 1) use owrt accoutns for announcements
+20:44 <@blogic> 2) not give advance notice
+20:44 <+Hauke> yes, we should publicly apolgise
+20:44 <@blogic> 3) not explictly invite everyone to join after the launch
+20:44 <@blogic> +1
+20:44 <+Hauke> +1
+20:44 <+thess> +1
+20:44 <+nbd> +1
+20:44 <+Hauke> blogic: will you write this
+20:45 <+stintel> +1
+20:45 <@blogic> and ask everyone that wants to join us
+20:45 <@blogic> +1
+20:45 <+Hauke> yes
+20:46 <+Hauke> we should invite them to a irc meeting
+20:46 <+nbd> +1
+20:46 <@blogic> ok
+20:46 <+Noltari> ok
+20:46 <+lynxis> +1
+20:46 <+thess> +1
+20:46 <+neoraider> +1, although I don't have much say in this as a non-former-core-dev
+20:46 <+Hauke> so an meeting with all lede commiters and all openwrt-hackers
+20:46 <@blogic> and we should offer that after the remerge which is not really a remerge but completing the reboot to change the name again
+20:46 <@blogic> i would propose openlede
+20:47 <@blogic> we could kee patchwork, mailinglists and so on and only point a new doamin atht he infra
+20:47 <+Hauke> yes sounds good
+20:47 <@blogic> put 503s on the old domains
+20:47 <+Hauke> 403s
+20:47 <+nbd> name sounds good as a suggestion, but we should let openwrt have a say in this as well
+20:47 <@blogic> send openwrt, lede-project both to openlede
+20:47 <@blogic> of course
+20:47 -!- wyz_ [~wyz@unaffiliated/wyz] has joined #lede-adm
+20:47 <+thess> 302
+20:48 <+Hauke> ah yes
+20:48 <+Noltari> I don't think we (non openwrt-hackes) are going to have much to say on this meeting but sure, go ahead
+20:48 -!- wyz_ [~wyz@unaffiliated/wyz] has quit [Remote host closed the connection]
+20:48 <+Noltari> hackers*
+20:48 <@blogic> this is what i think we should send them as an apology + a proposal how to proceed next and as them if they accept the apolody etc pp
+20:48 -!- wyz_ [~wyz@unaffiliated/wyz] has joined #lede-adm
+20:48 <@blogic> thess: er yes
+20:48 <@blogic> sorry
+20:49 <@blogic> nbd: as you sent the announcement would you mind to send the apology aswell ?
+20:49 <+nbd> no problem
+20:49 <@blogic> whould look the nicest i think
+20:49 <@blogic> so final vote just to make this credible
+20:49 <+thess> I think you should first send apology to select few, then the community at large
+20:49 <+Hauke> +1
+20:49 <@blogic> +1
+20:49 <+nbd> +1
+20:49 <+thess> +1
+20:50 <+Hauke> thess: this is public most of them already know
+20:50 <+thess> roger
+20:50 -!- wyz [~wyz@unaffiliated/wyz] has quit [Ping timeout: 260 seconds]
+20:50 <+Hauke> anything else?
+20:51 <+Hauke> #endmeeting

@@ -1,0 +1,271 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<title>#lede-adm Meeting</title>
+<style type="text/css">
+/* This is for the .html in the HTML2 writer */
+body {
+    font-family: Helvetica, sans-serif;
+    font-size:14px;
+}
+h1 {
+    text-align: center;
+}
+a {
+    color:navy;
+    text-decoration: none;
+    border-bottom:1px dotted navy;
+}
+a:hover {
+    text-decoration:none;
+    border-bottom: 0;
+    color:#0000B9;
+}
+hr {
+    border: 1px solid #ccc;
+}
+/* The (nick, time) item pairs, and other body text things. */
+.details {
+    font-size: 12px;
+    font-weight:bold;
+}
+/* The 'AGREED:', 'IDEA', etc, prefix to lines. */
+.itemtype {
+    font-style: normal;    /* un-italics it */
+    font-weight: bold;
+}
+/* Example: change single item types.  Capitalized command name.
+/* .TOPIC  {  color:navy;  } */
+/* .AGREED {  color:lime;  } */
+
+</style>
+</head>
+
+<body>
+<h1>#lede-adm Meeting</h1>
+<span class="details">
+Meeting started by jow_laptop at 12:59:43 UTC
+(<a href="lede-adm.2016-04-05-12.59.log.html">full logs</a>).</span>
+
+<br><br>
+
+
+
+<h3>Meeting summary</h3>
+<ol>
+<li><b class="TOPIC">Meeting agenda</b> <span class="details">(<a href='lede-adm.2016-04-05-12.59.log.html#l-4'>jow_laptop</a>, 12:59:54)</span>
+<br></li>
+<li><b class="TOPIC">Infrastrucutre</b> <span class="details">(<a href='lede-adm.2016-04-05-12.59.log.html#l-15'>jow_laptop</a>, 13:01:39)</span>
+<ol type="a">
+  <li><span class="INFO">I am in the progress of syncing
+    downloads.openwrt.org to our buildserver so that we have a complete
+    mirror copy, just in case</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-16'>jow_laptop</a>,
+    13:02:14)</span></li>
+  <li><span class="INFO">John contacted dwvm about the mailinglists, the
+    setup is pending</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-17'>jow_laptop</a>,
+    13:02:41)</span></li>
+  <li><span class="INFO">I did a little bit of work on the website but
+    otherwise not much yet</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-18'>jow_laptop</a>,
+    13:03:00)</span></li>
+  <li><i class="itemtype">ACTION</i>: <span class="ACTION">I plan to
+    document our current server infrastrucutre and the responsible
+    people in the next days</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-20'>jow_laptop</a>,
+    13:04:01)</span></li>
+  <li><i class="itemtype">ACTION</i>: <span class="ACTION">I'll write a
+    proposol for this to the list</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-39'>jow_laptop</a>,
+    13:11:36)</span></li>
+</ol>
+<br></li>
+<li><b class="TOPIC">Repository</b> <span class="details">(<a href='lede-adm.2016-04-05-12.59.log.html#l-49'>jow_laptop</a>, 13:15:07)</span>
+<ol type="a">
+  <li><span class="INFO">Hauke suggested Gerrit as possible
+    alternative</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-54'>jow_laptop</a>,
+    13:17:01)</span></li>
+  <li><i class="itemtype">ACTION</i>: <span class="ACTION">Hauke will
+    find out if gerrit can interact with email threads</span> <span
+    class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-67'>blogic</a>,
+    13:19:12)</span></li>
+  <li><a
+    href="https://patchwork.linux-mips.org/patch/12771/">https://patchwork.linux-mips.org/patch/12771/</a>
+    <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-90'>blogic</a>,
+    13:25:10)</span></li>
+  <li><a
+    href="https://www.mantisbt.org/demo.php">https://www.mantisbt.org/demo.php</a>
+    <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-133'>blogic</a>,
+    13:34:35)</span></li>
+  <li><a
+    href="https://www.mantisbt.org/wiki/doku.php/mantisbt:emailreporting">https://www.mantisbt.org/wiki/doku.php/mantisbt:emailreporting</a>
+    <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-144'>jow_laptop</a>,
+    13:38:50)</span></li>
+  <li><i class="itemtype">AGREED</i>: <span class="AGREED">For now, rely
+    on self hosted Git + Patchwork + mailing lists and try Mantis for
+    bug tracking</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-154'>jow_laptop</a>,
+    13:43:27)</span></li>
+</ol>
+<br></li>
+<li><b class="TOPIC">Release signing</b> <span class="details">(<a href='lede-adm.2016-04-05-12.59.log.html#l-155'>jow_laptop</a>, 13:43:43)</span>
+<ol type="a">
+  <li><i class="itemtype">AGREED</i>: <span class="AGREED">We'll pool
+    pubkeys in a keyring.git, let opkg trust any of those pubkeys.
+    System will be refined in the future and signed manifests introduced
+    for images</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-215'>jow_laptop</a>,
+    13:59:29)</span></li>
+</ol>
+<br></li>
+<li><b class="TOPIC">Engagements</b> <span class="details">(<a href='lede-adm.2016-04-05-12.59.log.html#l-218'>jow_laptop</a>, 14:00:05)</span>
+<ol type="a">
+  <li><i class="itemtype">ACTION</i>: <span class="ACTION">Anyone will
+    reach out to his respective communities when we start the
+    project</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-269'>jow_laptop</a>,
+    14:16:35)</span></li>
+  <li><i class="itemtype">ACTION</i>: <span class="ACTION">We'll prepare
+    a template message we can use to send it to the various lists of
+    relevant projects, asking for endorsements and inviting them to
+    collaborate</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-270'>jow_laptop</a>,
+    14:17:09)</span></li>
+  <li><i class="itemtype">ACTION</i>: <span class="ACTION">We'll prepare
+    a press release</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-271'>jow_laptop</a>,
+    14:17:27)</span></li>
+  <li><i class="itemtype">ACTION</i>: <span class="ACTION">We'll setup
+    another etherpad where we pool community and develoepr
+    suggestions</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-272'>jow_laptop</a>,
+    14:17:46)</span></li>
+  <li><a
+    href="http://lede:g3h3im@www.lede-project.org/todo.html">http://lede:g3h3im@www.lede-project.org/todo.html</a>
+    <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-285'>jow_laptop</a>,
+    14:20:10)</span></li>
+</ol>
+<br></li>
+<li><b class="TOPIC">Roadmap</b> <span class="details">(<a href='lede-adm.2016-04-05-12.59.log.html#l-289'>jow_laptop</a>, 14:21:43)</span>
+<ol type="a">
+  <li><span class="INFO">blogic wrote down a number of todos in
+    semirandom order</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-290'>jow_laptop</a>,
+    14:22:14)</span></li>
+  <li><a
+    href="http://www.lede-project.org/todo.html">http://www.lede-project.org/todo.html</a>
+    <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-291'>jow_laptop</a>,
+    14:22:23)</span></li>
+  <li><i class="itemtype">ACTION</i>: <span class="ACTION">jow_laptop
+    will setup an etherpad where we can work on a roadmap/timeline
+    draft</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-296'>jow_laptop</a>,
+    14:24:38)</span></li>
+</ol>
+<br></li>
+<li><b class="TOPIC">Votes</b> <span class="details">(<a href='lede-adm.2016-04-05-12.59.log.html#l-323'>jow_laptop</a>, 14:28:43)</span>
+<ol type="a">
+  <li><i class="itemtype">AGREED</i>: <span class="AGREED">6/6 attendees
+    accept the new rule draft</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-350'>jow_laptop</a>,
+    14:33:22)</span></li>
+  <li><i class="itemtype">ACTION</i>: <span class="ACTION">jow_laptop
+    will commit it asap</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-351'>jow_laptop</a>,
+    14:33:30)</span></li>
+  <li><i class="itemtype">AGREED</i>: <span class="AGREED">6/6 attendees
+    agree on putting the logo and website resources under the CC BY-SA
+    4.0 unported license</span> <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-378'>jow_laptop</a>,
+    14:43:10)</span></li>
+  <li><a
+    href="https://www.fsf.org/blogs/licensing/creative-commons-by-sa-4-0-declared-one-way-compatible-with-gnu-gpl-version-3">https://www.fsf.org/blogs/licensing/creative-commons-by-sa-4-0-declared-one-way-compatible-with-gnu-gpl-version-3</a>
+    <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-386'>jow_laptop</a>,
+    14:44:12)</span></li>
+</ol>
+<br></li>
+<li><b class="TOPIC">Links</b> <span class="details">(<a href='lede-adm.2016-04-05-12.59.log.html#l-402'>jow_laptop</a>, 14:54:54)</span>
+<ol type="a">
+  <li><a
+    href="http://piratepad.net/J10bwpdbQJ">http://piratepad.net/J10bwpdbQJ</a>
+    Next meeting agenda <span class="details">(<a
+    href='lede-adm.2016-04-05-12.59.log.html#l-403'>jow_laptop</a>,
+    14:55:29)</span></li>
+</ol>
+</li>
+</ol>
+<br><br>
+
+
+
+<span class="details">
+Meeting ended at 14:56:00 UTC
+(<a href="lede-adm.2016-04-05-12.59.log.html">full logs</a>).</span>
+
+<br><br>
+
+
+
+<h3>Action items</h3>
+<ol>
+  <li>I plan to document our current server infrastrucutre and the responsible people in the next days</li>
+  <li>I'll write a proposol for this to the list</li>
+  <li>Hauke will find out if gerrit can interact with email threads</li>
+  <li>Anyone will reach out to his respective communities when we start the project</li>
+  <li>We'll prepare a template message we can use to send it to the various lists of relevant projects, asking for endorsements and inviting them to collaborate</li>
+  <li>We'll prepare a press release</li>
+  <li>We'll setup another etherpad where we pool community and develoepr suggestions</li>
+  <li>jow_laptop will setup an etherpad where we can work on a roadmap/timeline draft</li>
+  <li>jow_laptop will commit it asap</li>
+</ol>
+<br><br>
+
+
+
+<h3>Action items, by person</h3>
+<ol>
+  <li> jow_laptop <ol>
+    <li>jow_laptop will setup an etherpad where we can work on a roadmap/timeline draft</li>
+    <li>jow_laptop will commit it asap</li>
+  </ol></li>
+  <li><b>UNASSIGNED</b><ol>
+    <li>I plan to document our current server infrastrucutre and the responsible people in the next days</li>
+    <li>I'll write a proposol for this to the list</li>
+    <li>Hauke will find out if gerrit can interact with email threads</li>
+    <li>Anyone will reach out to his respective communities when we start the project</li>
+    <li>We'll prepare a template message we can use to send it to the various lists of relevant projects, asking for endorsements and inviting them to collaborate</li>
+    <li>We'll prepare a press release</li>
+    <li>We'll setup another etherpad where we pool community and develoepr suggestions</li>
+  </ol>
+</li>
+</ol>
+<br><br>
+
+
+
+<h3>People present (lines said)</h3>
+<ol>
+  <li>jow_laptop (180)</li>
+  <li>blogic (97)</li>
+  <li>nbd (58)</li>
+  <li>Hauke_1 (32)</li>
+  <li>neoraider (22)</li>
+  <li>Noltari (9)</li>
+  <li>lede-bot (7)</li>
+</ol>
+<br><br>
+
+
+
+<span class="details">Generated by <a href="http://wiki.debian.org/MeetBot">MeetBot</a> 0.1.4.</span>
+</body></html>

@@ -1,0 +1,409 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<title>#lede-adm log</title>
+<style type="text/css">
+/* For the .log.html */
+pre { /*line-height: 125%;*/
+      white-space: pre-wrap; }
+body { background: #f0f0f0; }
+
+body .tm  { color: #007020 }                      /* time */
+body .nk  { color: #062873; font-weight: bold }   /* nick, regular */
+body .nka { color: #007020; font-weight: bold }  /* action nick */
+body .ac  { color: #00A000 }                      /* action line */
+body .hi  { color: #4070a0 }                 /* hilights */
+/* Things to make particular MeetBot commands stick out */
+body .topic     { color: #007020; font-weight: bold }
+body .topicline { color: #000080; font-weight: bold }
+body .cmd       { color: #007020; font-weight: bold }
+body .cmdline  { font-weight: bold }
+
+</style>
+</head>
+
+<body>
+<pre><a name="l-1"></a><span class="tm">17:28:41</span><span class="nk"> &lt;jow&gt;</span> <span class="cmd">#startmeeting</span><span class="cmdline"></span>
+<a name="l-2"></a><span class="tm">17:28:41</span><span class="nk"> &lt;lede-bot&gt;</span> Meeting started Wed Jul 20 17:28:41 2016 UTC.  The chair is jow. Information about MeetBot at http://wiki.debian.org/MeetBot.
+<a name="l-3"></a><span class="tm">17:28:41</span><span class="nk"> &lt;lede-bot&gt;</span> Useful Commands: #action #agreed #help #info #idea #link #topic.
+<a name="l-4"></a><span class="tm">17:28:56</span><span class="nk"> &lt;jow&gt;</span> <span class="topic">#topic </span><span class="topicline">LEDE July meeting</span>
+<a name="l-5"></a><span class="tm">17:29:21</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">nbd:</span> It wouldn't hurt. We could possible archive to gmail
+<a name="l-6"></a><span class="tm">17:29:21</span><span class="nk"> &lt;jow&gt;</span> we can start if you're ready
+<a name="l-7"></a><span class="tm">17:29:34</span><span class="nk"> &lt;blogic&gt;</span> hi
+<a name="l-8"></a><span class="tm">17:29:38</span><span class="nk"> &lt;blogic&gt;</span> sorry got held up
+<a name="l-9"></a><span class="tm">17:29:57</span><span class="nk"> &lt;jow&gt;</span> np, greato have you here
+<a name="l-10"></a><span class="tm">17:31:11</span><span class="nk"> &lt;jow&gt;</span> SO the agenda proposal is here
+<a name="l-11"></a><span class="tm">17:31:13</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">agenda:</span> http://piratepad.net/RVVihbFpUh
+<a name="l-12"></a><span class="tm">17:31:14</span><span class="nk"> &lt;lede-bot&gt;</span> <span class="hi">Title:</span> PiratePad: RVVihbFpUh (at piratepad.net)
+<a name="l-13"></a><span class="tm">17:31:19</span><span class="nk"> &lt;jow&gt;</span> <span class="cmd">#link </span><span class="cmdline">http://piratepad.net/RVVihbFpUh</span>
+<a name="l-14"></a><span class="tm">17:32:21</span><span class="nk"> &lt;jow&gt;</span> <span class="topic">#topic </span><span class="topicline">Infrastructure</span>
+<a name="l-15"></a><span class="tm">17:33:10</span><span class="nk"> &lt;thess&gt;</span> OK - I'll bite. Flyspray?
+<a name="l-16"></a><span class="tm">17:33:53</span><span class="nk"> &lt;Hauke&gt;</span> no problem we can start with Flyspray
+<a name="l-17"></a><span class="tm">17:35:02</span><span class="nk"> &lt;thess&gt;</span> I have been in contact with the developers (such as they) are and they mentioned the desire for help with the product.
+<a name="l-18"></a><span class="tm">17:35:27</span><span class="nk"> &lt;thess&gt;</span> Personally, I am not all that interested in doing that, but I will continue to look into bugs,
+<a name="l-19"></a><span class="tm">17:35:39</span><span class="nk"> &lt;thess&gt;</span> report them and push fixes to them on Github.
+<a name="l-20"></a><span class="tm">17:36:38</span><span class="nk"> &lt;thess&gt;</span> Also, I would like to do more triage work on reports and have a request for all of you.
+<a name="l-21"></a><span class="tm">17:37:09</span><span class="nk"> &lt;thess&gt;</span> I would assign bugs for investigation or fixing if we had a list to topics each of us was
+<a name="l-22"></a><span class="tm">17:37:26</span><span class="nk"> &lt;thess&gt;</span> interested in handling. Otherwise things just sit there until someone picks them up.
+<a name="l-23"></a><span class="tm">17:38:56</span><span class="nk"> &lt;jow&gt;</span> makes sense to me
+<a name="l-24"></a><span class="tm">17:39:23</span><span class="nk"> &lt;jow&gt;</span> at least I know that I cannot really fix ath9k or ethernet driver bugs
+<a name="l-25"></a><span class="tm">17:39:36</span><span class="nk"> &lt;jow&gt;</span> I'm happy to deal with buildroot or packaging stuff though
+<a name="l-26"></a><span class="tm">17:39:59</span><span class="nk"> &lt;jow&gt;</span> or fix things in the projects/ realm, such as ubox and things
+<a name="l-27"></a><span class="tm">17:40:08</span><span class="nk"> &lt;thess&gt;</span> Any objects to me putting out a request (email) for topics / specialities from each developer/committer.
+<a name="l-28"></a><span class="tm">17:40:22</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">thess:</span> sounds good
+<a name="l-29"></a><span class="tm">17:40:53</span><span class="nk"> &lt;thess&gt;</span> I'll put it up as a page on our site
+<a name="l-30"></a><span class="tm">17:41:07</span><span class="nk"> &lt;jow&gt;</span> <span class="cmd">#action </span><span class="cmdline">inquire committer topics for better future bug triage</span>
+<a name="l-31"></a><span class="tm">17:41:31</span><span class="nk"> &lt;jow&gt;</span> <span class="cmd">#action </span><span class="cmdline">publish results in web.git</span>
+<a name="l-32"></a><span class="tm">17:42:11</span><span class="nk"> &lt;thess&gt;</span> Anything else with FS?
+<a name="l-33"></a><span class="tm">17:42:27</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">thess:</span> i like it alot
+<a name="l-34"></a><span class="tm">17:42:29</span><span class="nk"> &lt;jow&gt;</span> at some point I like to put some effort into the design
+<a name="l-35"></a><span class="tm">17:42:43</span><span class="nk"> &lt;jow&gt;</span> the layout of comments to an issue is unlucky imho
+<a name="l-36"></a><span class="tm">17:43:02</span><span class="nk"> &lt;jow&gt;</span> like shifted to the left below the menu and way narrower than the rest
+<a name="l-37"></a><span class="tm">17:43:07</span><span class="nk"> &lt;jow&gt;</span> makes it easy to overlook
+<a name="l-38"></a><span class="tm">17:43:22</span><span class="nk"> &lt;jow&gt;</span> but all in all I like it too, especially the github auth
+<a name="l-39"></a><span class="tm">17:43:50</span><span class="nk"> &lt;thess&gt;</span> Yeah, the Github auth is awesome.
+<a name="l-40"></a><span class="tm">17:44:26</span><span class="nk"> &lt;thess&gt;</span> Layout changes are pretty straight forward as it is a themed CSS (ala Drupal/Joomla)
+<a name="l-41"></a><span class="tm">17:44:26</span><span class="nk"> &lt;jow&gt;</span> KanjiMonster asked for less redundant info in the mail notifications
+<a name="l-42"></a><span class="tm">17:44:41</span><span class="nk"> &lt;jow&gt;</span> but I didn't find the motivation to redo that part yet
+<a name="l-43"></a><span class="tm">17:44:54</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">jow:</span> Yes, still have open task on that.
+<a name="l-44"></a><span class="tm">17:44:58</span><span class="nk"> &lt;jow&gt;</span> I was lucky that the lede-bugs and lede-commits lists work as they do for the moment
+<a name="l-45"></a><span class="tm">17:45:07</span><span class="nk"> &lt;KanjiMonster&gt;</span> I mostly care about the subject
+<a name="l-46"></a><span class="tm">17:45:32</span><span class="nk"> &lt;jow&gt;</span> that we can probably change easily
+<a name="l-47"></a><span class="tm">17:45:54</span><span class="nk"> &lt;jow&gt;</span> <span class="cmd">#action </span><span class="cmdline">rework FS issue notification mail subjects to allow gmail threading</span>
+<a name="l-48"></a><span class="tm">17:46:12</span><span class="nk"> &lt;jow&gt;</span> iirc it is an printf-like string available directly via the settings menu
+<a name="l-49"></a><span class="tm">17:46:22</span><span class="nk"> &lt;thess&gt;</span> Didn't we do that already?
+<a name="l-50"></a><span class="tm">17:46:41</span><span class="nk"> &lt;jow&gt;</span> I changed some thing already but did not yet remove the change/action type from the subject
+<a name="l-51"></a><span class="tm">17:47:31</span><span class="nk"> &lt;jow&gt;</span> it should basically always contain just the issue title without any "comment added" or "issue changed" suffix
+<a name="l-52"></a><span class="tm">17:47:33</span><span class="nk"> &lt;thess&gt;</span> With respect to layout - take a look at bugs.archlinux.org (Flyspray site)
+<a name="l-53"></a><span class="tm">17:48:33</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">thess:</span> it has the same problem though, comments feel a bit "unstructured" and unrelated to the actual issue
+<a name="l-54"></a><span class="tm">17:48:57</span><span class="nk"> &lt;jow&gt;</span> but thats bikeshedding - lets move to the next item
+<a name="l-55"></a><span class="tm">17:49:17</span><span class="nk"> &lt;jow&gt;</span> Regarding the mirror situation
+<a name="l-56"></a><span class="tm">17:50:33</span><span class="nk"> &lt;jow&gt;</span> currently we have the problem that half a dozen different build slaves are rsyncing their artefacts to the download server at random intervals
+<a name="l-57"></a><span class="tm">17:50:53</span><span class="nk"> &lt;jow&gt;</span> on top of that the hetzner rsync performance is awful at best
+<a name="l-58"></a><span class="tm">17:51:43</span><span class="nk"> &lt;jow&gt;</span> the mirror team of the RWTH aachen sponsored us a machine we can use to act as primary download server
+<a name="l-59"></a><span class="tm">17:52:32</span><span class="nk"> &lt;jow&gt;</span> that machine should provide a more stable rsync performance compared to hetzner, downside is that it does not have ipv6 connectivity
+<a name="l-60"></a><span class="tm">17:52:52</span><span class="nk"> &lt;Hauke&gt;</span> are they working on ipv6?
+<a name="l-61"></a><span class="tm">17:53:05</span><span class="nk"> &lt;jow&gt;</span> it is supposed to be available "soon"
+<a name="l-62"></a><span class="tm">17:53:17</span><span class="nk"> &lt;jow&gt;</span> but as we all know this can mean next month or next decade
+<a name="l-63"></a><span class="tm">17:54:01</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">jow:</span> howabout having master at aachen
+<a name="l-64"></a><span class="tm">17:54:09</span><span class="nk"> &lt;blogic&gt;</span> and sync to hetzner and provide ipv6 there ?
+<a name="l-65"></a><span class="tm">17:54:23</span><span class="nk"> &lt;jow&gt;</span> furthermore we got another mirror sponsored from rwth aachen (aside from the yet-to-be used master machine)
+<a name="l-66"></a><span class="tm">17:54:56</span><span class="nk"> &lt;Hauke&gt;</span> I am for blogic's idea
+<a name="l-67"></a><span class="tm">17:55:01</span><span class="nk"> &lt;jow&gt;</span> we got asked by the people there why their mirror receives so little traffic and whether they should continue providing it
+<a name="l-68"></a><span class="tm">17:55:16</span><span class="nk"> &lt;thess&gt;</span> +1 w/john
+<a name="l-69"></a><span class="tm">17:55:27</span><span class="nk"> &lt;jow&gt;</span> they said its currently spending more bandwidth rsyncing than serving any clients
+<a name="l-70"></a><span class="tm">17:55:41</span><span class="nk"> &lt;jow&gt;</span> which brings me to the next problem giving me headaches
+<a name="l-71"></a><span class="tm">17:56:16</span><span class="nk"> &lt;jow&gt;</span> our build artefacts are extremely volatile, from the rsync pov there is little similarities between the binaries produced by two consecutive build runs
+<a name="l-72"></a><span class="tm">17:56:24</span><span class="nk"> &lt;jow&gt;</span> we should investigate why
+<a name="l-73"></a><span class="tm">17:57:29</span><span class="nk"> &lt;jow&gt;</span> example here: http://phase2.builds.lede-project.org/builders/mipsel_74kc_dsp2/builds/134/steps/packageupload/logs/stdio
+<a name="l-74"></a><span class="tm">17:57:58</span><span class="nk"> &lt;blogic&gt;</span> weird
+<a name="l-75"></a><span class="tm">17:58:03</span><span class="nk"> &lt;thess&gt;</span> date stamps, signatures ?
+<a name="l-76"></a><span class="tm">17:58:12</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">lynxis:</span> did we not have reproducable builds ?
+<a name="l-77"></a><span class="tm">17:58:22</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">thess:</span> possible, it needs to be figured out
+<a name="l-78"></a><span class="tm">17:58:42</span><span class="nk"> &lt;jow&gt;</span> so what did I do so far;
+<a name="l-79"></a><span class="tm">17:59:06</span><span class="nk"> &lt;jow&gt;</span> - I lowered the TTL of downloads.lede-project.org to 5 minutes so that we can quickly switch to the new host
+<a name="l-80"></a><span class="tm">17:59:39</span><span class="nk"> &lt;jow&gt;</span> - I assigned an alternative name to the current rsync server and reconfigured the buildbots to sync there, to not interrupt things during the switch
+<a name="l-81"></a><span class="tm">18:00:04</span><span class="nk"> &lt;lynxis&gt;</span> <span class="hi">blogic:</span> reproducible builds: I'm working on that one. will finish it tonight.
+<a name="l-82"></a><span class="tm">18:00:09</span><span class="nk"> &lt;jow&gt;</span> - I prepared HTTP, HTTPS and RSYNC on the new machine
+<a name="l-83"></a><span class="tm">18:00:36</span><span class="nk"> &lt;jow&gt;</span> What I need to figure out yet is how to make the rsync transfers atomic
+<a name="l-84"></a><span class="tm">18:01:54</span><span class="nk"> &lt;jow&gt;</span> my plan was to investigate pre-xfer and post-xfer hooks in rsyncd
+<a name="l-85"></a><span class="tm">18:02:44</span><span class="nk"> &lt;jow&gt;</span> the basic idea is to acquire an exclusive file lock when rsyncing to the download master and let upload requests from builders stall until that master transfer is through
+<a name="l-86"></a><span class="tm">18:03:11</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">jow:</span> just need way to cleanup lock after failures/timeouts, etc.
+<a name="l-87"></a><span class="tm">18:03:34</span><span class="nk"> &lt;lynxis&gt;</span> how is debian doing those things?
+<a name="l-88"></a><span class="tm">18:03:36</span><span class="nk"> &lt;jow&gt;</span> the current (old) download master will serve 1) as staging area to gather and consolidate the buildbot uploads
+<a name="l-89"></a><span class="tm">18:03:44</span><span class="nk"> &lt;jow&gt;</span> 2) as ipv6 mirror
+<a name="l-90"></a><span class="tm">18:04:00</span><span class="nk"> &lt;KanjiMonster&gt;</span> also ensure that other builders that wait for the lock won't get killed because of a percieved lockup as well
+<a name="l-91"></a><span class="tm">18:04:28</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">KanjiMonster:</span> that is part of the investigations
+<a name="l-92"></a><span class="tm">18:04:33</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">lynxis:</span> they don't
+<a name="l-93"></a><span class="tm">18:05:03</span><span class="nk"> &lt;jow&gt;</span> at least from the things I found in the internet
+<a name="l-94"></a><span class="tm">18:06:11</span><span class="nk"> &lt;Hauke&gt;</span> is it possible to upload to a tmp directory and when it is finished just change the link from the old one to the new one
+<a name="l-95"></a><span class="tm">18:06:25</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">KanjiMonster:</span> the idea was to use some kind of best-effort flock, basically wait for something like 30s on the exclusive lock then continue anyway
+<a name="l-96"></a><span class="tm">18:06:59</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">KanjiMonster:</span> that should already dramatically reduce the likelyhood of rsyncing partial uploads to the download master (assuming the staging&lt;-&gt;master connection is reliable and fast)
+<a name="l-97"></a><span class="tm">18:07:35</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">Hauke:</span> that would be my backup plan
+<a name="l-98"></a><span class="tm">18:07:38</span><span class="nk"> &lt;Hauke&gt;</span> if we upload it to a tmp directory which changes for each upload we do not have any locking issues
+<a name="l-99"></a><span class="tm">18:08:54</span><span class="nk"> &lt;nbd&gt;</span> <span class="hi">jow:</span> is --delay-updates not enough?
+<a name="l-100"></a><span class="tm">18:09:31</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">nbd:</span> no, it cannot guarantee the consistency of the entire tree, e.g. if the Packages index fits to the .ipk files
+<a name="l-101"></a><span class="tm">18:10:26</span><span class="nk"> &lt;jow&gt;</span> the other point I want to discuss quickly is the traffic distribution
+<a name="l-102"></a><span class="tm">18:10:48</span><span class="nk"> &lt;nbd&gt;</span> <span class="hi">jow:</span> how about this: hard link the dl dir to a new one, rsync to that one, then rename it and get rid of the old one
+<a name="l-103"></a><span class="tm">18:10:51</span><span class="nk"> &lt;jow&gt;</span> as I wrote above we got complaints from the rwth that their lede mirror is underutilizied
+<a name="l-104"></a><span class="tm">18:11:34</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">jow:</span> just turn it into the master
+<a name="l-105"></a><span class="tm">18:11:41</span><span class="nk"> &lt;blogic&gt;</span> and point downloads.lede... there
+<a name="l-106"></a><span class="tm">18:11:45</span><span class="nk"> &lt;blogic&gt;</span> that should utilize it :-)
+<a name="l-107"></a><span class="tm">18:12:08</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">blogic:</span> the one they complained about is not the future master machine but their main ftp
+<a name="l-108"></a><span class="tm">18:12:58</span><span class="nk"> &lt;jow&gt;</span> we've got five instances from them by now, three buildslaves and two download machines
+<a name="l-109"></a><span class="tm">18:13:10</span><span class="nk"> &lt;Hauke&gt;</span> does opkg use the mirros or only the master?
+<a name="l-110"></a><span class="tm">18:13:17</span><span class="nk"> &lt;jow&gt;</span> opkg only uses the master
+<a name="l-111"></a><span class="tm">18:15:13</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">jow:</span> So as blogic said - make it the master
+<a name="l-112"></a><span class="tm">18:15:49</span><span class="nk"> &lt;jow&gt;</span> ok
+<a name="l-113"></a><span class="tm">18:15:49</span><span class="nk"> &lt;thess&gt;</span> I never thought I'd hear of someone complaining about not consumming bandwidth
+<a name="l-114"></a><span class="tm">18:16:13</span><span class="nk"> &lt;jow&gt;</span> <span class="cmd">#action </span><span class="cmdline">promote RWTH machine to new download master</span>
+<a name="l-115"></a><span class="tm">18:16:48</span><span class="nk"> &lt;jow&gt;</span> SHall we switch to the code updates?
+<a name="l-116"></a><span class="tm">18:17:25</span><span class="nk"> &lt;lynxis&gt;</span> +1
+<a name="l-117"></a><span class="tm">18:17:32</span><span class="nk"> &lt;jow&gt;</span> okay
+<a name="l-118"></a><span class="tm">18:17:32</span><span class="nk"> &lt;thess&gt;</span> OK
+<a name="l-119"></a><span class="tm">18:17:36</span><span class="nk"> &lt;jow&gt;</span> <span class="topic">#topic </span><span class="topicline">Codebase updates</span>
+<a name="l-120"></a><span class="tm">18:17:50</span><span class="nk"> &lt;jow&gt;</span> Not much from me here, a few very minor commits aside
+<a name="l-121"></a><span class="tm">18:18:03</span><span class="nk"> &lt;jow&gt;</span> I mostly merged random PRs and a few patchwork items
+<a name="l-122"></a><span class="tm">18:18:19</span><span class="nk"> &lt;blogic&gt;</span> same here
+<a name="l-123"></a><span class="tm">18:18:34</span><span class="nk"> &lt;lynxis&gt;</span> I'm working on omap to become compatible with beaglebone black cape's
+<a name="l-124"></a><span class="tm">18:18:39</span><span class="nk"> &lt;blogic&gt;</span> updated lots of image building code with mayor collateral dammge
+<a name="l-125"></a><span class="tm">18:18:52</span><span class="nk"> &lt;blogic&gt;</span> but nbd fixed most of it now
+<a name="l-126"></a><span class="tm">18:18:53</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">lynxis:</span> Great!
+<a name="l-127"></a><span class="tm">18:19:00</span><span class="nk"> &lt;blogic&gt;</span> ipq seems stable now
+<a name="l-128"></a><span class="tm">18:19:29</span><span class="nk"> &lt;Hauke&gt;</span> is this todo list up to date: https://lede-project.org/todo.html ?
+<a name="l-129"></a><span class="tm">18:19:29</span><span class="nk"> &lt;KanjiMonster&gt;</span> apart from the mange bootargs thingy hanging on certain cmdline contents
+<a name="l-130"></a><span class="tm">18:19:30</span><span class="nk"> &lt;lede-bot&gt;</span> <span class="hi">Title:</span> Project ToDos (at lede-project.org)
+<a name="l-131"></a><span class="tm">18:19:38</span><span class="nk"> &lt;KanjiMonster&gt;</span> *mangle
+<a name="l-132"></a><span class="tm">18:20:02</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">KanjiMonster:</span> i did not follow it to be honest
+<a name="l-133"></a><span class="tm">18:20:03</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">Hauke:</span> no, the todo needs a mjor overhaul, ideally we decide the new contents in this meeting
+<a name="l-134"></a><span class="tm">18:20:25</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">KanjiMonster:</span> the conversation cinfused me and i did not understand what the problem was so i am waiting for someone to send a patch
+<a name="l-135"></a><span class="tm">18:20:59</span><span class="nk"> &lt;Hauke&gt;</span> what are the bigger topics which are missing for the next release?
+<a name="l-136"></a><span class="tm">18:21:27</span><span class="nk"> &lt;jow&gt;</span> the one big topic which is affecting the actual release mechanics is the multi device image building code
+<a name="l-137"></a><span class="tm">18:22:04</span><span class="nk"> &lt;KanjiMonster&gt;</span> <span class="hi">blogic:</span>   it seems to choke at a root= argument that doesn't match what the code is expecting, hanging the device. I guess, the code isn't the most readable.
+<a name="l-138"></a><span class="tm">18:22:43</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">KanjiMonster:</span> as i said, i'll wait for a patch to fix it
+<a name="l-139"></a><span class="tm">18:22:54</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">KanjiMonster:</span> i only have the eval kit so i am already chuffed we got thi far
+<a name="l-140"></a><span class="tm">18:23:03</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">jow:</span> yes
+<a name="l-141"></a><span class="tm">18:23:06</span><span class="nk"> &lt;jow&gt;</span> from my side I'd say we could start release branches any moment as soon as we can build images containing their profile packages
+<a name="l-142"></a><span class="tm">18:23:10</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">jow:</span>  is this only the target specific code or some generic code which is missing?
+<a name="l-143"></a><span class="tm">18:23:28</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">Hauke:</span> as far as I know the entire implementation of it needs to be done
+<a name="l-144"></a><span class="tm">18:23:33</span><span class="nk"> &lt;jow&gt;</span> nbd correct me if I'm wrong
+<a name="l-145"></a><span class="tm">18:23:36</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">jow:</span> once that is done we should fire up the infra and push a release and use it as a testing release to get status quo and then push another release soonish
+<a name="l-146"></a><span class="tm">18:23:50</span><span class="nk"> &lt;jow&gt;</span> the image building rework in the targets is basically preparation steps to overhaul the image building
+<a name="l-147"></a><span class="tm">18:24:03</span><span class="nk"> &lt;Hauke&gt;</span> ok
+<a name="l-148"></a><span class="tm">18:24:50</span><span class="nk"> &lt;Hauke&gt;</span> is IPv6 working now? there is "
+<a name="l-149"></a><span class="tm">18:24:52</span><span class="nk"> &lt;Hauke&gt;</span> Review recent IPV6 changes
+<a name="l-150"></a><span class="tm">18:24:57</span><span class="nk"> &lt;Hauke&gt;</span> on the list
+<a name="l-151"></a><span class="tm">18:25:16</span><span class="nk"> &lt;jow&gt;</span> the idea is that we can build multiple rootfs images in one go, to let each final device image contain exactly those packages it specified in its default packages (e.g. kmod-usb in tplink units having usb ports)
+<a name="l-152"></a><span class="tm">18:25:38</span><span class="nk"> &lt;jeffree&gt;</span> sorry to be offtopic: does anyone know why wikidevi has been down for days?
+<a name="l-153"></a><span class="tm">18:26:19</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">Hauke:</span> it was never really broken, it just has various quirks
+<a name="l-154"></a><span class="tm">18:26:25</span><span class="nk"> &lt;Hauke&gt;</span> ok
+<a name="l-155"></a><span class="tm">18:26:41</span><span class="nk"> &lt;jow&gt;</span> but all in all I'd say that it works
+<a name="l-156"></a><span class="tm">18:29:07</span><span class="nk"> &lt;jow&gt;</span> anything else here?
+<a name="l-157"></a><span class="tm">18:29:14</span><span class="nk"> &lt;thess&gt;</span> Release names?
+<a name="l-158"></a><span class="tm">18:29:19</span><span class="nk"> &lt;jow&gt;</span> ah yes
+<a name="l-159"></a><span class="tm">18:30:10</span><span class="nk"> &lt;jow&gt;</span> I'm for the pragmatic approach and would just call it LEDE 1, LEDE 2, ... LEDE N
+<a name="l-160"></a><span class="tm">18:30:10</span><span class="nk"> &lt;thess&gt;</span> I have become partial to yy.mm.minor however, it should be the actual release date and not a desire.
+<a name="l-161"></a><span class="tm">18:30:40</span><span class="nk"> &lt;jow&gt;</span> but yy.mm is fine for me too
+<a name="l-162"></a><span class="tm">18:30:57</span><span class="nk"> &lt;jow&gt;</span> I just want to not deal with the code naming anymore
+<a name="l-163"></a><span class="tm">18:31:32</span><span class="nk"> &lt;thess&gt;</span> Fine with me -- projects have names, release have version numbers
+<a name="l-164"></a><span class="tm">18:31:38</span><span class="nk"> &lt;jow&gt;</span> its tedious to find suitable names and without inside knowledge its hard to figure out which version it corresponds to
+<a name="l-165"></a><span class="tm">18:31:47</span><span class="nk"> &lt;jow&gt;</span> I never know how debian 8 is called
+<a name="l-166"></a><span class="tm">18:31:54</span><span class="nk"> &lt;thess&gt;</span> jessie
+<a name="l-167"></a><span class="tm">18:31:58</span><span class="nk"> &lt;lynxis&gt;</span> :)
+<a name="l-168"></a><span class="tm">18:31:59</span><span class="nk"> &lt;jow&gt;</span> and I never know what version "Gutsy Gibbon" is
+<a name="l-169"></a><span class="tm">18:32:03</span><span class="nk"> &lt;jow&gt;</span> ...
+<a name="l-170"></a><span class="tm">18:32:03</span><span class="nk"> &lt;thess&gt;</span> whoops - wrong
+<a name="l-171"></a><span class="tm">18:32:46</span><span class="nk"> &lt;thess&gt;</span> dates are fine - how about use the date we branch and the minor for releases (candidates and actual)
+<a name="l-172"></a><span class="tm">18:33:16</span><span class="nk"> &lt;jow&gt;</span> yeah, something like branchyear.branchmonth.buildnr or something like that
+<a name="l-173"></a><span class="tm">18:33:29</span><span class="nk"> &lt;thess&gt;</span> +1
+<a name="l-174"></a><span class="tm">18:33:53</span><span class="nk"> &lt;KanjiMonster&gt;</span> regarding version numbering, I find the libreoffice approach for rcs sensible, where xx.yy.zz rc1 is just xx.yy.zz.1, rc2 then xx.yy.zz.2 etc, which avoids the rc -&gt; final rename issue for opkg paths
+<a name="l-175"></a><span class="tm">18:34:30</span><span class="nk"> &lt;jow&gt;</span> why not
+<a name="l-176"></a><span class="tm">18:35:19</span><span class="nk"> &lt;Hauke&gt;</span> I prefere LEDE 1, LEDE 2, ... over a date
+<a name="l-177"></a><span class="tm">18:35:20</span><span class="nk"> &lt;jow&gt;</span> what I was aiming at was simply carving out some side branches that represent a release and put aside some buildbot resources to just watch those branches
+<a name="l-178"></a><span class="tm">18:36:03</span><span class="nk"> &lt;jow&gt;</span> e.g. branch master into 16.09 or lede1, then let buildbots build that whenever something is pushed there, much like the current snapshots are done
+<a name="l-179"></a><span class="tm">18:36:07</span><span class="nk"> &lt;jow&gt;</span> this has a few upsides:
+<a name="l-180"></a><span class="tm">18:36:11</span><span class="nk"> &lt;Hauke&gt;</span> having build bot build the branches would be very nice
+<a name="l-181"></a><span class="tm">18:36:23</span><span class="nk"> &lt;jow&gt;</span> - new users always install the latest patch version
+<a name="l-182"></a><span class="tm">18:36:37</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">hauke:</span> the problem with LEDE 1, 2 etc. is these names are more appropriate for a product name than an engineering release
+<a name="l-183"></a><span class="tm">18:36:42</span><span class="nk"> &lt;jow&gt;</span> - rolling out fixes is as easy as cherry picking or push things to the branch
+<a name="l-184"></a><span class="tm">18:37:11</span><span class="nk"> &lt;jow&gt;</span> - no dedicated release maintainer is needed anymore
+<a name="l-185"></a><span class="tm">18:37:40</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">jow:</span> whatever the name, your strategy is good
+<a name="l-186"></a><span class="tm">18:37:53</span><span class="nk"> &lt;Hauke&gt;</span> what do we do when the kernel version or config gets changed, then a full upgrade is needed
+<a name="l-187"></a><span class="tm">18:38:09</span><span class="nk"> &lt;Hauke&gt;</span> I like the strategy
+<a name="l-188"></a><span class="tm">18:38:12</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">Hauke:</span> in an existing release?
+<a name="l-189"></a><span class="tm">18:38:37</span><span class="nk"> &lt;jow&gt;</span> we should simply avoid it
+<a name="l-190"></a><span class="tm">18:38:44</span><span class="nk"> &lt;Hauke&gt;</span> like a minor kernel version update
+<a name="l-191"></a><span class="tm">18:38:49</span><span class="nk"> &lt;jow&gt;</span> we can still just make a new release
+<a name="l-192"></a><span class="tm">18:39:24</span><span class="nk"> &lt;jow&gt;</span> its basically zero effort, just branch, adjust default config, tell buildbot to watch releasebranch++
+<a name="l-193"></a><span class="tm">18:39:27</span><span class="nk"> &lt;rmilecki&gt;</span> i wish names were sortable
+<a name="l-194"></a><span class="tm">18:39:37</span><span class="nk"> &lt;rmilecki&gt;</span> e.g. 1 vs. 12
+<a name="l-195"></a><span class="tm">18:39:42</span><span class="nk"> &lt;rmilecki&gt;</span> so we should have... 001?
+<a name="l-196"></a><span class="tm">18:39:45</span><span class="nk"> &lt;rmilecki&gt;</span> sounds weird
+<a name="l-197"></a><span class="tm">18:40:06</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">rmilecki:</span> sort -n can also sort 1 vs 12
+<a name="l-198"></a><span class="tm">18:40:14</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">jow:</span> sounds good
+<a name="l-199"></a><span class="tm">18:40:16</span><span class="nk"> &lt;rmilecki&gt;</span> yes, but some tools can't
+<a name="l-200"></a><span class="tm">18:40:26</span><span class="nk"> &lt;rmilecki&gt;</span> e.g. i'm not so sure about nginx listing
+<a name="l-201"></a><span class="tm">18:40:27</span><span class="nk"> &lt;KanjiMonster&gt;</span> so back to yy.mm ? ;p
+<a name="l-202"></a><span class="tm">18:40:52</span><span class="nk"> &lt;jow&gt;</span> yeah lets do yy.mm[.buildnr]
+<a name="l-203"></a><span class="tm">18:41:01</span><span class="nk"> &lt;thess&gt;</span> agree w/jow
+<a name="l-204"></a><span class="tm">18:41:02</span><span class="nk"> &lt;wiulinu&gt;</span> +1
+<a name="l-205"></a><span class="tm">18:41:05</span><span class="nk"> &lt;Hauke&gt;</span> will be add luci by default in the stable branch builds?
+<a name="l-206"></a><span class="tm">18:41:11</span><span class="nk"> &lt;jow&gt;</span> I guess so
+<a name="l-207"></a><span class="tm">18:41:16</span><span class="nk"> &lt;rmilecki&gt;</span> ack on both
+<a name="l-208"></a><span class="tm">18:41:20</span><span class="nk"> &lt;rmilecki&gt;</span> yy.dd + luci
+<a name="l-209"></a><span class="tm">18:41:24</span><span class="nk"> &lt;rmilecki&gt;</span> yy.mm ;)
+<a name="l-210"></a><span class="tm">18:42:01</span><span class="nk"> &lt;jow&gt;</span> <span class="topic">#topic </span><span class="topicline">Releases</span>
+<a name="l-211"></a><span class="tm">18:42:12</span><span class="nk"> &lt;jow&gt;</span> <span class="cmd">#agreed </span><span class="cmdline">use buildbots to build release branches</span>
+<a name="l-212"></a><span class="tm">18:42:30</span><span class="nk"> &lt;jow&gt;</span> <span class="cmd">#agreed </span><span class="cmdline">use branch year and month (yy.mm) as version designation</span>
+<a name="l-213"></a><span class="tm">18:42:52</span><span class="nk"> &lt;jow&gt;</span> this all depends on the image building though
+<a name="l-214"></a><span class="tm">18:43:01</span><span class="nk"> &lt;jow&gt;</span> last time we had no eta for that
+<a name="l-215"></a><span class="tm">18:43:13</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">nbd:</span> can you chime in?
+<a name="l-216"></a><span class="tm">18:45:16</span><span class="nk"> &lt;jow&gt;</span> I guess no, so lets move to the openwrt merge discussion?
+<a name="l-217"></a><span class="tm">18:45:35</span><span class="nk"> &lt;rmilecki&gt;</span> i wish to have this completed
+<a name="l-218"></a><span class="tm">18:45:38</span><span class="nk"> &lt;rmilecki&gt;</span> and then take a decision
+<a name="l-219"></a><span class="tm">18:45:47</span><span class="nk"> &lt;rmilecki&gt;</span> see who of is working on what
+<a name="l-220"></a><span class="tm">18:45:56</span><span class="nk"> &lt;rmilecki&gt;</span> and agree on some schedule
+<a name="l-221"></a><span class="tm">18:46:03</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">rmilecki:</span> this = merge or this = release stuff?
+<a name="l-222"></a><span class="tm">18:46:08</span><span class="nk"> &lt;rmilecki&gt;</span> rootfs
+<a name="l-223"></a><span class="tm">18:46:10</span><span class="nk"> &lt;jow&gt;</span> ah
+<a name="l-224"></a><span class="tm">18:46:27</span><span class="nk"> &lt;jow&gt;</span> yeah I wish to have it completed too then carve out a release asap
+<a name="l-225"></a><span class="tm">18:46:33</span><span class="nk"> &lt;lynxis&gt;</span> +1
+<a name="l-226"></a><span class="tm">18:46:45</span><span class="nk"> &lt;blogic&gt;</span> +1
+<a name="l-227"></a><span class="tm">18:48:38</span><span class="nk"> &lt;jow&gt;</span> <span class="cmd">#agreed </span><span class="cmdline">multi rootfs image building needs to be finished asap</span>
+<a name="l-228"></a><span class="tm">18:49:10</span><span class="nk"> &lt;jow&gt;</span> shall we wait for nbd?
+<a name="l-229"></a><span class="tm">18:49:33</span><span class="nk"> &lt;jow&gt;</span> I need to leave soon
+<a name="l-230"></a><span class="tm">18:49:40</span><span class="nk"> &lt;blogic&gt;</span> let me call him
+<a name="l-231"></a><span class="tm">18:49:43</span><span class="nk"> &lt;blogic&gt;</span> 1 sec
+<a name="l-232"></a><span class="tm">18:49:46</span><span class="nk"> &lt;thess&gt;</span> meet again soon?
+<a name="l-233"></a><span class="tm">18:50:10</span><span class="nk"> &lt;nbd&gt;</span> re
+<a name="l-234"></a><span class="tm">18:50:40</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">nbd:</span> comments ?
+<a name="l-235"></a><span class="tm">18:50:58</span><span class="nk"> &lt;nbd&gt;</span> just a moment, need to read backlog
+<a name="l-236"></a><span class="tm">18:51:30</span><span class="nk"> &lt;nbd&gt;</span> image building is still a bit hard to predict, but i got most of the groundwork in place now
+<a name="l-237"></a><span class="tm">18:51:42</span><span class="nk"> &lt;nbd&gt;</span> there is now a way to deal with ubifs and its different flash settings properly
+<a name="l-238"></a><span class="tm">18:51:45</span><span class="nk"> &lt;nbd&gt;</span> using the new image format
+<a name="l-239"></a><span class="tm">18:51:49</span><span class="nk"> &lt;nbd&gt;</span> i've converted some targets to it already
+<a name="l-240"></a><span class="tm">18:52:08</span><span class="nk"> &lt;nbd&gt;</span> i should be able to make legacy images work with the new rootfs building code as well
+<a name="l-241"></a><span class="tm">18:52:48</span><span class="nk"> &lt;nbd&gt;</span> if no unexpected issues show up, i hope to be able to get a prototype of it working in maybe 2 weeks
+<a name="l-242"></a><span class="tm">18:52:55</span><span class="nk"> &lt;nbd&gt;</span> it requires more porting work though
+<a name="l-243"></a><span class="tm">18:53:07</span><span class="nk"> &lt;nbd&gt;</span> to make targets use either the new image building code or at least the LegacyDevice wrappers
+<a name="l-244"></a><span class="tm">18:53:38</span><span class="nk"> &lt;jow&gt;</span> I guess we can all volunteer in converting the target parts
+<a name="l-245"></a><span class="tm">18:54:04</span><span class="nk"> &lt;thess&gt;</span> OK
+<a name="l-246"></a><span class="tm">18:54:59</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">jow:</span> most is done
+<a name="l-247"></a><span class="tm">18:55:08</span><span class="nk"> &lt;blogic&gt;</span> rt305x is missing, i forgot about it
+<a name="l-248"></a><span class="tm">18:55:08</span><span class="nk"> &lt;nbd&gt;</span> got mvebu fully ported over in my staging tree
+<a name="l-249"></a><span class="tm">18:55:14</span><span class="nk"> &lt;nbd&gt;</span> kirkwood definitely needs some love
+<a name="l-250"></a><span class="tm">18:55:26</span><span class="nk"> &lt;thess&gt;</span> legacy nand devices don't produce images
+<a name="l-251"></a><span class="tm">18:55:46</span><span class="nk"> &lt;thess&gt;</span> maybe related to ubi-utils
+<a name="l-252"></a><span class="tm">18:56:03</span><span class="nk"> &lt;lynxis&gt;</span> <span class="cmd">#action </span><span class="cmdline">Give some love to kirkwood</span>
+<a name="l-253"></a><span class="tm">18:56:58</span><span class="nk"> &lt;jow&gt;</span> anything else on the image building topic?
+<a name="l-254"></a><span class="tm">18:57:34</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">jow:</span> If you need another target builder, I have have one ready to go.
+<a name="l-255"></a><span class="tm">18:57:35</span><span class="nk"> &lt;lynxis&gt;</span> i would take care of reproducible-build on https://reproducible-builds.org/
+<a name="l-256"></a><span class="tm">18:57:36</span><span class="nk"> &lt;lede-bot&gt;</span> <span class="hi">Title:</span> reproducible-builds.org (at reproducible-builds.org)
+<a name="l-257"></a><span class="tm">18:58:07</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">jow:</span> only that i wish i had not had the idea :-)
+<a name="l-258"></a><span class="tm">18:58:51</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">blogic:</span> but it is long overdue
+<a name="l-259"></a><span class="tm">18:58:56</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">jow:</span> i know
+<a name="l-260"></a><span class="tm">18:59:09</span><span class="nk"> &lt;jow&gt;</span> ok, remerge topic?
+<a name="l-261"></a><span class="tm">18:59:19</span><span class="nk"> &lt;blogic&gt;</span> ok
+<a name="l-262"></a><span class="tm">18:59:29</span><span class="nk"> &lt;jow&gt;</span> <span class="topic">#topic </span><span class="topicline">OpenWrt merge discussion</span>
+<a name="l-263"></a><span class="tm">18:59:48</span><span class="nk"> &lt;jow&gt;</span> must things that happened in the last weeks can be seen on the mailing list
+<a name="l-264"></a><span class="tm">19:00:44</span><span class="nk"> &lt;jow&gt;</span> prpl reiterated their wish for us to sit together and work out the issues
+<a name="l-265"></a><span class="tm">19:01:05</span><span class="nk"> &lt;Hauke&gt;</span> is there big intrest in a merge ? The discussion on the list stoped 2 weeks ago
+<a name="l-266"></a><span class="tm">19:01:23</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> i think yes
+<a name="l-267"></a><span class="tm">19:01:33</span><span class="nk"> &lt;jow&gt;</span> personally I'm a bit lost in the topic
+<a name="l-268"></a><span class="tm">19:01:42</span><span class="nk"> &lt;jow&gt;</span> not sure waht we're still supposed to do
+<a name="l-269"></a><span class="tm">19:01:43</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> i guess people are scared to be flamed at so they dont get involved
+<a name="l-270"></a><span class="tm">19:01:51</span><span class="nk"> &lt;rmilecki&gt;</span> if you ask me, I don't have too much interest, i'm unfortunately getting annyoed by remaining OpenWrt ppl from time to time :(
+<a name="l-271"></a><span class="tm">19:01:51</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">jow:</span> agreed
+<a name="l-272"></a><span class="tm">19:02:15</span><span class="nk"> &lt;KanjiMonster&gt;</span> kaloz being MIA doesn't help either (at least it seems that way)
+<a name="l-273"></a><span class="tm">19:02:31</span><span class="nk"> &lt;jow&gt;</span> I helped zoltan to migrate the openwrt wiki to a non-lede machine
+<a name="l-274"></a><span class="tm">19:02:35</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">jow:</span> i honestly would not mind, however i think we cant make it happen
+<a name="l-275"></a><span class="tm">19:02:37</span><span class="nk"> &lt;nbd&gt;</span> yeah, last i heard from him he wanted to try to put together an opportunity for a face to face meeting
+<a name="l-276"></a><span class="tm">19:02:41</span><span class="nk"> &lt;blogic&gt;</span> its up to the owrt folks i guess
+<a name="l-277"></a><span class="tm">19:02:51</span><span class="nk"> &lt;nbd&gt;</span> but i didn't hear back from him
+<a name="l-278"></a><span class="tm">19:03:07</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">jow:</span> the thing is we did everything thewy asked, name conditions, propose a process, enter discussions
+<a name="l-279"></a><span class="tm">19:04:16</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">KanjiMonster:</span> what is the situation on the openwrt side? is there any more activity in irc?
+<a name="l-280"></a><span class="tm">19:05:00</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">nbd:</span> so the paris meeting was just happy talk?
+<a name="l-281"></a><span class="tm">19:05:54</span><span class="nk"> &lt;KanjiMonster&gt;</span> <span class="hi">jow:</span> the public channels are still rather active
+<a name="l-282"></a><span class="tm">19:06:32</span><span class="nk"> &lt;jow&gt;</span> ok
+<a name="l-283"></a><span class="tm">19:06:46</span><span class="nk"> &lt;nbd&gt;</span> <span class="hi">jow:</span> mostly. i still do think that a face to face meeting would be quite important for getting closer to being able to get the remerge discussion going in a constructive direction again
+<a name="l-284"></a><span class="tm">19:06:59</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">nbd:</span> the question is what should be in the end
+<a name="l-285"></a><span class="tm">19:07:19</span><span class="nk"> &lt;jow&gt;</span> personally I neither care about the openwrt name nor about the old openwrt codebase
+<a name="l-286"></a><span class="tm">19:07:43</span><span class="nk"> &lt;jow&gt;</span> and I know that we cannot handle wiki and forum without serious volunteer help
+<a name="l-287"></a><span class="tm">19:07:50</span><span class="nk"> &lt;Hauke&gt;</span> like I said having a F2F meeting would probably exclude some people that have problems traveling
+<a name="l-288"></a><span class="tm">19:08:07</span><span class="nk"> &lt;jow&gt;</span> well f2f could be a video conference too I think
+<a name="l-289"></a><span class="tm">19:08:29</span><span class="nk"> &lt;lynxis&gt;</span> I like f2f meeting and it gives us much more than a video conference
+<a name="l-290"></a><span class="tm">19:09:00</span><span class="nk"> &lt;jow&gt;</span> so I guess one thing we should figure out first;
+<a name="l-291"></a><span class="tm">19:09:07</span><span class="nk"> &lt;Hauke&gt;</span> someone added a meeting at the ELCE
+<a name="l-292"></a><span class="tm">19:09:17</span><span class="nk"> &lt;Hauke&gt;</span> I assume that many people will be there
+<a name="l-293"></a><span class="tm">19:09:46</span><span class="nk"> &lt;jow&gt;</span> is any active lede developer willing to support a remerge and willing to work on a reunified project or is someone having objections
+<a name="l-294"></a><span class="tm">19:09:54</span><span class="nk"> &lt;Hauke&gt;</span> I think we shold do an audio/video meeting first and then decide for F2F
+<a name="l-295"></a><span class="tm">19:10:00</span><span class="nk"> &lt;jow&gt;</span> or rather are all instead of is any
+<a name="l-296"></a><span class="tm">19:10:28</span><span class="nk"> &lt;Hauke&gt;</span> I would like to see us merge again
+<a name="l-297"></a><span class="tm">19:10:29</span><span class="nk"> &lt;jow&gt;</span> and, where do we want to end up, what is the desired outcome
+<a name="l-298"></a><span class="tm">19:11:19</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">jow:</span> well, we already agreed on what we think should be the way
+<a name="l-299"></a><span class="tm">19:11:47</span><span class="nk"> &lt;blogic&gt;</span> in short, have them join lede and then use the old brand in one way or another after the domain is handed over to spi
+<a name="l-300"></a><span class="tm">19:12:02</span><span class="nk"> &lt;blogic&gt;</span> i doubt we would find much support for doing it the other way around
+<a name="l-301"></a><span class="tm">19:12:22</span><span class="nk"> &lt;rmilecki&gt;</span> <span class="hi">blogic:</span> there is more than domain if u ask me
+<a name="l-302"></a><span class="tm">19:12:34</span><span class="nk"> &lt;rmilecki&gt;</span> mail servers, mailing lists, irc channels, servers
+<a name="l-303"></a><span class="tm">19:12:36</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">rmilecki:</span> yes that was the short version
+<a name="l-304"></a><span class="tm">19:12:37</span><span class="nk"> &lt;rmilecki&gt;</span> what about them?
+<a name="l-305"></a><span class="tm">19:12:45</span><span class="nk"> &lt;rmilecki&gt;</span> nto that I expect a full answer
+<a name="l-306"></a><span class="tm">19:12:48</span><span class="nk"> &lt;rmilecki&gt;</span> just many things to consider
+<a name="l-307"></a><span class="tm">19:12:54</span><span class="nk"> &lt;blogic&gt;</span> sure
+<a name="l-308"></a><span class="tm">19:13:05</span><span class="nk"> &lt;jow&gt;</span> mailing lists can be forwarded
+<a name="l-309"></a><span class="tm">19:13:16</span><span class="nk"> &lt;jow&gt;</span> irc channels live and die by their participants
+<a name="l-310"></a><span class="tm">19:13:28</span><span class="nk"> &lt;rmilecki&gt;</span> <span class="hi">jow:</span> they are maintained by someone at OpenWrt who does random things silently
+<a name="l-311"></a><span class="tm">19:13:31</span><span class="nk"> &lt;jow&gt;</span> servers can be repurposed
+<a name="l-312"></a><span class="tm">19:13:46</span><span class="nk"> &lt;rmilecki&gt;</span> that's why I can't figure out a good way to work with OpenWrt
+<a name="l-313"></a><span class="tm">19:14:39</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">rmilecki:</span> but thats the exact problem, once you're outside of the openwrt core its a nebulous thing
+<a name="l-314"></a><span class="tm">19:15:02</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">jow:</span> i never realized how much until i was not part of the core anymore
+<a name="l-315"></a><span class="tm">19:15:02</span><span class="nk"> &lt;thess&gt;</span> Does OpenWrt represent more to us than just resources.
+<a name="l-316"></a><span class="tm">19:15:09</span><span class="nk"> &lt;jow&gt;</span> its almost impossible to get a proper handle onto it, much like on the entire remerge discussion in the first place
+<a name="l-317"></a><span class="tm">19:15:31</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">thess:</span> well, at least some of us have a histroy with it
+<a name="l-318"></a><span class="tm">19:15:49</span><span class="nk"> &lt;KanjiMonster&gt;</span> <span class="hi">thess:</span> it's also brand name / recognition. everyone knows openwrt, but lede is "new"
+<a name="l-319"></a><span class="tm">19:15:49</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">thess:</span> and at least some $corp had made an investment, which they are now worried about
+<a name="l-320"></a><span class="tm">19:16:06</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">thess:</span> for me its nostalgia, a more or less strong brand name and community resources
+<a name="l-321"></a><span class="tm">19:16:53</span><span class="nk"> &lt;jow&gt;</span> but personally I do not really care about the brand
+<a name="l-322"></a><span class="tm">19:17:06</span><span class="nk"> &lt;wiulinu&gt;</span> brand name isnt as important as most people think, people who use openwrt also know about lede, most of them.
+<a name="l-323"></a><span class="tm">19:17:17</span><span class="nk"> &lt;jow&gt;</span> thats my perception as well
+<a name="l-324"></a><span class="tm">19:17:33</span><span class="nk"> &lt;thess&gt;</span> So our choices seem to be: attract the resources, or get openwrt to be organized and managed as LEDE
+<a name="l-325"></a><span class="tm">19:17:46</span><span class="nk"> &lt;jow&gt;</span> I guess it is more about aligning with the community, everything else is replacable (in my opinion)
+<a name="l-326"></a><span class="tm">19:18:35</span><span class="nk"> &lt;KanjiMonster&gt;</span> having both openwrt and lede also splits contributions; NXP chose openwrt for their initial submission of their amd64 platform
+<a name="l-327"></a><span class="tm">19:18:35</span><span class="nk"> &lt;blogic&gt;</span> it would be nice to get it resolved in one way or the other
+<a name="l-328"></a><span class="tm">19:18:47</span><span class="nk"> &lt;blogic&gt;</span> we have a long history after all
+<a name="l-329"></a><span class="tm">19:19:59</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">KanjiMonster:</span> sure but is there someone acting upon those submissions?
+<a name="l-330"></a><span class="tm">19:20:05</span><span class="nk"> &lt;Hauke&gt;</span> as an external contributor who is not so activae in the commonity it is now hard to decide where to contribute
+<a name="l-331"></a><span class="tm">19:20:34</span><span class="nk"> &lt;KanjiMonster&gt;</span> <span class="hi">jow:</span> wigyori is at least merging pull requests on github
+<a name="l-332"></a><span class="tm">19:21:22</span><span class="nk"> &lt;jow&gt;</span> ok
+<a name="l-333"></a><span class="tm">19:21:48</span><span class="nk"> &lt;jow&gt;</span> so what shall we do in adition to what we already did?
+<a name="l-334"></a><span class="tm">19:21:58</span><span class="nk"> &lt;jow&gt;</span> simply ask them to join us, thne share the name?
+<a name="l-335"></a><span class="tm">19:22:24</span><span class="nk"> &lt;jow&gt;</span> we can keep telling eachother that we would like to meet and discuss but I see very little momentum
+<a name="l-336"></a><span class="tm">19:22:49</span><span class="nk"> &lt;thess&gt;</span> It would help us going forward if we had a Wiki &amp; Forum. Who manages the openwrt ones now?
+<a name="l-337"></a><span class="tm">19:23:03</span><span class="nk"> &lt;jow&gt;</span> and more importantly I do not even see any indication of discussions similar to ours going on on the openwrt side
+<a name="l-338"></a><span class="tm">19:23:17</span><span class="nk"> &lt;Hauke&gt;</span> last week I asked in the thread to find a date for a audio meeting
+<a name="l-339"></a><span class="tm">19:23:55</span><span class="nk"> &lt;Hauke&gt;</span> but got now response so far: http://comments.gmane.org/gmane.comp.embedded.openwrt.devel/40938
+<a name="l-340"></a><span class="tm">19:23:56</span><span class="nk"> &lt;lede-bot&gt;</span> <span class="hi">Title:</span> OpenWrt Development List (at comments.gmane.org)
+<a name="l-341"></a><span class="tm">19:24:02</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">thess:</span> I managed the oepnwrt wiki until recently and helped zoltan to migrate
+<a name="l-342"></a><span class="tm">19:24:14</span><span class="nk"> &lt;Hauke&gt;</span> that was the reason for my question if anybody is intrested in a merge
+<a name="l-343"></a><span class="tm">19:24:21</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">thess:</span> the forum is administered by imre iirc
+<a name="l-344"></a><span class="tm">19:24:23</span><span class="nk"> &lt;KanjiMonster&gt;</span> since wigyori seems to run openwrt now, maybe we just need to coordinate with him
+<a name="l-345"></a><span class="tm">19:24:48</span><span class="nk"> &lt;KanjiMonster&gt;</span> (but I guess the final blocker for some things remains kaloz ...)
+<a name="l-346"></a><span class="tm">19:24:56</span><span class="nk"> &lt;Hauke&gt;</span> at least he is the most active person there
+<a name="l-347"></a><span class="tm">19:25:10</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">KanjiMonster:</span> you mean because kaloz is mia?
+<a name="l-348"></a><span class="tm">19:25:44</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">thess:</span> we do have a copy of the openwrt wiki data lying around on our download server
+<a name="l-349"></a><span class="tm">19:25:48</span><span class="nk"> &lt;Hauke&gt;</span> I do not want to wait for kaloz forever
+<a name="l-350"></a><span class="tm">19:26:04</span><span class="nk"> &lt;KanjiMonster&gt;</span> <span class="hi">jow:</span> assuming there are some adminstrative things for the domain/servers for which noone else has access/the rights
+<a name="l-351"></a><span class="tm">19:26:15</span><span class="nk"> &lt;jow&gt;</span> we could also try to talk to mikwe
+<a name="l-352"></a><span class="tm">19:26:17</span><span class="nk"> &lt;jow&gt;</span> <span class="cmd">#*mike</span><span class="cmdline"></span>
+<a name="l-353"></a><span class="tm">19:26:58</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">thess:</span> but not sure if we really want to host a wiki copy with s/OpenWrt/LEDE/
+<a name="l-354"></a><span class="tm">19:27:17</span><span class="nk"> &lt;thess&gt;</span> Wasn't suggesting that!
+<a name="l-355"></a><span class="tm">19:27:29</span><span class="nk"> &lt;KanjiMonster&gt;</span> <span class="hi">jow:</span> I guess that would be a viable workaround
+<a name="l-356"></a><span class="tm">19:28:58</span><span class="nk"> &lt;jow&gt;</span> <span class="hi">thess:</span> that was partly joking; its just that any kind of wiki we'd set up would contain mostly contain redundant info
+<a name="l-357"></a><span class="tm">19:29:20</span><span class="nk"> &lt;jow&gt;</span> and I didn't want to maintain the authorative documentation in the wiki but rather in git
+<a name="l-358"></a><span class="tm">19:29:41</span><span class="nk"> &lt;jow&gt;</span> so what remains is the community wiki contents and those are already well served by the openwrt wiki
+<a name="l-359"></a><span class="tm">19:30:33</span><span class="nk"> &lt;jow&gt;</span> similar to the forum, the topics discussed there are already openwrt/lede universal, its just running under the openwrt domain
+<a name="l-360"></a><span class="tm">19:30:50</span><span class="nk"> &lt;jow&gt;</span> so it likely makes no sense to start a different competing forum with the very same topic scope
+<a name="l-361"></a><span class="tm">19:31:49</span><span class="nk"> &lt;thess&gt;</span> Any way to cross-reference without pissing people off? Are the OpenWrt forum moderators amenable to LEDE topics?
+<a name="l-362"></a><span class="tm">19:32:36</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">thess:</span> lede users on the owrt forum started to refer to usign "the drak side" because they get flamed ;)
+<a name="l-363"></a><span class="tm">19:32:38</span><span class="nk"> &lt;jow&gt;</span> that would be the big question
+<a name="l-364"></a><span class="tm">19:32:59</span><span class="nk"> &lt;jow&gt;</span> a cheap diplomatic solutiopn would be a LEDE subforum or something
+<a name="l-365"></a><span class="tm">19:33:08</span><span class="nk"> &lt;jow&gt;</span> and let openwrt treat us as a community build
+<a name="l-366"></a><span class="tm">19:33:15</span><span class="nk"> &lt;thess&gt;</span> The Wike has too much valuable data to loose. The dev doc could use some updates, etc.
+<a name="l-367"></a><span class="tm">19:33:25</span><span class="nk"> &lt;thess&gt;</span> s/Wike/Wiki/
+<a name="l-368"></a><span class="tm">19:34:10</span><span class="nk"> &lt;blogic&gt;</span> i am afraid i need to leave now
+<a name="l-369"></a><span class="tm">19:34:19</span><span class="nk"> &lt;thess&gt;</span> l8r
+<a name="l-370"></a><span class="tm">19:34:36</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">thess:</span> gn8
+<a name="l-371"></a><span class="tm">19:34:50</span><span class="nk"> &lt;jow&gt;</span> me too, shall we summarize hise point on the public list? maybe we can facilitate some more feedback there?
+<a name="l-372"></a><span class="tm">19:35:13</span><span class="nk"> &lt;jow&gt;</span> s/hise point/this points/
+<a name="l-373"></a><span class="tm">19:35:18</span><span class="nk"> &lt;Hauke&gt;</span> yes jow will you do this?
+<a name="l-374"></a><span class="tm">19:35:28</span><span class="nk"> &lt;jow&gt;</span> yes but probably not before tomorrow
+<a name="l-375"></a><span class="tm">19:35:35</span><span class="nk"> &lt;Hauke&gt;</span> mo problem
+<a name="l-376"></a><span class="tm">19:35:48</span><span class="nk"> &lt;thess&gt;</span> Yes, we could try a further public discussion.
+<a name="l-377"></a><span class="tm">19:36:27</span><span class="nk"> &lt;jow&gt;</span> <span class="cmd">#action </span><span class="cmdline">Try to work out more details regarding the LEDE/OpenWrt coexistence on the public list</span>
+<a name="l-378"></a><span class="tm">19:36:34</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">jow:</span> Your points (topics) in a old mail message may be a good start
+<a name="l-379"></a><span class="tm">19:37:07</span><span class="nk"> &lt;jow&gt;</span> can I close the meeting log?
+<a name="l-380"></a><span class="tm">19:37:11</span><span class="nk"> &lt;thess&gt;</span> OK
+<a name="l-381"></a><span class="tm">19:37:13</span><span class="nk"> &lt;Hauke&gt;</span> yes
+<a name="l-382"></a><span class="tm">19:37:19</span><span class="nk"> &lt;jow&gt;</span> <span class="cmd">#endmeeting</span><span class="cmdline"></span></pre>
+</body></html>

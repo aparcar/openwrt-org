@@ -1,0 +1,618 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<title>#lede-adm log</title>
+<style type="text/css">
+/* For the .log.html */
+pre { /*line-height: 125%;*/
+      white-space: pre-wrap; }
+body { background: #f0f0f0; }
+
+body .tm  { color: #007020 }                      /* time */
+body .nk  { color: #062873; font-weight: bold }   /* nick, regular */
+body .nka { color: #007020; font-weight: bold }  /* action nick */
+body .ac  { color: #00A000 }                      /* action line */
+body .hi  { color: #4070a0 }                 /* hilights */
+/* Things to make particular MeetBot commands stick out */
+body .topic     { color: #007020; font-weight: bold }
+body .topicline { color: #000080; font-weight: bold }
+body .cmd       { color: #007020; font-weight: bold }
+body .cmdline  { font-weight: bold }
+
+</style>
+</head>
+
+<body>
+<pre><a name="l-1"></a><span class="tm">19:06:00</span><span class="nk"> &lt;Hauke&gt;</span> <span class="cmd">#startmeeting</span><span class="cmdline"></span>
+<a name="l-2"></a><span class="tm">19:06:00</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">blogic:</span> please allow the meeting bot to write
+<a name="l-3"></a><span class="tm">19:06:00</span><span class="nk"> &lt;neoraider&gt;</span> I guess it should get mod privs, so it can set topic etc.
+<a name="l-4"></a><span class="tm">19:07:00</span><span class="nk"> &lt;blogic&gt;</span> what nick does it have ?
+<a name="l-5"></a><span class="tm">19:07:00</span><span class="nk"> &lt;blogic&gt;</span> there is no lede-bot here :-)
+<a name="l-6"></a><span class="tm">19:08:00</span><span class="nk"> &lt;blogic&gt;</span> this is starting well
+<a name="l-7"></a><span class="tm">19:09:00</span><span class="nk"> &lt;Hauke&gt;</span> first item is     Infrastructure -&gt; bug tracing
+<a name="l-8"></a><span class="tm">19:09:00</span><span class="nk"> &lt;blogic&gt;</span> ok
+<a name="l-9"></a><span class="tm">19:09:00</span><span class="nk"> &lt;Hauke&gt;</span> the agenda can be found here: http://piratepad.net/RRwsaOrqIK
+<a name="l-10"></a><span class="tm">19:10:00</span><span class="nk"> &lt;blogic&gt;</span> ok
+<a name="l-11"></a><span class="tm">19:10:00</span><span class="nk"> &lt;thess&gt;</span> Is mantis available on a host somewhere or do we need stage our own?
+<a name="l-12"></a><span class="tm">19:10:00</span><span class="nk"> &lt;blogic&gt;</span> we need to stage our own, stalled by not having an email account for it yet
+<a name="l-13"></a><span class="tm">19:11:00</span><span class="nk"> &lt;blogic&gt;</span> with out that account we cannot make the email 2 mantis plugin work which is the thing we want to test ride
+<a name="l-14"></a><span class="tm">19:11:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">nbd:</span> will you have time for that email setu durign this week ?
+<a name="l-15"></a><span class="tm">19:11:00</span><span class="nk"> &lt;Hauke&gt;</span> someone at wcw said that he has experience with makeing trac fast
+<a name="l-16"></a><span class="tm">19:11:00</span><span class="nk"> &lt;nbd&gt;</span> <span class="hi">blogic:</span> yes
+<a name="l-17"></a><span class="tm">19:11:00</span><span class="nk"> &lt;nbd&gt;</span> <span class="hi">Hauke:</span> yes, it was roh
+<a name="l-18"></a><span class="tm">19:11:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> that is option 2, trac without the commit/broswe/timeline foo
+<a name="l-19"></a><span class="tm">19:12:00 </span><span class="nka">* stintel</span> <span class="ac">here too</span>
+<a name="l-20"></a><span class="tm">19:12:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">stintel:</span> hi
+<a name="l-21"></a><span class="tm">19:12:00</span><span class="nk"> &lt;Noltari&gt;</span> hi, sorry I'm late, the conference lasted longer than expected
+<a name="l-22"></a><span class="tm">19:12:00</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">blogic:</span> did you had a closer look at mentis?
+<a name="l-23"></a><span class="tm">19:13:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> yes
+<a name="l-24"></a><span class="tm">19:13:00</span><span class="nk"> &lt;blogic&gt;</span> the scary bit that put me off, its written in php
+<a name="l-25"></a><span class="tm">19:13:00</span><span class="nk"> &lt;blogic&gt;</span> next the email account was not up and running so i tured to more pressing matters
+<a name="l-26"></a><span class="tm">19:13:00</span><span class="nk"> &lt;Noltari&gt;</span> <span class="hi">blogic:</span> what's the problem with php? :?
+<a name="l-27"></a><span class="tm">19:14:00</span><span class="nk"> &lt;blogic&gt;</span> https://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/
+<a name="l-28"></a><span class="tm">19:14:00</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">blogic:</span> Not so scary, I did quite a bit of work with PHP a few years ago. No worse than any other scripting thingie
+<a name="l-29"></a><span class="tm">19:14:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">thess:</span> yeah
+<a name="l-30"></a><span class="tm">19:14:00</span><span class="nk"> &lt;blogic&gt;</span> we would just need to be aware of it and make sure we keep it updated
+<a name="l-31"></a><span class="tm">19:15:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">thess:</span> could you help setup a test instance ?
+<a name="l-32"></a><span class="tm">19:15:00</span><span class="nk"> &lt;Hauke&gt;</span> can you configure some mandatory fields, like affetcetd version number?
+<a name="l-33"></a><span class="tm">19:15:00</span><span class="nk"> &lt;neoraider&gt;</span> I've used Mantis only once and found it very confusing, but maybe that changes when you get used to it
+<a name="l-34"></a><span class="tm">19:15:00</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">blogic:</span> certainly - just tell me where you want it
+<a name="l-35"></a><span class="tm">19:16:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">neoraider:</span> compared to trac, whats your feeling ?
+<a name="l-36"></a><span class="tm">19:16:00</span><span class="nk"> &lt;neoraider&gt;</span> A collegue also recommended Bugspray to me, it is much simpler than other bug trackers and might be powerful enough: http://www.flyspray.org/
+<a name="l-37"></a><span class="tm">19:16:00</span><span class="nk"> &lt;neoraider&gt;</span> blogic, I found Mantis's interface more confusing than that of Trac
+<a name="l-38"></a><span class="tm">19:17:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">neoraider:</span> ok
+<a name="l-39"></a><span class="tm">19:17:00</span><span class="nk"> &lt;stintel&gt;</span> from the brief time I used mantis I remember not liking it much, but that's a few years ago
+<a name="l-40"></a><span class="tm">19:17:00</span><span class="nk"> &lt;blogic&gt;</span> fine
+<a name="l-41"></a><span class="tm">19:17:00</span><span class="nk"> &lt;blogic&gt;</span> so lets assume it was a bad idea ?
+<a name="l-42"></a><span class="tm">19:17:00</span><span class="nk"> &lt;Noltari&gt;</span> <span class="hi">neoraider:</span> that one looks good and pretty simple to use
+<a name="l-43"></a><span class="tm">19:18:00</span><span class="nk"> &lt;stintel&gt;</span> I have to say I like Jira, but I woulnd't want to host it really
+<a name="l-44"></a><span class="tm">19:19:00</span><span class="nk"> &lt;blogic&gt;</span> ok, lets discuss this further during the week
+<a name="l-45"></a><span class="tm">19:19:00</span><span class="nk"> &lt;Hauke&gt;</span> I also like jira as a user ;-)
+<a name="l-46"></a><span class="tm">19:19:00</span><span class="nk"> &lt;blogic&gt;</span> and not stall on this, looks like we wont get to a conclusion today
+<a name="l-47"></a><span class="tm">19:20:00</span><span class="nk"> &lt;Hauke&gt;</span> ok so no real progress on the bug tracing
+<a name="l-48"></a><span class="tm">19:20:00</span><span class="nk"> &lt;blogic&gt;</span> yep
+<a name="l-49"></a><span class="tm">19:20:00</span><span class="nk"> &lt;Hauke&gt;</span> next topic domain registrar
+<a name="l-50"></a><span class="tm">19:20:00</span><span class="nk"> &lt;neoraider&gt;</span> While it's not nice, using the Github tracker will have to do for now
+<a name="l-51"></a><span class="tm">19:20:00</span><span class="nk"> &lt;lynxis&gt;</span> wait. I would like to discuss the github issues
+<a name="l-52"></a><span class="tm">19:20:00</span><span class="nk"> &lt;lynxis&gt;</span> because they are already used atm.
+<a name="l-53"></a><span class="tm">19:21:00</span><span class="nk"> &lt;stintel&gt;</span> indeed. do we want that or do we disable the issue tracker ?
+<a name="l-54"></a><span class="tm">19:21:00</span><span class="nk"> &lt;Hauke&gt;</span> ok back to issues ;-)
+<a name="l-55"></a><span class="tm">19:21:00</span><span class="nk"> &lt;stintel&gt;</span> because if we are not going to follow up issues there it will upset users
+<a name="l-56"></a><span class="tm">19:21:00</span><span class="nk"> &lt;neoraider&gt;</span> I think we should keep it enabled until we have a proper tracker
+<a name="l-57"></a><span class="tm">19:21:00</span><span class="nk"> &lt;lynxis&gt;</span> +1
+<a name="l-58"></a><span class="tm">19:21:00</span><span class="nk"> &lt;Hauke&gt;</span> is tehre an API to the github issue tracker?
+<a name="l-59"></a><span class="tm">19:22:00</span><span class="nk"> &lt;lynxis&gt;</span> yes
+<a name="l-60"></a><span class="tm">19:22:00</span><span class="nk"> &lt;stintel&gt;</span> looks like it: https://developer.github.com/v3/issues/
+<a name="l-61"></a><span class="tm">19:23:00</span><span class="nk"> &lt;blogic&gt;</span> so we can extract them if we have something new
+<a name="l-62"></a><span class="tm">19:23:00</span><span class="nk"> &lt;blogic&gt;</span> goodie
+<a name="l-63"></a><span class="tm">19:23:00</span><span class="nk"> &lt;Hauke&gt;</span> ok so we let github issue open for now
+<a name="l-64"></a><span class="tm">19:24:00</span><span class="nk"> &lt;blogic&gt;</span> ok
+<a name="l-65"></a><span class="tm">19:24:00</span><span class="nk"> &lt;Hauke&gt;</span> next topic?
+<a name="l-66"></a><span class="tm">19:24:00</span><span class="nk"> &lt;thess&gt;</span> I have a system here, I can stage some bug/iss
+<a name="l-67"></a><span class="tm">19:24:00</span><span class="nk"> &lt;thess&gt;</span> ue tracking software for us to try
+<a name="l-68"></a><span class="tm">19:24:00</span><span class="nk"> &lt;blogic&gt;</span> sure
+<a name="l-69"></a><span class="tm">19:25:00</span><span class="nk"> &lt;blogic&gt;</span> let us discuss which to use during the next week
+<a name="l-70"></a><span class="tm">19:25:00</span><span class="nk"> &lt;Hauke&gt;</span> next topic domain registrar
+<a name="l-71"></a><span class="tm">19:25:00</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">thess:</span> can you take this please
+<a name="l-72"></a><span class="tm">19:25:00</span><span class="nk"> &lt;thess&gt;</span> Yes, I pointed jow at EasyDNS earlier, haven't heard back from himm
+<a name="l-73"></a><span class="tm">19:26:00</span><span class="nk"> &lt;thess&gt;</span> I have been using EasyDNS for both personal and corporate registrations for many years.
+<a name="l-74"></a><span class="tm">19:26:00</span><span class="nk"> &lt;blogic&gt;</span> i have to admit i have no insight into that stuff
+<a name="l-75"></a><span class="tm">19:26:00</span><span class="nk"> &lt;Hauke&gt;</span> what about http://osuosl.org/ ?
+<a name="l-76"></a><span class="tm">19:27:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">thess:</span> what country is that hosted in ?
+<a name="l-77"></a><span class="tm">19:27:00</span><span class="nk"> &lt;blogic&gt;</span> looks like canada ?
+<a name="l-78"></a><span class="tm">19:27:00</span><span class="nk"> &lt;thess&gt;</span> Toronto,CA
+<a name="l-79"></a><span class="tm">19:27:00</span><span class="nk"> &lt;lynxis&gt;</span> i don't think they provide dns service.
+<a name="l-80"></a><span class="tm">19:27:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">lynxis:</span> which of the 2
+<a name="l-81"></a><span class="tm">19:28:00</span><span class="nk"> &lt;lynxis&gt;</span> osuosl.org ^
+<a name="l-82"></a><span class="tm">19:28:00</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">lynxis:</span> you mean OSL?
+<a name="l-83"></a><span class="tm">19:29:00</span><span class="nk"> &lt;thess&gt;</span> EasyDNS is a full service, IANA registrar. Their service folks always answer quick and are incredibly helpful resolving issues
+<a name="l-84"></a><span class="tm">19:29:00</span><span class="nk"> &lt;thess&gt;</span> I have not vested interest - just a very satisfied customer
+<a name="l-85"></a><span class="tm">19:29:00</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">thess:</span> if you already have positive experience with easydns we can take them
+<a name="l-86"></a><span class="tm">19:29:00</span><span class="nk"> &lt;Hauke&gt;</span> who should own the domains?
+<a name="l-87"></a><span class="tm">19:30:00</span><span class="nk"> &lt;blogic&gt;</span> SPI
+<a name="l-88"></a><span class="tm">19:30:00</span><span class="nk"> &lt;Hauke&gt;</span> I am for giving them to spi
+<a name="l-89"></a><span class="tm">19:30:00</span><span class="nk"> &lt;blogic&gt;</span> +1
+<a name="l-90"></a><span class="tm">19:30:00</span><span class="nk"> &lt;stintel&gt;</span> +1 SPI
+<a name="l-91"></a><span class="tm">19:30:00</span><span class="nk"> &lt;thess&gt;</span> sure
+<a name="l-92"></a><span class="tm">19:30:00 </span><span class="nka">* lynxis</span> <span class="ac">have no opinion on that</span>
+<a name="l-93"></a><span class="tm">19:30:00</span><span class="nk"> &lt;neoraider&gt;</span> Makes sense, +1
+<a name="l-94"></a><span class="tm">19:30:00</span><span class="nk"> &lt;Hauke&gt;</span> anybody against API + easyDNS?
+<a name="l-95"></a><span class="tm">19:30:00</span><span class="nk"> &lt;Hauke&gt;</span> SPI
+<a name="l-96"></a><span class="tm">19:31:00</span><span class="nk"> &lt;blogic&gt;</span> cool
+<a name="l-97"></a><span class="tm">19:31:00</span><span class="nk"> &lt;neoraider&gt;</span> I don't have a opinion on the registrar
+<a name="l-98"></a><span class="tm">19:31:00</span><span class="nk"> &lt;nbd&gt;</span> ack
+<a name="l-99"></a><span class="tm">19:31:00</span><span class="nk"> &lt;lynxis&gt;</span> ack
+<a name="l-100"></a><span class="tm">19:31:00</span><span class="nk"> &lt;Noltari&gt;</span> ack
+<a name="l-101"></a><span class="tm">19:31:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">neoraider:</span> me neither so i'll go witht he majority
+<a name="l-102"></a><span class="tm">19:31:00</span><span class="nk"> &lt;Hauke&gt;</span> ack
+<a name="l-103"></a><span class="tm">19:31:00</span><span class="nk"> &lt;thess&gt;</span> Will SPI own the account for management or only be the owner. Domains registrations have
+<a name="l-104"></a><span class="tm">19:31:00</span><span class="nk"> &lt;Hauke&gt;</span> next topic: admin mail account
+<a name="l-105"></a><span class="tm">19:31:00</span><span class="nk"> &lt;blogic&gt;</span> yeah
+<a name="l-106"></a><span class="tm">19:32:00</span><span class="nk"> &lt;blogic&gt;</span> so we need 3-4 email addrs
+<a name="l-107"></a><span class="tm">19:32:00</span><span class="nk"> &lt;blogic&gt;</span> social@ for the social media accounts
+<a name="l-108"></a><span class="tm">19:32:00</span><span class="nk"> &lt;blogic&gt;</span> security@ for crypted bug reports
+<a name="l-109"></a><span class="tm">19:32:00</span><span class="nk"> &lt;thess&gt;</span> EasyDNS provides excellent mail services (SMTP, POP, IMAP) as well as re-direction
+<a name="l-110"></a><span class="tm">19:32:00</span><span class="nk"> &lt;blogic&gt;</span> corp@ for companies wanting to ping us
+<a name="l-111"></a><span class="tm">19:33:00</span><span class="nk"> &lt;blogic&gt;</span> ideally we have a shared folder with several users being able to access the accoutns
+<a name="l-112"></a><span class="tm">19:33:00</span><span class="nk"> &lt;blogic&gt;</span> not sure if we should outsource the mail server
+<a name="l-113"></a><span class="tm">19:33:00</span><span class="nk"> &lt;nbd&gt;</span> i agree
+<a name="l-114"></a><span class="tm">19:33:00</span><span class="nk"> &lt;nbd&gt;</span> i think we should use easydns for dns only
+<a name="l-115"></a><span class="tm">19:33:00</span><span class="nk"> &lt;lynxis&gt;</span> +1
+<a name="l-116"></a><span class="tm">19:34:00</span><span class="nk"> &lt;nbd&gt;</span> we can do mail stuff ourselves. i can host it if needed
+<a name="l-117"></a><span class="tm">19:34:00</span><span class="nk"> &lt;Hauke&gt;</span> do we also support sending under these mail aliases?
+<a name="l-118"></a><span class="tm">19:34:00</span><span class="nk"> &lt;Hauke&gt;</span> I am for doing mail ourself
+<a name="l-119"></a><span class="tm">19:34:00</span><span class="nk"> &lt;thess&gt;</span> They can be the backup MX too if you want. If you want to host your own server, just point your MX to that.
+<a name="l-120"></a><span class="tm">19:35:00</span><span class="nk"> &lt;blogic&gt;</span> ok
+<a name="l-121"></a><span class="tm">19:35:00</span><span class="nk"> &lt;blogic&gt;</span> does anyone mind if felix hosts the 3 accoutns until a different/better solution is found ?
+<a name="l-122"></a><span class="tm">19:36:00</span><span class="nk"> &lt;thess&gt;</span> nope
+<a name="l-123"></a><span class="tm">19:36:00</span><span class="nk"> &lt;stintel&gt;</span> I don't
+<a name="l-124"></a><span class="tm">19:36:00</span><span class="nk"> &lt;lynxis&gt;</span> me neither.
+<a name="l-125"></a><span class="tm">19:36:00</span><span class="nk"> &lt;neoraider&gt;</span> ok
+<a name="l-126"></a><span class="tm">19:36:00</span><span class="nk"> &lt;blogic&gt;</span> that would give us the accounts in a few days and we can worry when we have more time
+<a name="l-127"></a><span class="tm">19:36:00</span><span class="nk"> &lt;blogic&gt;</span> ok from me aswell
+<a name="l-128"></a><span class="tm">19:36:00</span><span class="nk"> &lt;blogic&gt;</span> and probably from felix also
+<a name="l-129"></a><span class="tm">19:36:00</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">nbd:</span> Take a look at EasyDNS services - you might like what you see.
+<a name="l-130"></a><span class="tm">19:37:00</span><span class="nk"> &lt;Hauke&gt;</span> ack (fleix hosting it till we find something better)
+<a name="l-131"></a><span class="tm">19:37:00</span><span class="nk"> &lt;Noltari&gt;</span> ack
+<a name="l-132"></a><span class="tm">19:38:00</span><span class="nk"> &lt;Hauke&gt;</span> next topic: irc
+<a name="l-133"></a><span class="tm">19:38:00</span><span class="nk"> &lt;blogic&gt;</span> ok?
+<a name="l-134"></a><span class="tm">19:38:00</span><span class="nk"> &lt;lynxis&gt;</span> i'll take it.
+<a name="l-135"></a><span class="tm">19:38:00</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">lynxis:</span> go on
+<a name="l-136"></a><span class="tm">19:38:00</span><span class="nk"> &lt;lynxis&gt;</span> so we're now registered and have rights of both channels.
+<a name="l-137"></a><span class="tm">19:39:00</span><span class="nk"> &lt;blogic&gt;</span> great thanks for the effor
+<a name="l-138"></a><span class="tm">19:39:00</span><span class="nk"> &lt;blogic&gt;</span> +t
+<a name="l-139"></a><span class="tm">19:39:00</span><span class="nk"> &lt;thess&gt;</span> thx
+<a name="l-140"></a><span class="tm">19:39:00</span><span class="nk"> &lt;lynxis&gt;</span> everybody gots the same right, but the founder status
+<a name="l-141"></a><span class="tm">19:40:00</span><span class="nk"> &lt;lynxis&gt;</span> founder means you can remove the channel. should everybody have the right to remove it or should I give those rights to 2 more people?
+<a name="l-142"></a><span class="tm">19:40:00</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">lynxis:</span> give it to 2 more people
+<a name="l-143"></a><span class="tm">19:40:00</span><span class="nk"> &lt;Hauke&gt;</span> but I do not really care
+<a name="l-144"></a><span class="tm">19:40:00</span><span class="nk"> &lt;blogic&gt;</span> works for me as long as i am not one of those 2
+<a name="l-145"></a><span class="tm">19:40:00</span><span class="nk"> &lt;Noltari&gt;</span> one question, are we going to keep the channel writable except for meetings?
+<a name="l-146"></a><span class="tm">19:41:00</span><span class="nk"> &lt;blogic&gt;</span> yes
+<a name="l-147"></a><span class="tm">19:41:00</span><span class="nk"> &lt;Hauke&gt;</span> yes
+<a name="l-148"></a><span class="tm">19:41:00</span><span class="nk"> &lt;blogic&gt;</span> we planned otherwise but its working out
+<a name="l-149"></a><span class="tm">19:41:00</span><span class="nk"> &lt;Noltari&gt;</span> oks, sounds logical
+<a name="l-150"></a><span class="tm">19:41:00</span><span class="nk"> &lt;blogic&gt;</span> i would also like to remove the subscibe only stuff on the lede-dev mailing list
+<a name="l-151"></a><span class="tm">19:41:00</span><span class="nk"> &lt;blogic&gt;</span> it breaks cross postings between lists
+<a name="l-152"></a><span class="tm">19:42:00</span><span class="nk"> &lt;blogic&gt;</span> anyone mind ?
+<a name="l-153"></a><span class="tm">19:42:00</span><span class="nk"> &lt;neoraider&gt;</span> Nope, I hate closed lists
+<a name="l-154"></a><span class="tm">19:42:00</span><span class="nk"> &lt;Hauke&gt;</span> yes, please remove that restriction
+<a name="l-155"></a><span class="tm">19:42:00</span><span class="nk"> &lt;thess&gt;</span> nope
+<a name="l-156"></a><span class="tm">19:42:00</span><span class="nk"> &lt;blogic&gt;</span> good
+<a name="l-157"></a><span class="tm">19:42:00</span><span class="nk"> &lt;nbd&gt;</span> ack
+<a name="l-158"></a><span class="tm">19:42:00</span><span class="nk"> &lt;lynxis&gt;</span> ack
+<a name="l-159"></a><span class="tm">19:42:00</span><span class="nk"> &lt;neoraider&gt;</span> I just had to deal with sending patches to a closed dev ML again yesterday...
+<a name="l-160"></a><span class="tm">19:42:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">neoraider:</span> its a pita
+<a name="l-161"></a><span class="tm">19:43:00</span><span class="nk"> &lt;lynxis&gt;</span> next topic on irc is cloaks.
+<a name="l-162"></a><span class="tm">19:43:00</span><span class="nk"> &lt;Hauke&gt;</span> when we are at it, I would like make lede-adm mailing list writeable by all registered users
+<a name="l-163"></a><span class="tm">19:43:00</span><span class="nk"> &lt;blogic&gt;</span> ok
+<a name="l-164"></a><span class="tm">19:43:00</span><span class="nk"> &lt;blogic&gt;</span> one one have a problem with that ?
+<a name="l-165"></a><span class="tm">19:43:00</span><span class="nk"> &lt;lynxis&gt;</span> ack writeable lede-adm for registered
+<a name="l-166"></a><span class="tm">19:43:00</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">blogic:</span> wil you talk do david about the mailing lists?
+<a name="l-167"></a><span class="tm">19:43:00</span><span class="nk"> &lt;thess&gt;</span> ack
+<a name="l-168"></a><span class="tm">19:43:00</span><span class="nk"> &lt;nbd&gt;</span> ack
+<a name="l-169"></a><span class="tm">19:44:00</span><span class="nk"> &lt;Hauke&gt;</span> ack
+<a name="l-170"></a><span class="tm">19:44:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> we have admin logins
+<a name="l-171"></a><span class="tm">19:44:00</span><span class="nk"> &lt;blogic&gt;</span> i just wrote it onto my todo list
+<a name="l-172"></a><span class="tm">19:44:00</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">blogic:</span> ah ok, will you change it ;-)
+<a name="l-173"></a><span class="tm">19:44:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> sure
+<a name="l-174"></a><span class="tm">19:44:00</span><span class="nk"> &lt;blogic&gt;</span> right now jow and me know the password
+<a name="l-175"></a><span class="tm">19:44:00</span><span class="nk"> &lt;blogic&gt;</span> but i'll happily hand it over to others
+<a name="l-176"></a><span class="tm">19:45:00</span><span class="nk"> &lt;Hauke&gt;</span> can some take over mod
+<a name="l-177"></a><span class="tm">19:46:00</span><span class="nk"> &lt;blogic&gt;</span> if anyone wants it just let e know
+<a name="l-178"></a><span class="tm">19:47:00</span><span class="nk"> &lt;lynxis&gt;</span> <span class="hi">blogic:</span> are we finished with mailinglist topics?
+<a name="l-179"></a><span class="tm">19:47:00</span><span class="nk"> &lt;blogic&gt;</span> y
+<a name="l-180"></a><span class="tm">19:47:00</span><span class="nk"> &lt;Hauke&gt;</span> i am on phone
+<a name="l-181"></a><span class="tm">19:48:00</span><span class="nk"> &lt;blogic&gt;</span> next topic git
+<a name="l-182"></a><span class="tm">19:48:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">thess:</span> was kind and setup gitolite
+<a name="l-183"></a><span class="tm">19:48:00</span><span class="nk"> &lt;blogic&gt;</span> anyone can now create a staging tree
+<a name="l-184"></a><span class="tm">19:49:00</span><span class="nk"> &lt;Noltari&gt;</span> thanks thess :)
+<a name="l-185"></a><span class="tm">19:49:00</span><span class="nk"> &lt;thess&gt;</span> any changes to what I've already sent out?
+<a name="l-186"></a><span class="tm">19:49:00</span><span class="nk"> &lt;blogic&gt;</span> no
+<a name="l-187"></a><span class="tm">19:49:00</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">Noltari:</span> 'welcome
+<a name="l-188"></a><span class="tm">19:49:00</span><span class="nk"> &lt;blogic&gt;</span> i plan to try the howto tomrrow and setup a tree for myself
+<a name="l-189"></a><span class="tm">19:50:00</span><span class="nk"> &lt;blogic&gt;</span> "How to decide merge of PRs
+<a name="l-190"></a><span class="tm">19:50:00</span><span class="nk"> &lt;blogic&gt;</span> "
+<a name="l-191"></a><span class="tm">19:50:00</span><span class="nk"> &lt;stintel&gt;</span> my biggest question is how are we going to use this. I see commits happening to source.git:master, some on github/staging, now there is gitolite..
+<a name="l-192"></a><span class="tm">19:50:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">stintel:</span> yeah
+<a name="l-193"></a><span class="tm">19:50:00</span><span class="nk"> &lt;blogic&gt;</span> commits should not be made in master directly
+<a name="l-194"></a><span class="tm">19:50:00</span><span class="nk"> &lt;blogic&gt;</span> but always via a staging tree
+<a name="l-195"></a><span class="tm">19:50:00</span><span class="nk"> &lt;blogic&gt;</span> we already agreed on a process last meeting
+<a name="l-196"></a><span class="tm">19:51:00</span><span class="nk"> &lt;stintel&gt;</span> ah, I dropped out before the end of that meeting so I missed that. sorry
+<a name="l-197"></a><span class="tm">19:51:00</span><span class="nk"> &lt;blogic&gt;</span> i will put it all into a howto and put that into web.git and send out a link during this week for review
+<a name="l-198"></a><span class="tm">19:51:00</span><span class="nk"> &lt;blogic&gt;</span> would that be ok for everyone ?
+<a name="l-199"></a><span class="tm">19:51:00</span><span class="nk"> &lt;stintel&gt;</span> +1
+<a name="l-200"></a><span class="tm">19:51:00</span><span class="nk"> &lt;nbd&gt;</span> +1
+<a name="l-201"></a><span class="tm">19:51:00</span><span class="nk"> &lt;lynxis&gt;</span> +1
+<a name="l-202"></a><span class="tm">19:51:00</span><span class="nk"> &lt;neoraider&gt;</span> ok
+<a name="l-203"></a><span class="tm">19:51:00</span><span class="nk"> &lt;blogic&gt;</span> cool
+<a name="l-204"></a><span class="tm">19:51:00</span><span class="nk"> &lt;blogic&gt;</span> so PR merge policy
+<a name="l-205"></a><span class="tm">19:51:00</span><span class="nk"> &lt;Noltari&gt;</span> ack
+<a name="l-206"></a><span class="tm">19:52:00</span><span class="nk"> &lt;blogic&gt;</span> i have been picking up the obvious from github
+<a name="l-207"></a><span class="tm">19:52:00</span><span class="nk"> &lt;blogic&gt;</span> and will ping people i thin have a qualified opinion on stuff where i am not sure
+<a name="l-208"></a><span class="tm">19:52:00</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">stintel:</span> source.git:master is gitolite. You can set multiple remotes on your own working repo and push when appropriate
+<a name="l-209"></a><span class="tm">19:52:00</span><span class="nk"> &lt;blogic&gt;</span> anyone can hel pof course
+<a name="l-210"></a><span class="tm">19:52:00</span><span class="nk"> &lt;blogic&gt;</span> get involved, comment on the PRs
+<a name="l-211"></a><span class="tm">19:53:00</span><span class="nk"> &lt;blogic&gt;</span> have your say, that counts for anyone and everyone, not just people with commit access
+<a name="l-212"></a><span class="tm">19:53:00</span><span class="nk"> &lt;blogic&gt;</span> the comment field is public so please anyone participate
+<a name="l-213"></a><span class="tm">19:53:00</span><span class="nk"> &lt;stintel&gt;</span> <span class="hi">thess:</span> have the multiple remotes already, but gitolite main + staging + github staging was a bit confusing to me
+<a name="l-214"></a><span class="tm">19:53:00</span><span class="nk"> &lt;Hauke&gt;</span> +1 for blogic writing a proposel
+<a name="l-215"></a><span class="tm">19:53:00</span><span class="nk"> &lt;neoraider&gt;</span> If we just commit to staging, we need a solid process 1. how commits from staging are applied to master, and 2. when staging is rebased
+<a name="l-216"></a><span class="tm">19:53:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">neoraider:</span> yes
+<a name="l-217"></a><span class="tm">19:54:00</span><span class="nk"> &lt;blogic&gt;</span> i'll add tuff to the howto
+<a name="l-218"></a><span class="tm">19:54:00</span><span class="nk"> &lt;neoraider&gt;</span> Rebasing the github staging will also break all PRs open at that moment
+<a name="l-219"></a><span class="tm">19:54:00</span><span class="nk"> &lt;blogic&gt;</span> and i plan to merge staging back to master tomorrow
+<a name="l-220"></a><span class="tm">19:54:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">neoraider:</span> no it does not
+<a name="l-221"></a><span class="tm">19:54:00</span><span class="nk"> &lt;neoraider&gt;</span> At least if the PRs are not based on master, buton staging
+<a name="l-222"></a><span class="tm">19:54:00</span><span class="nk"> &lt;blogic&gt;</span> i did a rebase + forced update and they were still working
+<a name="l-223"></a><span class="tm">19:54:00</span><span class="nk"> &lt;blogic&gt;</span> although my fix was minimal
+<a name="l-224"></a><span class="tm">19:55:00</span><span class="nk"> &lt;blogic&gt;</span> i just updated the commit message
+<a name="l-225"></a><span class="tm">19:55:00</span><span class="nk"> &lt;neoraider&gt;</span> When people just clone staging and open a PR, the PR will contain commit duplicates with the old IDs
+<a name="l-226"></a><span class="tm">19:55:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">neoraider:</span> ideally we dont have a single staging but themed ones
+<a name="l-227"></a><span class="tm">19:55:00</span><span class="nk"> &lt;blogic&gt;</span> or user ones
+<a name="l-228"></a><span class="tm">19:55:00</span><span class="nk"> &lt;blogic&gt;</span> where it is clear what goes where
+<a name="l-229"></a><span class="tm">19:55:00</span><span class="nk"> &lt;neoraider&gt;</span> blogic, yes, something like that
+<a name="l-230"></a><span class="tm">19:55:00</span><span class="nk"> &lt;blogic&gt;</span> as in a lantiq-staging
+<a name="l-231"></a><span class="tm">19:55:00</span><span class="nk"> &lt;Noltari&gt;</span> btw, I think that process should have an exception: bug fixes, because at some point we may need to fix something directly in source.git
+<a name="l-232"></a><span class="tm">19:56:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">neoraider:</span> yes
+<a name="l-233"></a><span class="tm">19:56:00</span><span class="nk"> &lt;blogic&gt;</span> i'll put it into a doc and send it as a proposal
+<a name="l-234"></a><span class="tm">19:56:00</span><span class="nk"> &lt;Noltari&gt;</span> it may seem obvious, but should be documented
+<a name="l-235"></a><span class="tm">19:56:00</span><span class="nk"> &lt;neoraider&gt;</span> As long as there is only one staging, we really need to urge people not to based their PRs on it if possible
+<a name="l-236"></a><span class="tm">19:56:00</span><span class="nk"> &lt;Hauke&gt;</span> we also need a documentation for external developers where to send aptches and based on what tree
+<a name="l-237"></a><span class="tm">19:56:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> ok
+<a name="l-238"></a><span class="tm">19:56:00</span><span class="nk"> &lt;blogic&gt;</span> lets put that on the website aswell
+<a name="l-239"></a><span class="tm">19:56:00</span><span class="nk"> &lt;blogic&gt;</span> so that there are links
+<a name="l-240"></a><span class="tm">19:56:00</span><span class="nk"> &lt;Hauke&gt;</span> yes
+<a name="l-241"></a><span class="tm">19:57:00</span><span class="nk"> &lt;blogic&gt;</span> ok, next topic Kernel.org hosting offer (http://lists.infradead.org/pipermail/lede-dev/2016-May/000081.html )
+<a name="l-242"></a><span class="tm">19:57:00</span><span class="nk"> &lt;blogic&gt;</span> jow wanted to have a look at that
+<a name="l-243"></a><span class="tm">19:57:00</span><span class="nk"> &lt;blogic&gt;</span> i am in favour of making use of that
+<a name="l-244"></a><span class="tm">19:58:00</span><span class="nk"> &lt;Hauke&gt;</span> me too
+<a name="l-245"></a><span class="tm">19:58:00</span><span class="nk"> &lt;Hauke&gt;</span> we use that for backports: https://backports.wiki.kernel.org
+<a name="l-246"></a><span class="tm">19:58:00</span><span class="nk"> &lt;Hauke&gt;</span> this way someone else takes care of the wiki
+<a name="l-247"></a><span class="tm">19:58:00</span><span class="nk"> &lt;blogic&gt;</span> great
+<a name="l-248"></a><span class="tm">19:58:00</span><span class="nk"> &lt;stintel&gt;</span> good
+<a name="l-249"></a><span class="tm">19:58:00</span><span class="nk"> &lt;Hauke&gt;</span> and the admin gets paid to do that
+<a name="l-250"></a><span class="tm">19:58:00</span><span class="nk"> &lt;thess&gt;</span> forum too?
+<a name="l-251"></a><span class="tm">19:59:00</span><span class="nk"> &lt;blogic&gt;</span> i thnk wiki / mirror
+<a name="l-252"></a><span class="tm">19:59:00</span><span class="nk"> &lt;Hauke&gt;</span> do they offer forum hosting?
+<a name="l-253"></a><span class="tm">19:59:00</span><span class="nk"> &lt;blogic&gt;</span> i dot think so
+<a name="l-254"></a><span class="tm">19:59:00</span><span class="nk"> &lt;blogic&gt;</span> we'll get to forum later on
+<a name="l-255"></a><span class="tm">19:59:00</span><span class="nk"> &lt;blogic&gt;</span> convert HTML mails to plain text
+<a name="l-256"></a><span class="tm">19:59:00</span><span class="nk"> &lt;blogic&gt;</span> i'll do that aswell should work already but maybe i messed u the config, will test it
+<a name="l-257"></a><span class="tm">19:59:00</span><span class="nk"> &lt;Hauke&gt;</span> for mirror I see a problem in cases like the b43 package which contains the broadcom wifi firmware which is not 100% legally ok
+<a name="l-258"></a><span class="tm">20:00:00</span><span class="nk"> &lt;blogic&gt;</span> is it not ?
+<a name="l-259"></a><span class="tm">20:00:00</span><span class="nk"> &lt;thess&gt;</span> +++ HTML mail to plain text
+<a name="l-260"></a><span class="tm">20:00:00</span><span class="nk"> &lt;blogic&gt;</span> ouch
+<a name="l-261"></a><span class="tm">20:00:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> we hould exclude firmwares then
+<a name="l-262"></a><span class="tm">20:00:00</span><span class="nk"> &lt;stintel&gt;</span> can we put excludes in rsync daemon ?
+<a name="l-263"></a><span class="tm">20:00:00</span><span class="nk"> &lt;blogic&gt;</span> so kernel.org hosting yes with footnote, make sure no fws are copied there
+<a name="l-264"></a><span class="tm">20:00:00</span><span class="nk"> &lt;Hauke&gt;</span> the firmware is extracted from some broadcom driver and I do not know if we are allowed to redistribute it in a different way
+<a name="l-265"></a><span class="tm">20:01:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">stintel:</span> i am sure there will be some solutio to that problem
+<a name="l-266"></a><span class="tm">20:01:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> so we need to add a todo "verify redistribution of b43 FW
+<a name="l-267"></a><span class="tm">20:01:00</span><span class="nk"> &lt;Hauke&gt;</span> yes
+<a name="l-268"></a><span class="tm">20:02:00</span><span class="nk"> &lt;blogic&gt;</span> ok
+<a name="l-269"></a><span class="tm">20:02:00</span><span class="nk"> &lt;blogic&gt;</span> next topic ?
+<a name="l-270"></a><span class="tm">20:02:00</span><span class="nk"> &lt;Hauke&gt;</span> next topic?
+<a name="l-271"></a><span class="tm">20:02:00</span><span class="nk"> &lt;blogic&gt;</span> convert HTML mails to plain text
+<a name="l-272"></a><span class="tm">20:02:00</span><span class="nk"> &lt;blogic&gt;</span> +1
+<a name="l-273"></a><span class="tm">20:02:00</span><span class="nk"> &lt;Hauke&gt;</span> +1 also from me, is that possible?
+<a name="l-274"></a><span class="tm">20:02:00</span><span class="nk"> &lt;blogic&gt;</span> yes
+<a name="l-275"></a><span class="tm">20:02:00</span><span class="nk"> &lt;blogic&gt;</span> should ork but does not
+<a name="l-276"></a><span class="tm">20:02:00</span><span class="nk"> &lt;Noltari&gt;</span> +1
+<a name="l-277"></a><span class="tm">20:02:00</span><span class="nk"> &lt;Hauke&gt;</span> or is that possible with our mailing list hoster
+<a name="l-278"></a><span class="tm">20:03:00</span><span class="nk"> &lt;stintel&gt;</span> cool. +1 then, otherwise I'd say reject them entirely
+<a name="l-279"></a><span class="tm">20:03:00</span><span class="nk"> &lt;blogic&gt;</span> i possibly messed up the config
+<a name="l-280"></a><span class="tm">20:03:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">stintel:</span> yeah ! :-)
+<a name="l-281"></a><span class="tm">20:03:00</span><span class="nk"> &lt;stintel&gt;</span> same with top-posting
+<a name="l-282"></a><span class="tm">20:03:00</span><span class="nk"> &lt;stintel&gt;</span> imo
+<a name="l-283"></a><span class="tm">20:03:00</span><span class="nk"> &lt;Hauke&gt;</span> there are also many clients sending html + text, but also some that only send html
+<a name="l-284"></a><span class="tm">20:03:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">stintel:</span> :-) i do my best to not do it
+<a name="l-285"></a><span class="tm">20:04:00</span><span class="nk"> &lt;Hauke&gt;</span> so blogic you want to take care of this?
+<a name="l-286"></a><span class="tm">20:04:00</span><span class="nk"> &lt;blogic&gt;</span> yes
+<a name="l-287"></a><span class="tm">20:04:00</span><span class="nk"> &lt;thess&gt;</span> <span class="hi">stintel:</span> I'm trying to reform, but my mail client on Windows makes it hard
+<a name="l-288"></a><span class="tm">20:04:00</span><span class="nk"> &lt;blogic&gt;</span> on my todo list aready
+<a name="l-289"></a><span class="tm">20:04:00</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">thess:</span> thunderbird should do it correctly at least you can configure it to do so
+<a name="l-290"></a><span class="tm">20:05:00</span><span class="nk"> &lt;Hauke&gt;</span> good luck doing the same with outlook ;-)
+<a name="l-291"></a><span class="tm">20:05:00</span><span class="nk"> &lt;stintel&gt;</span> thunderbird can be configured indeed, defaults to top
+<a name="l-292"></a><span class="tm">20:05:00</span><span class="nk"> &lt;Hauke&gt;</span> next topic
+<a name="l-293"></a><span class="tm">20:05:00</span><span class="nk"> &lt;blogic&gt;</span> thunderbird has become a cpu hog on the latest version i upgraded to 4 days ago
+<a name="l-294"></a><span class="tm">20:05:00</span><span class="nk"> &lt;blogic&gt;</span> device testing infrastructure
+<a name="l-295"></a><span class="tm">20:05:00</span><span class="nk"> &lt;stintel&gt;</span> but if you default to top and reply to non-tech people you get answers like "why do you send me empty mails"
+<a name="l-296"></a><span class="tm">20:05:00</span><span class="nk"> &lt;blogic&gt;</span> ok, i spoke with felix and jow and hauke on this already
+<a name="l-297"></a><span class="tm">20:06:00</span><span class="nk"> &lt;blogic&gt;</span> we will have a near 0 admin setup
+<a name="l-298"></a><span class="tm">20:06:00</span><span class="nk"> &lt;thess&gt;</span> I like my mail client and anti-spam. Not changing clients.
+<a name="l-299"></a><span class="tm">20:06:00</span><span class="nk"> &lt;blogic&gt;</span> people can grab OTPs to send us tests results
+<a name="l-300"></a><span class="tm">20:06:00</span><span class="nk"> &lt;blogic&gt;</span> it will be sub/target+ profile based
+<a name="l-301"></a><span class="tm">20:06:00</span><span class="nk"> &lt;blogic&gt;</span> registration works without us needing to do anything
+<a name="l-302"></a><span class="tm">20:06:00</span><span class="nk"> &lt;thess&gt;</span> I will proably create another mail account for lede business and read it with evolution on a linux box
+<a name="l-303"></a><span class="tm">20:07:00</span><span class="nk"> &lt;blogic&gt;</span> and once that works we will add some code to run on device to hel patuomated the testing
+<a name="l-304"></a><span class="tm">20:07:00</span><span class="nk"> &lt;blogic&gt;</span> i am hoping to have the basic stuff running soonish so we can start using it to get a feel for what needs ot be fixed for the first release
+<a name="l-305"></a><span class="tm">20:07:00</span><span class="nk"> &lt;blogic&gt;</span> i started writing a proposal and will send it around
+<a name="l-306"></a><span class="tm">20:08:00</span><span class="nk"> &lt;blogic&gt;</span> but that'll take till early next week
+<a name="l-307"></a><span class="tm">20:08:00</span><span class="nk"> &lt;blogic&gt;</span> it is int he making and its starting to take shape
+<a name="l-308"></a><span class="tm">20:08:00</span><span class="nk"> &lt;lynxis&gt;</span> sounds great. we should have some api so other people can use to create nice graphs and reports.
+<a name="l-309"></a><span class="tm">20:08:00</span><span class="nk"> &lt;blogic&gt;</span> yes
+<a name="l-310"></a><span class="tm">20:08:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">lynxis:</span> just jso dumps i would say
+<a name="l-311"></a><span class="tm">20:08:00</span><span class="nk"> &lt;Hauke&gt;</span> we should start with a basic version and extend it later on with new features
+<a name="l-312"></a><span class="tm">20:08:00</span><span class="nk"> &lt;blogic&gt;</span> put the test results onto the mirror
+<a name="l-313"></a><span class="tm">20:09:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> yep
+<a name="l-314"></a><span class="tm">20:09:00</span><span class="nk"> &lt;blogic&gt;</span> KISS
+<a name="l-315"></a><span class="tm">20:09:00</span><span class="nk"> &lt;blogic&gt;</span> the whole "testing on device code" will be added once everything else works
+<a name="l-316"></a><span class="tm">20:09:00</span><span class="nk"> &lt;blogic&gt;</span> for now, DB, user registration, receiving reports, listing results
+<a name="l-317"></a><span class="tm">20:09:00</span><span class="nk"> &lt;blogic&gt;</span> that is all v1 can do
+<a name="l-318"></a><span class="tm">20:10:00</span><span class="nk"> &lt;thess&gt;</span> good start
+<a name="l-319"></a><span class="tm">20:10:00</span><span class="nk"> &lt;lynxis&gt;</span> <span class="hi">blogic:</span> sounds nice. please write up a proposal. I think nobody disagree and we can continue to the next topic.
+<a name="l-320"></a><span class="tm">20:10:00</span><span class="nk"> &lt;blogic&gt;</span> ok
+<a name="l-321"></a><span class="tm">20:10:00</span><span class="nk"> &lt;blogic&gt;</span> next wpuld be prpl
+<a name="l-322"></a><span class="tm">20:10:00</span><span class="nk"> &lt;blogic&gt;</span> not sure if there is anything new, we spoke about it last week
+<a name="l-323"></a><span class="tm">20:10:00</span><span class="nk"> &lt;Hauke&gt;</span> yes lets skip
+<a name="l-324"></a><span class="tm">20:11:00</span><span class="nk"> &lt;thess&gt;</span> ok
+<a name="l-325"></a><span class="tm">20:11:00</span><span class="nk"> &lt;blogic&gt;</span> ok telephone numbers
+<a name="l-326"></a><span class="tm">20:11:00</span><span class="nk"> &lt;blogic&gt;</span> if anyone wants mine send me an email
+<a name="l-327"></a><span class="tm">20:11:00</span><span class="nk"> &lt;Hauke&gt;</span> same for me
+<a name="l-328"></a><span class="tm">20:11:00</span><span class="nk"> &lt;neoraider&gt;</span> same
+<a name="l-329"></a><span class="tm">20:11:00</span><span class="nk"> &lt;stintel&gt;</span> same for me
+<a name="l-330"></a><span class="tm">20:11:00</span><span class="nk"> &lt;lynxis&gt;</span> same for me.
+<a name="l-331"></a><span class="tm">20:11:00</span><span class="nk"> &lt;neoraider&gt;</span> Although I prefer IRC for most things
+<a name="l-332"></a><span class="tm">20:11:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">neoraider:</span> me too
+<a name="l-333"></a><span class="tm">20:12:00</span><span class="nk"> &lt;blogic&gt;</span> ah
+<a name="l-334"></a><span class="tm">20:12:00</span><span class="nk"> &lt;thess&gt;</span> sure - me too
+<a name="l-335"></a><span class="tm">20:12:00</span><span class="nk"> &lt;blogic&gt;</span> holger from debian pinged me
+<a name="l-336"></a><span class="tm">20:12:00</span><span class="nk"> &lt;Hauke&gt;</span> I think this is usefull for urgend stuff
+<a name="l-337"></a><span class="tm">20:12:00</span><span class="nk"> &lt;stintel&gt;</span> prefer irc too, but in case something urgent comes up..
+<a name="l-338"></a><span class="tm">20:12:00</span><span class="nk"> &lt;nbd&gt;</span> same here
+<a name="l-339"></a><span class="tm">20:12:00</span><span class="nk"> &lt;neoraider&gt;</span> Ah, you don't even need to mail me, you can find my phone number in various website's "Impressum"s ;)
+<a name="l-340"></a><span class="tm">20:12:00</span><span class="nk"> &lt;thess&gt;</span> email best for me. TZ diffs from you guys
+<a name="l-341"></a><span class="tm">20:12:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">thess:</span> yep
+<a name="l-342"></a><span class="tm">20:12:00</span><span class="nk"> &lt;lynxis&gt;</span> ok. I think this topic is done ;) that was fast.
+<a name="l-343"></a><span class="tm">20:12:00</span><span class="nk"> &lt;blogic&gt;</span> hehe
+<a name="l-344"></a><span class="tm">20:12:00</span><span class="nk"> &lt;blogic&gt;</span> holger from debian pinged me
+<a name="l-345"></a><span class="tm">20:13:00</span><span class="nk"> &lt;blogic&gt;</span> he proposed a new rule "be nice to eachother"
+<a name="l-346"></a><span class="tm">20:13:00</span><span class="nk"> &lt;lynxis&gt;</span> i like that rule
+<a name="l-347"></a><span class="tm">20:13:00</span><span class="nk"> &lt;lynxis&gt;</span> +1
+<a name="l-348"></a><span class="tm">20:13:00</span><span class="nk"> &lt;stintel&gt;</span> +1000
+<a name="l-349"></a><span class="tm">20:13:00</span><span class="nk"> &lt;Hauke&gt;</span> was that a reaction to the reboot?
+<a name="l-350"></a><span class="tm">20:13:00</span><span class="nk"> &lt;blogic&gt;</span> we could do a CoC but i guess for now we should just keep it simple and use that as a best intent thing
+<a name="l-351"></a><span class="tm">20:13:00</span><span class="nk"> &lt;thess&gt;</span> yup
+<a name="l-352"></a><span class="tm">20:13:00</span><span class="nk"> &lt;Hauke&gt;</span> +1
+<a name="l-353"></a><span class="tm">20:13:00</span><span class="nk"> &lt;neoraider&gt;</span> It's a good rule. In our Verein we phrased it "Don't be a dick" ;)
+<a name="l-354"></a><span class="tm">20:13:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> nope
+<a name="l-355"></a><span class="tm">20:13:00</span><span class="nk"> &lt;blogic&gt;</span> it was a "you are missing a rule"
+<a name="l-356"></a><span class="tm">20:14:00</span><span class="nk"> &lt;nbd&gt;</span> i also like 'be excellent to each other'
+<a name="l-357"></a><span class="tm">20:14:00</span><span class="nk"> &lt;nbd&gt;</span> seen that in some other projects
+<a name="l-358"></a><span class="tm">20:14:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">neoraider:</span> very gender neutral"
+<a name="l-359"></a><span class="tm">20:14:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">nbd:</span> would also work for me
+<a name="l-360"></a><span class="tm">20:14:00</span><span class="nk"> &lt;blogic&gt;</span> nice or excellent ?
+<a name="l-361"></a><span class="tm">20:14:00</span><span class="nk"> &lt;lynxis&gt;</span> excellent!
+<a name="l-362"></a><span class="tm">20:14:00</span><span class="nk"> &lt;Hauke&gt;</span> I prefere nice
+<a name="l-363"></a><span class="tm">20:14:00</span><span class="nk"> &lt;nbd&gt;</span> excellent is a reference to 'Bill &amp; Ted's Excellent Adventure' ;)
+<a name="l-364"></a><span class="tm">20:14:00</span><span class="nk"> &lt;stintel&gt;</span> +1 nice
+<a name="l-365"></a><span class="tm">20:14:00</span><span class="nk"> &lt;Hauke&gt;</span> keep it in simple english
+<a name="l-366"></a><span class="tm">20:14:00</span><span class="nk"> &lt;neoraider&gt;</span> nice sounds nicer
+<a name="l-367"></a><span class="tm">20:15:00</span><span class="nk"> &lt;neoraider&gt;</span> :P
+<a name="l-368"></a><span class="tm">20:15:00</span><span class="nk"> &lt;nbd&gt;</span> and boring
+<a name="l-369"></a><span class="tm">20:15:00</span><span class="nk"> &lt;nbd&gt;</span> ;)
+<a name="l-370"></a><span class="tm">20:15:00</span><span class="nk"> &lt;blogic&gt;</span> nice
+<a name="l-371"></a><span class="tm">20:15:00</span><span class="nk"> &lt;nbd&gt;</span> i'm fine with either
+<a name="l-372"></a><span class="tm">20:15:00</span><span class="nk"> &lt;blogic&gt;</span> so we have 5 nice and 1 excellent ond a "dont care"
+<a name="l-373"></a><span class="tm">20:15:00</span><span class="nk"> &lt;blogic&gt;</span> so nice it is
+<a name="l-374"></a><span class="tm">20:15:00</span><span class="nk"> &lt;thess&gt;</span> What-ev
+<a name="l-375"></a><span class="tm">20:16:00</span><span class="nk"> &lt;blogic&gt;</span> next topic ?
+<a name="l-376"></a><span class="tm">20:16:00</span><span class="nk"> &lt;Hauke&gt;</span> yes
+<a name="l-377"></a><span class="tm">20:16:00</span><span class="nk"> &lt;blogic&gt;</span> introduce a policy on how to encourage people to upstream their work. biot pointed out a huge technical debt that we need to adress one way or the other.
+<a name="l-378"></a><span class="tm">20:16:00</span><span class="nk"> &lt;blogic&gt;</span> so biot pinged me
+<a name="l-379"></a><span class="tm">20:16:00</span><span class="nk"> &lt;blogic&gt;</span> he says we have a technical debt to resolve
+<a name="l-380"></a><span class="tm">20:16:00</span><span class="nk"> &lt;blogic&gt;</span> he mailed some stats, they were not perfectly accurate as they looked at more than 1 kernel rev
+<a name="l-381"></a><span class="tm">20:16:00</span><span class="nk"> &lt;blogic&gt;</span> however it does outline the problem at ahnd
+<a name="l-382"></a><span class="tm">20:17:00</span><span class="nk"> &lt;thess&gt;</span> long-term goals - could take a while, no?
+<a name="l-383"></a><span class="tm">20:17:00</span><span class="nk"> &lt;blogic&gt;</span> i plan to invest a lot of time this year to continue upstreaming my stuff
+<a name="l-384"></a><span class="tm">20:17:00</span><span class="nk"> &lt;blogic&gt;</span> but that is kernel only
+<a name="l-385"></a><span class="tm">20:17:00</span><span class="nk"> &lt;Hauke&gt;</span> could we add a rule that a aptch need a coment which explains why it is needed
+<a name="l-386"></a><span class="tm">20:17:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> ok
+<a name="l-387"></a><span class="tm">20:17:00</span><span class="nk"> &lt;nbd&gt;</span> ack
+<a name="l-388"></a><span class="tm">20:17:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> encourage people to upstream in parallel
+<a name="l-389"></a><span class="tm">20:18:00</span><span class="nk"> &lt;Hauke&gt;</span> so something similar to what you have to put into a kernel commit message
+<a name="l-390"></a><span class="tm">20:18:00</span><span class="nk"> &lt;Hauke&gt;</span> yes and also encurage to upstream
+<a name="l-391"></a><span class="tm">20:18:00</span><span class="nk"> &lt;stintel&gt;</span> <span class="hi">easy:</span> submit upstream, and use format-patch to add in patches/
+<a name="l-392"></a><span class="tm">20:18:00</span><span class="nk"> &lt;stintel&gt;</span> should be the main goal imo
+<a name="l-393"></a><span class="tm">20:18:00</span><span class="nk"> &lt;blogic&gt;</span> and ideally try to build a team to sieve through packages etc to see whats actually there and what can be and what cannot be upstreamed
+<a name="l-394"></a><span class="tm">20:18:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">stintel:</span> ok
+<a name="l-395"></a><span class="tm">20:18:00</span><span class="nk"> &lt;blogic&gt;</span> shall i draft a "rules proposal for upstreaming"
+<a name="l-396"></a><span class="tm">20:18:00</span><span class="nk"> &lt;blogic&gt;</span> ?
+<a name="l-397"></a><span class="tm">20:18:00</span><span class="nk"> &lt;neoraider&gt;</span> OE has a Upstream-Status: tag in all of its patches
+<a name="l-398"></a><span class="tm">20:19:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">neoraider:</span> ok
+<a name="l-399"></a><span class="tm">20:19:00</span><span class="nk"> &lt;Hauke&gt;</span> for some patches I looked how to upstream them but they ahve no documentation and also the commit log of the initial commit was not really good
+<a name="l-400"></a><span class="tm">20:19:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> yes
+<a name="l-401"></a><span class="tm">20:19:00</span><span class="nk"> &lt;neoraider&gt;</span> With values submitted|backport|inapproprioate etc. and maybe extra info
+<a name="l-402"></a><span class="tm">20:19:00</span><span class="nk"> &lt;blogic&gt;</span> i know the problem
+<a name="l-403"></a><span class="tm">20:19:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span>  i am most worrid about all the small package fixes
+<a name="l-404"></a><span class="tm">20:20:00</span><span class="nk"> &lt;blogic&gt;</span> kernel part seems almost easy in comparison
+<a name="l-405"></a><span class="tm">20:20:00</span><span class="nk"> &lt;Hauke&gt;</span> yes
+<a name="l-406"></a><span class="tm">20:20:00</span><span class="nk"> &lt;Hauke&gt;</span> because every package has a different process to upstream
+<a name="l-407"></a><span class="tm">20:20:00</span><span class="nk"> &lt;blogic&gt;</span> yep
+<a name="l-408"></a><span class="tm">20:20:00</span><span class="nk"> &lt;blogic&gt;</span> so we can agree that this is an important issue that we must attend to and take serious
+<a name="l-409"></a><span class="tm">20:20:00</span><span class="nk"> &lt;thess&gt;</span> for some old packages, I feel we are the upstream
+<a name="l-410"></a><span class="tm">20:21:00</span><span class="nk"> &lt;blogic&gt;</span> but need a bit of time to figure out how to resolve ?
+<a name="l-411"></a><span class="tm">20:21:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">thess:</span> hehe
+<a name="l-412"></a><span class="tm">20:21:00</span><span class="nk"> &lt;Hauke&gt;</span> can we put a statement onto the website that everybody how want to can take a patch and upsream it
+<a name="l-413"></a><span class="tm">20:21:00</span><span class="nk"> &lt;blogic&gt;</span> and for some others like mtd aswell
+<a name="l-414"></a><span class="tm">20:21:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> would be a good idea
+<a name="l-415"></a><span class="tm">20:22:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> shall we get aligned during the week and draft som eideas together on this ?
+<a name="l-416"></a><span class="tm">20:22:00</span><span class="nk"> &lt;Hauke&gt;</span> yes
+<a name="l-417"></a><span class="tm">20:22:00</span><span class="nk"> &lt;blogic&gt;</span> good
+<a name="l-418"></a><span class="tm">20:22:00</span><span class="nk"> &lt;Hauke&gt;</span> next topic?
+<a name="l-419"></a><span class="tm">20:22:00</span><span class="nk"> &lt;blogic&gt;</span> yes
+<a name="l-420"></a><span class="tm">20:22:00</span><span class="nk"> &lt;blogic&gt;</span> last one and then we get to the most important one, apologizing to openwrt
+<a name="l-421"></a><span class="tm">20:23:00</span><span class="nk"> &lt;blogic&gt;</span> maintainer ship of platforms /target/linux/*
+<a name="l-422"></a><span class="tm">20:23:00</span><span class="nk"> &lt;blogic&gt;</span> i would like to see the rules being loosend
+<a name="l-423"></a><span class="tm">20:23:00</span><span class="nk"> &lt;Hauke&gt;</span> how?
+<a name="l-424"></a><span class="tm">20:23:00</span><span class="nk"> &lt;blogic&gt;</span> but what does everyone else think ?
+<a name="l-425"></a><span class="tm">20:24:00</span><span class="nk"> &lt;blogic&gt;</span> well i passed ltq on to you for a start
+<a name="l-426"></a><span class="tm">20:24:00</span><span class="nk"> &lt;blogic&gt;</span> i am not even wanting to be able to push to others subsystems but want others to push to mine
+<a name="l-427"></a><span class="tm">20:24:00</span><span class="nk"> &lt;blogic&gt;</span> :-)
+<a name="l-428"></a><span class="tm">20:25:00</span><span class="nk"> &lt;Hauke&gt;</span> I have also no problem when someone applies a simple patch to one of the parts I maintain
+<a name="l-429"></a><span class="tm">20:25:00</span><span class="nk"> &lt;stintel&gt;</span> allow NMU in specific case, e.g. important fix that is already in linus' tree and maintainer MIA
+<a name="l-430"></a><span class="tm">20:25:00</span><span class="nk"> &lt;Hauke&gt;</span> when it is changing the system please ask and when unsure also please ask
+<a name="l-431"></a><span class="tm">20:26:00</span><span class="nk"> &lt;nbd&gt;</span> i think we should strongly encourage people to check in with maintainers before committing non-trivial stuff in their packages/targets, but avoid having strict rules about it
+<a name="l-432"></a><span class="tm">20:26:00</span><span class="nk"> &lt;Hauke&gt;</span> I am also for allowing this for adding a new device which has nothing special
+<a name="l-433"></a><span class="tm">20:26:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> would work for me as a rough guideline
+<a name="l-434"></a><span class="tm">20:26:00</span><span class="nk"> &lt;nbd&gt;</span> if it becomes a problem to the point where we need a rule, we can add it later
+<a name="l-435"></a><span class="tm">20:26:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> +1
+<a name="l-436"></a><span class="tm">20:26:00</span><span class="nk"> &lt;blogic&gt;</span> ok
+<a name="l-437"></a><span class="tm">20:26:00</span><span class="nk"> &lt;neoraider&gt;</span> In any case, we have aggress to only commit to staging and never to master
+<a name="l-438"></a><span class="tm">20:26:00</span><span class="nk"> &lt;blogic&gt;</span> yeah
+<a name="l-439"></a><span class="tm">20:27:00</span><span class="nk"> &lt;blogic&gt;</span> last topic ?
+<a name="l-440"></a><span class="tm">20:27:00</span><span class="nk"> &lt;neoraider&gt;</span> So the maintainers always have time to reject changes after they are committed to staging
+<a name="l-441"></a><span class="tm">20:27:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">neoraider:</span> exactly
+<a name="l-442"></a><span class="tm">20:27:00</span><span class="nk"> &lt;Hauke&gt;</span> I think there are also different elevls of maintainer ship for packages for example it looks like many people o not really take care about their packages
+<a name="l-443"></a><span class="tm">20:27:00</span><span class="nk"> &lt;Hauke&gt;</span> for core packages
+<a name="l-444"></a><span class="tm">20:28:00</span><span class="nk"> &lt;Hauke&gt;</span> yes next topic
+<a name="l-445"></a><span class="tm">20:28:00</span><span class="nk"> &lt;lynxis&gt;</span> what about the others target/* which are maintained by non-lede people
+<a name="l-446"></a><span class="tm">20:28:00</span><span class="nk"> &lt;blogic&gt;</span> ok
+<a name="l-447"></a><span class="tm">20:28:00</span><span class="nk"> &lt;blogic&gt;</span> 2 topics
+<a name="l-448"></a><span class="tm">20:28:00</span><span class="nk"> &lt;stintel&gt;</span> <span class="hi">lynxis:</span> we ideally invite them to join?
+<a name="l-449"></a><span class="tm">20:28:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">stintel:</span> yep
+<a name="l-450"></a><span class="tm">20:28:00</span><span class="nk"> &lt;Hauke&gt;</span> +1
+<a name="l-451"></a><span class="tm">20:29:00</span><span class="nk"> &lt;neoraider&gt;</span> :)
+<a name="l-452"></a><span class="tm">20:29:00</span><span class="nk"> &lt;lynxis&gt;</span> ok. next topic.
+<a name="l-453"></a><span class="tm">20:29:00</span><span class="nk"> &lt;blogic&gt;</span> so let me just bring up one more thing
+<a name="l-454"></a><span class="tm">20:29:00</span><span class="nk"> &lt;lynxis&gt;</span> please
+<a name="l-455"></a><span class="tm">20:29:00</span><span class="nk"> &lt;blogic&gt;</span> i would like to ask all "active" feed maintainers to be ont he voting aswell
+<a name="l-456"></a><span class="tm">20:29:00</span><span class="nk"> &lt;blogic&gt;</span> the rules say commiter have a voting right
+<a name="l-457"></a><span class="tm">20:30:00</span><span class="nk"> &lt;blogic&gt;</span> but it is not specified what tree
+<a name="l-458"></a><span class="tm">20:30:00</span><span class="nk"> &lt;blogic&gt;</span> i would like to see this specified as trunk and feeds
+<a name="l-459"></a><span class="tm">20:30:00</span><span class="nk"> &lt;blogic&gt;</span> they do an amazing job and should be part of the process
+<a name="l-460"></a><span class="tm">20:30:00</span><span class="nk"> &lt;Hauke&gt;</span> ok, can we mark then somehow in the irc channel?
+<a name="l-461"></a><span class="tm">20:30:00</span><span class="nk"> &lt;blogic&gt;</span> which, if we agree on will require us to
+<a name="l-462"></a><span class="tm">20:31:00</span><span class="nk"> &lt;blogic&gt;</span> 1) define what active maintainer is - ie must have N packages since x months and push updats regulary
+<a name="l-463"></a><span class="tm">20:31:00</span><span class="nk"> &lt;blogic&gt;</span> 2) define what should be voted on and under what rules - changes to rues require a minimum of so many votes, what topic can be voted on, wh needs ot be present
+<a name="l-464"></a><span class="tm">20:32:00</span><span class="nk"> &lt;blogic&gt;</span> for example votes on mac80211 would require nbd to be present and have a say
+<a name="l-465"></a><span class="tm">20:32:00</span><span class="nk"> &lt;blogic&gt;</span> 3) introduce something like liquid democracy
+<a name="l-466"></a><span class="tm">20:33:00</span><span class="nk"> &lt;blogic&gt;</span> could other live with sucha  setup
+<a name="l-467"></a><span class="tm">20:33:00</span><span class="nk"> &lt;blogic&gt;</span> details to be defined
+<a name="l-468"></a><span class="tm">20:33:00</span><span class="nk"> &lt;lynxis&gt;</span> if it's KISS, let's do it
+<a name="l-469"></a><span class="tm">20:33:00</span><span class="nk"> &lt;blogic&gt;</span> i think the more people we involve int he democratic process the better
+<a name="l-470"></a><span class="tm">20:33:00</span><span class="nk"> &lt;nbd&gt;</span> we might be able to ask the liquid feedback guys to host an instance for us
+<a name="l-471"></a><span class="tm">20:33:00</span><span class="nk"> &lt;blogic&gt;</span> liquid democracy is very kiss
+<a name="l-472"></a><span class="tm">20:33:00</span><span class="nk"> &lt;blogic&gt;</span> yep
+<a name="l-473"></a><span class="tm">20:33:00</span><span class="nk"> &lt;blogic&gt;</span> that should be possible
+<a name="l-474"></a><span class="tm">20:33:00</span><span class="nk"> &lt;nbd&gt;</span> and it is suitable for more convenient handling of voting when we add more people to the process
+<a name="l-475"></a><span class="tm">20:33:00</span><span class="nk"> &lt;nbd&gt;</span> since not everybody always has to be present for every vote
+<a name="l-476"></a><span class="tm">20:33:00</span><span class="nk"> &lt;blogic&gt;</span> it will reduce the voting in meetings yet give us more votes
+<a name="l-477"></a><span class="tm">20:34:00</span><span class="nk"> &lt;nbd&gt;</span> and there's a defined process for introducing new things to vote on
+<a name="l-478"></a><span class="tm">20:34:00</span><span class="nk"> &lt;blogic&gt;</span> and makes the whole thing async
+<a name="l-479"></a><span class="tm">20:34:00</span><span class="nk"> &lt;nbd&gt;</span> =&gt; fewer meetings necessary
+<a name="l-480"></a><span class="tm">20:34:00</span><span class="nk"> &lt;blogic&gt;</span> with a communal review and moderation process in place
+<a name="l-481"></a><span class="tm">20:34:00</span><span class="nk"> &lt;blogic&gt;</span> =&gt; while having more refined votes
+<a name="l-482"></a><span class="tm">20:34:00</span><span class="nk"> &lt;Hauke&gt;</span> like the idea
+<a name="l-483"></a><span class="tm">20:34:00</span><span class="nk"> &lt;Hauke&gt;</span> who wants to create a proposel?
+<a name="l-484"></a><span class="tm">20:35:00</span><span class="nk"> &lt;blogic&gt;</span> felix ?
+<a name="l-485"></a><span class="tm">20:35:00</span><span class="nk"> &lt;neoraider&gt;</span> I don't known LF, but it sounds nice
+<a name="l-486"></a><span class="tm">20:35:00</span><span class="nk"> &lt;nbd&gt;</span> i'd suggest blogic and i do some research on this and propose it for a vote for the next meeting
+<a name="l-487"></a><span class="tm">20:35:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">neoraider:</span> i am new to it but what i have seen is nice
+<a name="l-488"></a><span class="tm">20:35:00</span><span class="nk"> &lt;blogic&gt;</span> ok
+<a name="l-489"></a><span class="tm">20:35:00</span><span class="nk"> &lt;stintel&gt;</span> had never heard of it either but sounds nice
+<a name="l-490"></a><span class="tm">20:35:00</span><span class="nk"> &lt;blogic&gt;</span> so can we already agree that we want all $active feed maintainers to be able to vote but need to define the details
+<a name="l-491"></a><span class="tm">20:36:00</span><span class="nk"> &lt;stintel&gt;</span> ok for me
+<a name="l-492"></a><span class="tm">20:36:00</span><span class="nk"> &lt;Noltari&gt;</span> yes
+<a name="l-493"></a><span class="tm">20:36:00</span><span class="nk"> &lt;blogic&gt;</span> +1
+<a name="l-494"></a><span class="tm">20:36:00</span><span class="nk"> &lt;neoraider&gt;</span> +1
+<a name="l-495"></a><span class="tm">20:36:00</span><span class="nk"> &lt;lynxis&gt;</span> +1
+<a name="l-496"></a><span class="tm">20:36:00</span><span class="nk"> &lt;thess&gt;</span> ok - definitely
+<a name="l-497"></a><span class="tm">20:36:00</span><span class="nk"> &lt;nbd&gt;</span> +1
+<a name="l-498"></a><span class="tm">20:36:00</span><span class="nk"> &lt;Hauke&gt;</span> +1
+<a name="l-499"></a><span class="tm">20:36:00</span><span class="nk"> &lt;blogic&gt;</span> thanks, i think this is a very important vote
+<a name="l-500"></a><span class="tm">20:37:00</span><span class="nk"> &lt;blogic&gt;</span> we missed Linux Foundation CII
+<a name="l-501"></a><span class="tm">20:37:00</span><span class="nk"> &lt;blogic&gt;</span> what is that ?
+<a name="l-502"></a><span class="tm">20:37:00</span><span class="nk"> &lt;Hauke&gt;</span> https://bestpractices.coreinfrastructure.org/
+<a name="l-503"></a><span class="tm">20:37:00</span><span class="nk"> &lt;Hauke&gt;</span> but I haven't read the details
+<a name="l-504"></a><span class="tm">20:38:00</span><span class="nk"> &lt;lynxis&gt;</span> I think it's a funding program. reproducible-builds.org is funded by them. we could ask h01lger to explain it to us
+<a name="l-505"></a><span class="tm">20:38:00</span><span class="nk"> &lt;Hauke&gt;</span> ok looks like nobody is here who knows about this
+<a name="l-506"></a><span class="tm">20:39:00</span><span class="nk"> &lt;blogic&gt;</span> ok
+<a name="l-507"></a><span class="tm">20:39:00</span><span class="nk"> &lt;Hauke&gt;</span> who proposed it?
+<a name="l-508"></a><span class="tm">20:39:00</span><span class="nk"> &lt;blogic&gt;</span> postpone to next meeting ?
+<a name="l-509"></a><span class="tm">20:39:00</span><span class="nk"> &lt;Hauke&gt;</span> yes
+<a name="l-510"></a><span class="tm">20:39:00</span><span class="nk"> &lt;blogic&gt;</span> any comments ? otherwise we get to the most important part of the meeting
+<a name="l-511"></a><span class="tm">20:39:00</span><span class="nk"> &lt;Hauke&gt;</span> Copyright notice (just came up on the mailing list)
+<a name="l-512"></a><span class="tm">20:40:00</span><span class="nk"> &lt;Hauke&gt;</span> I think the (c) OpenWrt.org is wrong
+<a name="l-513"></a><span class="tm">20:40:00</span><span class="nk"> &lt;blogic&gt;</span> where ?
+<a name="l-514"></a><span class="tm">20:40:00</span><span class="nk"> &lt;lynxis&gt;</span> i think the most important question is: do we accept funding from a foundation?! but let postpone this and prepare this over the ml
+<a name="l-515"></a><span class="tm">20:40:00</span><span class="nk"> &lt;Hauke&gt;</span> as a German I am not able to give my copyright to anybody
+<a name="l-516"></a><span class="tm">20:40:00</span><span class="nk"> &lt;blogic&gt;</span> i did not get such a mail
+<a name="l-517"></a><span class="tm">20:40:00</span><span class="nk"> &lt;Hauke&gt;</span> only if they pay me the hours
+<a name="l-518"></a><span class="tm">20:40:00</span><span class="nk"> &lt;nbd&gt;</span> the OpenWrt.org copyright notices are legally meaningless
+<a name="l-519"></a><span class="tm">20:40:00</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">nbd:</span> yes
+<a name="l-520"></a><span class="tm">20:40:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> i only add them to makefiles
+<a name="l-521"></a><span class="tm">20:41:00</span><span class="nk"> &lt;thess&gt;</span> What the outcome on copyright. I think owrt attribution should be kept.
+<a name="l-522"></a><span class="tm">20:41:00</span><span class="nk"> &lt;blogic&gt;</span> on source code add your private mail account
+<a name="l-523"></a><span class="tm">20:41:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">thess:</span> yes
+<a name="l-524"></a><span class="tm">20:41:00</span><span class="nk"> &lt;thess&gt;</span> s/What/Whatever/
+<a name="l-525"></a><span class="tm">20:41:00</span><span class="nk"> &lt;Hauke&gt;</span> I would propose that we just add our normal names, of the person who edited it
+<a name="l-526"></a><span class="tm">20:41:00</span><span class="nk"> &lt;Hauke&gt;</span> if you think your change is not trivial
+<a name="l-527"></a><span class="tm">20:42:00</span><span class="nk"> &lt;nbd&gt;</span> i think we probably don't need copyright notices on most files
+<a name="l-528"></a><span class="tm">20:42:00</span><span class="nk"> &lt;nbd&gt;</span> it simply gets annoying to maintain
+<a name="l-529"></a><span class="tm">20:42:00</span><span class="nk"> &lt;Hauke&gt;</span> I will not discuss if something is trivial or not
+<a name="l-530"></a><span class="tm">20:42:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke:</span> if you feel you own the copyright then add it
+<a name="l-531"></a><span class="tm">20:42:00</span><span class="nk"> &lt;blogic&gt;</span> same as anyone else
+<a name="l-532"></a><span class="tm">20:42:00</span><span class="nk"> &lt;blogic&gt;</span> for makefiles i would personally add lede-project
+<a name="l-533"></a><span class="tm">20:42:00</span><span class="nk"> &lt;Hauke&gt;</span> ok
+<a name="l-534"></a><span class="tm">20:42:00 </span><span class="nka">* lynxis</span> <span class="ac">has no opinion on the topic</span>
+<a name="l-535"></a><span class="tm">20:42:00</span><span class="nk"> &lt;blogic&gt;</span> but i guess its up to each to decide
+<a name="l-536"></a><span class="tm">20:43:00</span><span class="nk"> &lt;blogic&gt;</span> as per local law and so on
+<a name="l-537"></a><span class="tm">20:43:00</span><span class="nk"> &lt;Hauke&gt;</span> ok
+<a name="l-538"></a><span class="tm">20:43:00</span><span class="nk"> &lt;blogic&gt;</span> openwrt apolgy next ?
+<a name="l-539"></a><span class="tm">20:43:00</span><span class="nk"> &lt;Hauke&gt;</span> ok, next topic
+<a name="l-540"></a><span class="tm">20:43:00</span><span class="nk"> &lt;thess&gt;</span> Copyright is bounded by the attendent license. IANAL but that is what I've come to believe
+<a name="l-541"></a><span class="tm">20:43:00</span><span class="nk"> &lt;blogic&gt;</span> main errors we admitly did are
+<a name="l-542"></a><span class="tm">20:43:00</span><span class="nk"> &lt;blogic&gt;</span> 1) use owrt accoutns for announcements
+<a name="l-543"></a><span class="tm">20:44:00</span><span class="nk"> &lt;blogic&gt;</span> 2) not give advance notice
+<a name="l-544"></a><span class="tm">20:44:00</span><span class="nk"> &lt;Hauke&gt;</span> yes, we should publicly apolgise
+<a name="l-545"></a><span class="tm">20:44:00</span><span class="nk"> &lt;blogic&gt;</span> 3) not explictly invite everyone to join after the launch
+<a name="l-546"></a><span class="tm">20:44:00</span><span class="nk"> &lt;blogic&gt;</span> +1
+<a name="l-547"></a><span class="tm">20:44:00</span><span class="nk"> &lt;Hauke&gt;</span> +1
+<a name="l-548"></a><span class="tm">20:44:00</span><span class="nk"> &lt;thess&gt;</span> +1
+<a name="l-549"></a><span class="tm">20:44:00</span><span class="nk"> &lt;nbd&gt;</span> +1
+<a name="l-550"></a><span class="tm">20:44:00</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">blogic:</span> will you write this
+<a name="l-551"></a><span class="tm">20:45:00</span><span class="nk"> &lt;stintel&gt;</span> +1
+<a name="l-552"></a><span class="tm">20:45:00</span><span class="nk"> &lt;blogic&gt;</span> and ask everyone that wants to join us
+<a name="l-553"></a><span class="tm">20:45:00</span><span class="nk"> &lt;blogic&gt;</span> +1
+<a name="l-554"></a><span class="tm">20:45:00</span><span class="nk"> &lt;Hauke&gt;</span> yes
+<a name="l-555"></a><span class="tm">20:46:00</span><span class="nk"> &lt;Hauke&gt;</span> we should invite them to a irc meeting
+<a name="l-556"></a><span class="tm">20:46:00</span><span class="nk"> &lt;nbd&gt;</span> +1
+<a name="l-557"></a><span class="tm">20:46:00</span><span class="nk"> &lt;blogic&gt;</span> ok
+<a name="l-558"></a><span class="tm">20:46:00</span><span class="nk"> &lt;Noltari&gt;</span> ok
+<a name="l-559"></a><span class="tm">20:46:00</span><span class="nk"> &lt;lynxis&gt;</span> +1
+<a name="l-560"></a><span class="tm">20:46:00</span><span class="nk"> &lt;thess&gt;</span> +1
+<a name="l-561"></a><span class="tm">20:46:00</span><span class="nk"> &lt;neoraider&gt;</span> +1, although I don't have much say in this as a non-former-core-dev
+<a name="l-562"></a><span class="tm">20:46:00</span><span class="nk"> &lt;Hauke&gt;</span> so an meeting with all lede commiters and all openwrt-hackers
+<a name="l-563"></a><span class="tm">20:46:00</span><span class="nk"> &lt;blogic&gt;</span> and we should offer that after the remerge which is not really a remerge but completing the reboot to change the name again
+<a name="l-564"></a><span class="tm">20:46:00</span><span class="nk"> &lt;blogic&gt;</span> i would propose openlede
+<a name="l-565"></a><span class="tm">20:47:00</span><span class="nk"> &lt;blogic&gt;</span> we could kee patchwork, mailinglists and so on and only point a new doamin atht he infra
+<a name="l-566"></a><span class="tm">20:47:00</span><span class="nk"> &lt;Hauke&gt;</span> yes sounds good
+<a name="l-567"></a><span class="tm">20:47:00</span><span class="nk"> &lt;blogic&gt;</span> put 503s on the old domains
+<a name="l-568"></a><span class="tm">20:47:00</span><span class="nk"> &lt;Hauke&gt;</span> 403s
+<a name="l-569"></a><span class="tm">20:47:00</span><span class="nk"> &lt;nbd&gt;</span> name sounds good as a suggestion, but we should let openwrt have a say in this as well
+<a name="l-570"></a><span class="tm">20:47:00</span><span class="nk"> &lt;blogic&gt;</span> send openwrt, lede-project both to openlede
+<a name="l-571"></a><span class="tm">20:47:00</span><span class="nk"> &lt;blogic&gt;</span> of course
+<a name="l-572"></a><span class="tm">20:47:00</span><span class="nk"> &lt;thess&gt;</span> 302
+<a name="l-573"></a><span class="tm">20:48:00</span><span class="nk"> &lt;Hauke&gt;</span> ah yes
+<a name="l-574"></a><span class="tm">20:48:00</span><span class="nk"> &lt;Noltari&gt;</span> I don't think we (non openwrt-hackes) are going to have much to say on this meeting but sure, go ahead
+<a name="l-575"></a><span class="tm">20:48:00</span><span class="nk"> &lt;Noltari&gt;</span> hackers*
+<a name="l-576"></a><span class="tm">20:48:00</span><span class="nk"> &lt;blogic&gt;</span> this is what i think we should send them as an apology + a proposal how to proceed next and as them if they accept the apolody etc pp
+<a name="l-577"></a><span class="tm">20:48:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">thess:</span> er yes
+<a name="l-578"></a><span class="tm">20:48:00</span><span class="nk"> &lt;blogic&gt;</span> sorry
+<a name="l-579"></a><span class="tm">20:49:00</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">nbd:</span> as you sent the announcement would you mind to send the apology aswell ?
+<a name="l-580"></a><span class="tm">20:49:00</span><span class="nk"> &lt;nbd&gt;</span> no problem
+<a name="l-581"></a><span class="tm">20:49:00</span><span class="nk"> &lt;blogic&gt;</span> whould look the nicest i think
+<a name="l-582"></a><span class="tm">20:49:00</span><span class="nk"> &lt;blogic&gt;</span> so final vote just to make this credible
+<a name="l-583"></a><span class="tm">20:49:00</span><span class="nk"> &lt;thess&gt;</span> I think you should first send apology to select few, then the community at large
+<a name="l-584"></a><span class="tm">20:49:00</span><span class="nk"> &lt;Hauke&gt;</span> +1
+<a name="l-585"></a><span class="tm">20:49:00</span><span class="nk"> &lt;blogic&gt;</span> +1
+<a name="l-586"></a><span class="tm">20:49:00</span><span class="nk"> &lt;nbd&gt;</span> +1
+<a name="l-587"></a><span class="tm">20:49:00</span><span class="nk"> &lt;thess&gt;</span> +1
+<a name="l-588"></a><span class="tm">20:50:00</span><span class="nk"> &lt;Hauke&gt;</span> <span class="hi">thess:</span> this is public most of them already know
+<a name="l-589"></a><span class="tm">20:50:00</span><span class="nk"> &lt;thess&gt;</span> roger
+<a name="l-590"></a><span class="tm">20:50:00</span><span class="nk"> &lt;Hauke&gt;</span> anything else?
+<a name="l-591"></a><span class="tm">20:51:00</span><span class="nk"> &lt;Hauke&gt;</span> <span class="cmd">#endmeeting</span><span class="cmdline"></span></pre>
+</body></html>

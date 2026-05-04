@@ -1,0 +1,419 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<title>#lede-adm log</title>
+<style type="text/css">
+/* For the .log.html */
+pre { /*line-height: 125%;*/
+      white-space: pre-wrap; }
+body { background: #f0f0f0; }
+
+body .tm  { color: #007020 }                      /* time */
+body .nk  { color: #062873; font-weight: bold }   /* nick, regular */
+body .nka { color: #007020; font-weight: bold }  /* action nick */
+body .ac  { color: #00A000 }                      /* action line */
+body .hi  { color: #4070a0 }                 /* hilights */
+/* Things to make particular MeetBot commands stick out */
+body .topic     { color: #007020; font-weight: bold }
+body .topicline { color: #000080; font-weight: bold }
+body .cmd       { color: #007020; font-weight: bold }
+body .cmdline  { font-weight: bold }
+
+</style>
+</head>
+
+<body>
+<pre><a name="l-1"></a><span class="tm">11:05:17</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#startmeeting </span><span class="cmdline">Kickoff</span>
+<a name="l-2"></a><span class="tm">11:05:17</span><span class="nk"> &lt;lede-bot&gt;</span> Meeting started Wed Mar 30 11:05:17 2016 UTC.  The chair is jow_laptop. Information about MeetBot at http://wiki.debian.org/MeetBot.
+<a name="l-3"></a><span class="tm">11:05:17</span><span class="nk"> &lt;lede-bot&gt;</span> Useful Commands: #action #agreed #help #info #idea #link #topic.
+<a name="l-4"></a><span class="tm">11:05:39</span><span class="nk"> &lt;blogic&gt;</span> Hi everyone and welcome to the lede-project kickoff meeting
+<a name="l-5"></a><span class="tm">11:06:20</span><span class="nk"> &lt;blogic&gt;</span> does meeting bot list the people present or should I list them ?
+<a name="l-6"></a><span class="tm">11:06:27</span><span class="nk"> &lt;jow_laptop&gt;</span> I It does list them
+<a name="l-7"></a><span class="tm">11:06:43</span><span class="nk"> &lt;jow_laptop&gt;</span> I'll start here with presenting with what we've done so far
+<a name="l-8"></a><span class="tm">11:06:50</span><span class="nk"> &lt;blogic&gt;</span> thanks !
+<a name="l-9"></a><span class="tm">11:07:21</span><span class="nk"> &lt;jow_laptop&gt;</span> in the past week I've spent considerable amounts of time to convert the openwrt svn to a proper git repository with mapped author information, svn branches and tags converted to git branches and tags
+<a name="l-10"></a><span class="tm">11:07:37</span><span class="nk"> &lt;jow_laptop&gt;</span> I also broke out packages/ and feeds/ from svn and made the seaprate git repositories
+<a name="l-11"></a><span class="tm">11:08:03</span><span class="nk"> &lt;jow_laptop&gt;</span> I've set up a gitweb where you can browse the repositories at https://git.lede-project.org/
+<a name="l-12"></a><span class="tm">11:08:16</span><span class="nk"> &lt;jow_laptop&gt;</span> the login in is git:geh3im
+<a name="l-13"></a><span class="tm">11:08:42</span><span class="nk"> &lt;cyrusff&gt;</span> ;)
+<a name="l-14"></a><span class="tm">11:09:20</span><span class="nk"> &lt;jow_laptop&gt;</span> We plan to lift any logins as soon as we announce the project officially
+<a name="l-15"></a><span class="tm">11:09:41</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#info </span><span class="cmdline">SVN has been converted to git</span>
+<a name="l-16"></a><span class="tm">11:09:47</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#link </span><span class="cmdline">https://git.lede-project.org/</span>
+<a name="l-17"></a><span class="tm">11:09:48</span><span class="nk"> &lt;Hauke_1&gt;</span> so this is a 1:1 copy of the svn with no changes?
+<a name="l-18"></a><span class="tm">11:09:54</span><span class="nk"> &lt;blogic&gt;</span> ... and publish all communication as logs and mboxs leading up to the community reboot
+<a name="l-19"></a><span class="tm">11:10:17</span><span class="nk"> &lt;cyrusff&gt;</span> its basically the same i did for github?
+<a name="l-20"></a><span class="tm">11:10:19</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke_1:</span> some emails have been rewritten and the svn commit strings/hashes were replaced by a new format
+<a name="l-21"></a><span class="tm">11:10:42</span><span class="nk"> &lt;blogic&gt;</span> we added a tag on our new rev0 and will consider this to be rev0
+<a name="l-22"></a><span class="tm">11:10:50</span><span class="nk"> &lt;blogic&gt;</span> apart from that the content is identical
+<a name="l-23"></a><span class="tm">11:10:54</span><span class="nk"> &lt;jow_laptop&gt;</span> Hauke_1, cyrusff: it is more. I first did a full git-svn clone, then I rebuilt a new git repo from scratch laying out the branch topology manually and replaying all commits with git am
+<a name="l-24"></a><span class="tm">11:11:17</span><span class="nk"> &lt;Hauke_1&gt;</span> ok
+<a name="l-25"></a><span class="tm">11:11:37</span><span class="nk"> &lt;jow_laptop&gt;</span> it also properly maps the history of trunk (master) which has been changes at least two times in the past
+<a name="l-26"></a><span class="tm">11:11:47</span><span class="nk"> &lt;jow_laptop&gt;</span> trunk -&gt; wr -&gt; buildroot-ng -&gt; trunk
+<a name="l-27"></a><span class="tm">11:12:21</span><span class="nk"> &lt;jow_laptop&gt;</span> I also added proper amended svn tags for anything which has been tagged in svn
+<a name="l-28"></a><span class="tm">11:12:38</span><span class="nk"> &lt;cyrusff&gt;</span> okay
+<a name="l-29"></a><span class="tm">11:12:58</span><span class="nk"> &lt;jow_laptop&gt;</span> I then repeated the same procedure for packages/ and mapped things like branches/packages_12.09/ as git branches to the packages.git
+<a name="l-30"></a><span class="tm">11:13:02</span><span class="nk"> &lt;cyrusff&gt;</span> yeah i skipped pre-aa because nobody cared really. but nice work anyway
+<a name="l-31"></a><span class="tm">11:13:44</span><span class="nk"> &lt;jow_laptop&gt;</span> on top of that I globally mapped committer names to proper authors
+<a name="l-32"></a><span class="tm">11:13:58</span><span class="nk"> &lt;jow_laptop&gt;</span> in the form Real Name &lt;mail@address.org&gt;
+<a name="l-33"></a><span class="tm">11:14:46</span><span class="nk"> &lt;jow_laptop&gt;</span> Bootstrapping the repositories was one thing
+<a name="l-34"></a><span class="tm">11:16:08</span><span class="nk"> &lt;jow_laptop&gt;</span> blogic did also throw together a few pages and a very rough draft for future governance rules we'd like to follow (they're still subject to change but should illustrate the idea): https://www.lede-project.org/rules.html
+<a name="l-35"></a><span class="tm">11:16:16</span><span class="nk"> &lt;jow_laptop&gt;</span> the login here is lede:g3h3im
+<a name="l-36"></a><span class="tm">11:16:40</span><span class="nk"> &lt;blogic&gt;</span> 1 There is two roles in the project: committer and non-committer
+<a name="l-37"></a><span class="tm">11:16:40</span><span class="nk"> &lt;blogic&gt;</span> 2 Committers have the right to vote on general project decisions
+<a name="l-38"></a><span class="tm">11:16:40</span><span class="nk"> &lt;blogic&gt;</span> 3 General project questions are decided with a simple majority vote
+<a name="l-39"></a><span class="tm">11:16:40</span><span class="nk"> &lt;blogic&gt;</span> 4 Committers being unreachable for three months in a row loose their commit and voting rights
+<a name="l-40"></a><span class="tm">11:16:43</span><span class="nk"> &lt;blogic&gt;</span> 5 Commit means full commit. there is no partial or restricted commit.
+<a name="l-41"></a><span class="tm">11:16:46</span><span class="nk"> &lt;blogic&gt;</span> 6 Frequent contributors may become committers when a simple majority among existing committers agrees
+<a name="l-42"></a><span class="tm">11:16:49</span><span class="nk"> &lt;blogic&gt;</span> 7 Votes and decisions will be made public
+<a name="l-43"></a><span class="tm">11:16:51</span><span class="nk"> &lt;blogic&gt;</span> 8 Infrastructure should be outsourced to the community where possible
+<a name="l-44"></a><span class="tm">11:16:54</span><span class="nk"> &lt;blogic&gt;</span> 9 Any Infrastructure that cannot be outsourced needs to be accessible by at elast 3 people.
+<a name="l-45"></a><span class="tm">11:16:57</span><span class="nk"> &lt;blogic&gt;</span> 10 The project does not offer email accounts under the project domain (apart from abuse, admin, …)
+<a name="l-46"></a><span class="tm">11:17:00</span><span class="nk"> &lt;blogic&gt;</span> 11 Changes to these rules require a two third majority among the committers holding voting rights and shall be documented
+<a name="l-47"></a><span class="tm">11:17:03</span><span class="nk"> &lt;blogic&gt;</span> these are not final or decided on but a proposal
+<a name="l-48"></a><span class="tm">11:17:07</span><span class="nk"> &lt;blogic&gt;</span> can be changed and amended as we decide to do
+<a name="l-49"></a><span class="tm">11:17:38</span><span class="nk"> &lt;jow_laptop&gt;</span> what we envision is:
+<a name="l-50"></a><span class="tm">11:17:44</span><span class="nk"> &lt;jow_laptop&gt;</span> - simplify infrastructure
+<a name="l-51"></a><span class="tm">11:18:38</span><span class="nk"> &lt;jow_laptop&gt;</span> - transparent governance, means frequent public meetings and simple, binding votes
+<a name="l-52"></a><span class="tm">11:18:54</span><span class="nk"> &lt;blogic&gt;</span> ... no closed mailing lists or channels
+<a name="l-53"></a><span class="tm">11:19:17</span><span class="nk"> &lt;blogic&gt;</span> .. this channel will be moderated with commiters and frequent contributors getting +v flags
+<a name="l-54"></a><span class="tm">11:19:28</span><span class="nk"> &lt;blogic&gt;</span> ... anyone can read what we discuss at any point
+<a name="l-55"></a><span class="tm">11:19:42</span><span class="nk"> &lt;blogic&gt;</span> ... same is tru for the -adm mailing list
+<a name="l-56"></a><span class="tm">11:21:30</span><span class="nk"> &lt;blogic&gt;</span> - stability, there should not be a tradeoff between bleeding edge and stability
+<a name="l-57"></a><span class="tm">11:22:00</span><span class="nk"> &lt;blogic&gt;</span> ... we plan to do this by not commiting directly to master but instead have staging trees that get merged during a merge window
+<a name="l-58"></a><span class="tm">11:22:34</span><span class="nk"> &lt;blogic&gt;</span> ... big conceptual changes need to first be proposed
+<a name="l-59"></a><span class="tm">11:22:48</span><span class="nk"> &lt;blogic&gt;</span> ... outside the merge window only fixes will get merged into master
+<a name="l-60"></a><span class="tm">11:23:30</span><span class="nk"> &lt;blogic&gt;</span> - involve the community alot more / offload the resonsibility to test to users
+<a name="l-61"></a><span class="tm">11:23:52</span><span class="nk"> &lt;blogic&gt;</span> ... binary releases will only include binaries that have been tested on device by community members
+<a name="l-62"></a><span class="tm">11:24:18</span><span class="nk"> &lt;jow_laptop&gt;</span> ^ which is a point that needs further debate imho but thats something that can still be decided later
+<a name="l-63"></a><span class="tm">11:24:32</span><span class="nk"> &lt;blogic&gt;</span> yep
+<a name="l-64"></a><span class="tm">11:24:46</span><span class="nk"> &lt;blogic&gt;</span> none of this is final, it is the result of our first few brainstorms
+<a name="l-65"></a><span class="tm">11:25:09</span><span class="nk"> &lt;blogic&gt;</span> - corporate, make them understand that we are not and do not want to be part of their supply chain
+<a name="l-66"></a><span class="tm">11:25:27</span><span class="nk"> &lt;blogic&gt;</span> ... they may join the community under the exact same rules as any community member
+<a name="l-67"></a><span class="tm">11:26:03</span><span class="nk"> &lt;cyrusff&gt;</span> so no plans on becoming a legal Entity?
+<a name="l-68"></a><span class="tm">11:26:22</span><span class="nk"> &lt;jow_laptop&gt;</span> no specific plans just yet but no outright refusal either
+<a name="l-69"></a><span class="tm">11:26:55</span><span class="nk"> &lt;jow_laptop&gt;</span> personally I'd like to have a lean legal umbrella entity, e.g. something I can transfer the domain ownership to
+<a name="l-70"></a><span class="tm">11:27:42</span><span class="nk"> &lt;jow_laptop&gt;</span> but that is something which needs to be decided in a wider audience, once formal governance processes are in place
+<a name="l-71"></a><span class="tm">11:27:42</span><span class="nk"> &lt;blogic&gt;</span> we just need to be aware of the risks
+<a name="l-72"></a><span class="tm">11:27:51</span><span class="nk"> &lt;blogic&gt;</span> exactly
+<a name="l-73"></a><span class="tm">11:27:57</span><span class="nk"> &lt;blogic&gt;</span> it is not us that should decide
+<a name="l-74"></a><span class="tm">11:28:08</span><span class="nk"> &lt;jow_laptop&gt;</span> at least not use exclusively
+<a name="l-75"></a><span class="tm">11:28:16</span><span class="nk"> &lt;blogic&gt;</span> sorry, that is what i meant
+<a name="l-76"></a><span class="tm">11:29:02</span><span class="nk"> &lt;cyrusff&gt;</span> yeah question is mainly if there is a plan to go with e.g. lf or similar
+<a name="l-77"></a><span class="tm">11:29:20</span><span class="nk"> &lt;cyrusff&gt;</span> since spi was totally useless
+<a name="l-78"></a><span class="tm">11:29:30</span><span class="nk"> &lt;jow_laptop&gt;</span> in my opinion mid- to long-term; yes
+<a name="l-79"></a><span class="tm">11:29:36</span><span class="nk"> &lt;Hauke_1&gt;</span> does anybody have experiences with lf?
+<a name="l-80"></a><span class="tm">11:29:45</span><span class="nk"> &lt;blogic&gt;</span> but we should be aware the LF is owned by corporate
+<a name="l-81"></a><span class="tm">11:29:53</span><span class="nk"> &lt;blogic&gt;</span> well that is harsh but you get my point
+<a name="l-82"></a><span class="tm">11:30:16</span><span class="nk"> &lt;rmilecki&gt;</span> what does it stand for?
+<a name="l-83"></a><span class="tm">11:30:23</span><span class="nk"> &lt;blogic&gt;</span> it should be an entity that has the focus on community and not on corporate lobby activities
+<a name="l-84"></a><span class="tm">11:30:28</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="hi">Hauke_1:</span> not yet but I suppose we could get in touch with some people operating under them
+<a name="l-85"></a><span class="tm">11:30:28</span><span class="nk"> &lt;blogic&gt;</span> Linux Foundation
+<a name="l-86"></a><span class="tm">11:30:32</span><span class="nk"> &lt;rmilecki&gt;</span> ah, thanks
+<a name="l-87"></a><span class="tm">11:31:00</span><span class="nk"> &lt;jow_laptop&gt;</span> but before we distract ourselves with too much detail lets wrap the main idea up somewhat
+<a name="l-88"></a><span class="tm">11:31:09</span><span class="nk"> &lt;blogic&gt;</span> agreed
+<a name="l-89"></a><span class="tm">11:31:28</span><span class="nk"> &lt;blogic&gt;</span> shall we quickly talk about corporate involvement ?
+<a name="l-90"></a><span class="tm">11:31:36</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="hi">blogic:</span> not yet
+<a name="l-91"></a><span class="tm">11:32:11</span><span class="nk"> &lt;jow_laptop&gt;</span> or do you mean to elaborate on https://www.lede-project.org/communication.html ?
+<a name="l-92"></a><span class="tm">11:32:19</span><span class="nk"> &lt;blogic&gt;</span> yes
+<a name="l-93"></a><span class="tm">11:32:48</span><span class="nk"> &lt;jow_laptop&gt;</span> ok, go on
+<a name="l-94"></a><span class="tm">11:33:00</span><span class="nk"> &lt;blogic&gt;</span> again a proposal not anything final
+<a name="l-95"></a><span class="tm">11:33:10</span><span class="nk"> &lt;blogic&gt;</span> under the link jow posted you will find this text
+<a name="l-96"></a><span class="tm">11:33:14</span><span class="nk"> &lt;blogic&gt;</span> There is a special email address that companies wanting to colaborate with the project can contact commiters confidentially. These type of "first contact" only have the purpose of helping companies understand the mode of operations. Once the intent is communicated, companies are invited to participate in the project just like any other community member. This means that engagement should be done in public.
+<a name="l-97"></a><span class="tm">11:33:20</span><span class="nk"> &lt;blogic&gt;</span> Ideally companies simply allow part of their R&amp;D team to participate in the normal developement process as normal community members. There will be no special treatment beyond the "first contact". Please see the project rules for further information.
+<a name="l-98"></a><span class="tm">11:34:41</span><span class="nk"> &lt;blogic&gt;</span> not sure what your thoughts are on this
+<a name="l-99"></a><span class="tm">11:35:22</span><span class="nk"> &lt;jow_laptop&gt;</span> its acceptable for me
+<a name="l-100"></a><span class="tm">11:35:45</span><span class="nk"> &lt;jow_laptop&gt;</span> still allows corps to "rent a committer" but urges them to just send patches
+<a name="l-101"></a><span class="tm">11:36:59</span><span class="nk"> &lt;Hauke_1&gt;</span> yes that is ok with me
+<a name="l-102"></a><span class="tm">11:37:59</span><span class="nk"> &lt;jow_laptop&gt;</span> Ok, I'd like to go on quickly explaining the domain / name / infrastructure situation and plans
+<a name="l-103"></a><span class="tm">11:38:05</span><span class="nk"> &lt;blogic&gt;</span> please
+<a name="l-104"></a><span class="tm">11:38:07</span><span class="nk"> &lt;Hauke_1&gt;</span> yes go on
+<a name="l-105"></a><span class="tm">11:38:15</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="topic">#topic </span><span class="topicline">Infrastructure</span>
+<a name="l-106"></a><span class="tm">11:38:45</span><span class="nk"> &lt;jow_laptop&gt;</span> ok so we've access to three servers (not counting resources currently in use by openwrt.org) atm
+<a name="l-107"></a><span class="tm">11:39:16</span><span class="nk"> &lt;jow_laptop&gt;</span> 1) (www.)lede-project.org - this is a vhost hosted on linux-mips org, currently hosting the website
+<a name="l-108"></a><span class="tm">11:39:56</span><span class="nk"> &lt;jow_laptop&gt;</span> 2) git.lede-project.org - former, now unused luci.usbsignal.org hosting a readonly openwrt svn mirror, the git repositories and gitweb interface
+<a name="l-109"></a><span class="tm">11:40:30</span><span class="nk"> &lt;jow_laptop&gt;</span> 3) mein.io - my private machine hosting meeting protocols and the irc bot
+<a name="l-110"></a><span class="tm">11:40:44</span><span class="nk"> &lt;jow_laptop&gt;</span> other resources which exist but are not actively used yet are:
+<a name="l-111"></a><span class="tm">11:40:59</span><span class="nk"> &lt;jow_laptop&gt;</span> 1) build.mein.io - the machine we've used to build openwrt releases on
+<a name="l-112"></a><span class="tm">11:41:13</span><span class="nk"> &lt;jow_laptop&gt;</span> 2) build2.mein.io - another build machine provided by blogic
+<a name="l-113"></a><span class="tm">11:41:30</span><span class="nk"> &lt;jow_laptop&gt;</span> in the near term we plan to:
+<a name="l-114"></a><span class="tm">11:41:57</span><span class="nk"> &lt;jow_laptop&gt;</span> - ask for mirror sponsoring (like e.g. tuwien)
+<a name="l-115"></a><span class="tm">11:42:05</span><span class="nk"> &lt;jow_laptop&gt;</span> - offload mailing list hosting
+<a name="l-116"></a><span class="tm">11:42:09</span><span class="nk"> &lt;jow_laptop&gt;</span> - offload patchwork
+<a name="l-117"></a><span class="tm">11:42:42</span><span class="nk"> &lt;cyrusff&gt;</span> so we still want to keep svn?
+<a name="l-118"></a><span class="tm">11:42:49</span><span class="nk"> &lt;blogic&gt;</span> mailing lists will go on infradead, Ralf Baechle will help us setup a contact to David Woodhouse (who has made several contributions over the years)
+<a name="l-119"></a><span class="tm">11:42:52</span><span class="nk"> &lt;blogic&gt;</span> no
+<a name="l-120"></a><span class="tm">11:42:55</span><span class="nk"> &lt;jow_laptop&gt;</span> only the openwrt svn for archive purposes
+<a name="l-121"></a><span class="tm">11:43:21</span><span class="nk"> &lt;blogic&gt;</span> patchwork will go on ozlabs, i am sure jeremy will help us out like he did int he past.
+<a name="l-122"></a><span class="tm">11:43:26</span><span class="nk"> &lt;jow_laptop&gt;</span> my idea was to decide its shutdown in a later meeting
+<a name="l-123"></a><span class="tm">11:43:33</span><span class="nk"> &lt;Hauke_1&gt;</span> tickets?
+<a name="l-124"></a><span class="tm">11:43:41</span><span class="nk"> &lt;jow_laptop&gt;</span> thats a topic we need to tackle yet
+<a name="l-125"></a><span class="tm">11:43:50</span><span class="nk"> &lt;blogic&gt;</span> lets do tickets in a sec, its complex
+<a name="l-126"></a><span class="tm">11:43:50</span><span class="nk"> &lt;jow_laptop&gt;</span> let me summarize my thoughts:
+<a name="l-127"></a><span class="tm">11:43:55</span><span class="nk"> &lt;blogic&gt;</span> or so ...
+<a name="l-128"></a><span class="tm">11:44:38</span><span class="nk"> &lt;jow_laptop&gt;</span> - current trac submissions are of poor quality and swamped with "me too" and +1 style comments as well as obscure, vague or outright incomplete reports
+<a name="l-129"></a><span class="tm">11:45:05</span><span class="nk"> &lt;jow_laptop&gt;</span> - a tiny fraction of the actual committer base really uses the ticket system or if at all, only focuses on specific issues
+<a name="l-130"></a><span class="tm">11:45:24</span><span class="nk"> &lt;jow_laptop&gt;</span> - since we do not require a registration we have no reliable channel for counterquestions
+<a name="l-131"></a><span class="tm">11:45:56</span><span class="nk"> &lt;jow_laptop&gt;</span> - since the effort to create an issue is rather low, people are not inclined to keep watching their own reports
+<a name="l-132"></a><span class="tm">11:46:27</span><span class="nk"> &lt;jow_laptop&gt;</span> this led me to the suggestion to solely use mailing lists for bug reports
+<a name="l-133"></a><span class="tm">11:47:02</span><span class="nk"> &lt;jow_laptop&gt;</span> advantages are: you only get reports from people who really care, the quality of submission tends to be higher, reports will reach a wider audience
+<a name="l-134"></a><span class="tm">11:47:56</span><span class="nk"> &lt;jow_laptop&gt;</span> disadvantages are: no formal way to manage issues, like inability to "close" things, would only work by convention (e.g. putting a [BUG] in the subject)
+<a name="l-135"></a><span class="tm">11:47:59</span><span class="nk"> &lt;Hauke_1&gt;</span> ok, but the mailing list will be accessible without registartion
+<a name="l-136"></a><span class="tm">11:48:10</span><span class="nk"> &lt;blogic&gt;</span> no you will need to register
+<a name="l-137"></a><span class="tm">11:48:13</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="hi">Hauke_1:</span> well you'd need to be subscribed
+<a name="l-138"></a><span class="tm">11:48:21</span><span class="nk"> &lt;blogic&gt;</span> same as the kernel
+<a name="l-139"></a><span class="tm">11:48:35</span><span class="nk"> &lt;jow_laptop&gt;</span> a moderated lsit would be an alternative but moderation (spam etc.) ties up a lot of precious developer time
+<a name="l-140"></a><span class="tm">11:48:38</span><span class="nk"> &lt;Hauke_1&gt;</span> in the kernel most lists are open to all also unsubscribed
+<a name="l-141"></a><span class="tm">11:48:56</span><span class="nk"> &lt;blogic&gt;</span> ok, i think there are bith
+<a name="l-142"></a><span class="tm">11:49:00</span><span class="nk"> &lt;blogic&gt;</span> *both
+<a name="l-143"></a><span class="tm">11:49:02</span><span class="nk"> &lt;Hauke_1&gt;</span> yes
+<a name="l-144"></a><span class="tm">11:49:11</span><span class="nk"> &lt;blogic&gt;</span> we need to decide
+<a name="l-145"></a><span class="tm">11:49:25</span><span class="nk"> &lt;blogic&gt;</span> basically on an average day i experience this twice
+<a name="l-146"></a><span class="tm">11:49:25</span><span class="nk"> &lt;Hauke_1&gt;</span> at least we have the mail address of the reporter in this way
+<a name="l-147"></a><span class="tm">11:49:29</span><span class="nk"> &lt;jow_laptop&gt;</span> I also suggested to evluate "RT" as issue tracker
+<a name="l-148"></a><span class="tm">11:49:35</span><span class="nk"> &lt;blogic&gt;</span> ticket gets posted on tracd
+<a name="l-149"></a><span class="tm">11:49:49</span><span class="nk"> &lt;blogic&gt;</span> ticket gets referenced on github
+<a name="l-150"></a><span class="tm">11:49:51</span><span class="nk"> &lt;Hauke_1&gt;</span> RT?
+<a name="l-151"></a><span class="tm">11:49:53</span><span class="nk"> &lt;blogic&gt;</span> i get an email from github
+<a name="l-152"></a><span class="tm">11:50:01</span><span class="nk"> &lt;blogic&gt;</span> and then en email from the submitter telling me the links
+<a name="l-153"></a><span class="tm">11:50:37</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="hi">Hauke_1:</span> https://bestpractical.com/rt-and-rtir/
+<a name="l-154"></a><span class="tm">11:50:59</span><span class="nk"> &lt;jow_laptop&gt;</span> RT is an "enterprise grade" issue tracker but its free and also features mail as a primary interface for manage issues
+<a name="l-155"></a><span class="tm">11:51:15</span><span class="nk"> &lt;jow_laptop&gt;</span> without having evaluated it in details my hope was that we can use it in a patchwork-style manner
+<a name="l-156"></a><span class="tm">11:51:34</span><span class="nk"> &lt;Hauke_1&gt;</span> ok
+<a name="l-157"></a><span class="tm">11:52:16</span><span class="nk"> &lt;Hauke_1&gt;</span> anyway ignoring issues reported some months ago with no activity is no problem for me
+<a name="l-158"></a><span class="tm">11:52:17</span><span class="nk"> &lt;jow_laptop&gt;</span> however, our topmost priority with any solution we consider should be the following: keep it as simple and lean as possible
+<a name="l-159"></a><span class="tm">11:52:44</span><span class="nk"> &lt;Hauke_1&gt;</span> ok, no problem we will find a solution for the ticketing problem
+<a name="l-160"></a><span class="tm">11:53:10</span><span class="nk"> &lt;blogic&gt;</span> i think the main focus should be on having a single channel and handle it by some governance rules
+<a name="l-161"></a><span class="tm">11:53:19</span><span class="nk"> &lt;jow_laptop&gt;</span> which brings me to another practical problem we have atm:
+<a name="l-162"></a><span class="tm">11:53:30</span><span class="nk"> &lt;jow_laptop&gt;</span> people do not know what to report where
+<a name="l-163"></a><span class="tm">11:53:52</span><span class="nk"> &lt;jow_laptop&gt;</span> we tend to close issues on github and tell people to report in trac and vice versa
+<a name="l-164"></a><span class="tm">11:54:18</span><span class="nk"> &lt;jow_laptop&gt;</span> this is frustrating from a submitter pov and we should consider treating issues raised on github to be "legal"
+<a name="l-165"></a><span class="tm">11:55:36</span><span class="nk"> &lt;jow_laptop&gt;</span> ok so much on the ticket topic from me for now, we need to further discuss this down the road
+<a name="l-166"></a><span class="tm">11:56:21</span><span class="nk"> &lt;cyrusff&gt;</span> if we have a github mirror and we should we could write an api script which autocloses tickets and prs
+<a name="l-167"></a><span class="tm">11:57:00</span><span class="nk"> &lt;jow_laptop&gt;</span> I believe we could also simply make the bug mailinglist a recipient of the issue notifications
+<a name="l-168"></a><span class="tm">11:57:20</span><span class="nk"> &lt;jow_laptop&gt;</span> it is possible to reply via mail and it ends up on github and vice/versa
+<a name="l-169"></a><span class="tm">11:58:25</span><span class="nk"> &lt;cyrusff&gt;</span> thats even better
+<a name="l-170"></a><span class="tm">11:59:32</span><span class="nk"> &lt;jow_laptop&gt;</span> if no further remarks at this point I'd like to move on to contributor invitations, roadmap, timeline
+<a name="l-171"></a><span class="tm">12:00:07</span><span class="nk"> &lt;blogic&gt;</span> ok
+<a name="l-172"></a><span class="tm">12:01:02</span><span class="nk"> &lt;Hauke_1&gt;</span> ok
+<a name="l-173"></a><span class="tm">12:01:03</span><span class="nk"> &lt;jow_laptop&gt;</span> - blogic and me want to invite certain people to increase our manpower and to get the wider community more involved with the project
+<a name="l-174"></a><span class="tm">12:01:58</span><span class="nk"> &lt;blogic&gt;</span> yes
+<a name="l-175"></a><span class="tm">12:02:10</span><span class="nk"> &lt;blogic&gt;</span> lets consider the current commiters as those present + felix
+<a name="l-176"></a><span class="tm">12:02:27</span><span class="nk"> &lt;blogic&gt;</span> who else would yout liek to see join the team ?
+<a name="l-177"></a><span class="tm">12:03:21</span><span class="nk"> &lt;jow_laptop&gt;</span> - I propose: hnyman (he's doing a lot of community communication, luci and package work), yousong zhou (lot of github feed work)
+<a name="l-178"></a><span class="tm">12:03:52</span><span class="nk"> &lt;cyrusff&gt;</span> stintel?
+<a name="l-179"></a><span class="tm">12:04:03</span><span class="nk"> &lt;blogic&gt;</span> alvero (RPi)
+<a name="l-180"></a><span class="tm">12:06:10</span><span class="nk"> &lt;blogic&gt;</span> zoltan (sunxi)
+<a name="l-181"></a><span class="tm">12:06:16</span><span class="nk"> &lt;blogic&gt;</span> gabor
+<a name="l-182"></a><span class="tm">12:06:34</span><span class="nk"> &lt;jow_laptop&gt;</span> ted hess (feeds), naoir (feeds)
+<a name="l-183"></a><span class="tm">12:06:55</span><span class="nk"> &lt;jow_laptop&gt;</span> dangole (oxnas, ramips, feeds)
+<a name="l-184"></a><span class="tm">12:06:57</span><span class="nk"> &lt;blogic&gt;</span> lynxsis ? (ar71xx)
+<a name="l-185"></a><span class="tm">12:09:09</span><span class="nk"> &lt;blogic&gt;</span> matthias schiffer (ar71xx
+<a name="l-186"></a><span class="tm">12:09:23</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#info </span><span class="cmdline">Proposed invitations: hnyman, yousong, stintel, alvero, zoltan, gabor, thess, naoir, dangole, lynxsis, mschiffer</span>
+<a name="l-187"></a><span class="tm">12:09:27</span><span class="nk"> &lt;blogic&gt;</span> specially ar71xx needs maintainers and we should try to get more than 3
+<a name="l-188"></a><span class="tm">12:09:49</span><span class="nk"> &lt;Hauke_1&gt;</span> so all the current active contributors, I think it is easier to talk about this on a mailing list, we probably forgot some people
+<a name="l-189"></a><span class="tm">12:10:08</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="hi">Hauke_1:</span> yes
+<a name="l-190"></a><span class="tm">12:10:19</span><span class="nk"> &lt;blogic&gt;</span> agreed
+<a name="l-191"></a><span class="tm">12:10:28</span><span class="nk"> &lt;jow_laptop&gt;</span> I also consider approaching the Gluon üeople
+<a name="l-192"></a><span class="tm">12:10:32</span><span class="nk"> &lt;jow_laptop&gt;</span> *people
+<a name="l-193"></a><span class="tm">12:11:07</span><span class="nk"> &lt;jow_laptop&gt;</span> they have experience with maintaining OpenWrt downstream, backporting board support stuff etc.
+<a name="l-194"></a><span class="tm">12:11:27</span><span class="nk"> &lt;blogic&gt;</span> yes
+<a name="l-195"></a><span class="tm">12:11:36</span><span class="nk"> &lt;cyrusff&gt;</span> makes sense
+<a name="l-196"></a><span class="tm">12:11:47</span><span class="nk"> &lt;blogic&gt;</span> that is the next thing we need to get ourt main communities in the community involved much more
+<a name="l-197"></a><span class="tm">12:11:54</span><span class="nk"> &lt;blogic&gt;</span> drive tsuff in the direction they need
+<a name="l-198"></a><span class="tm">12:13:01</span><span class="nk"> &lt;cyrusff&gt;</span> what communities are there aside freifunk/gluon?
+<a name="l-199"></a><span class="tm">12:13:06</span><span class="nk"> &lt;cyrusff&gt;</span> that would be relevant
+<a name="l-200"></a><span class="tm">12:13:14</span><span class="nk"> &lt;blogic&gt;</span> ninux
+<a name="l-201"></a><span class="tm">12:13:28</span><span class="nk"> &lt;blogic&gt;</span> and i would love to see us build a bridge to asia
+<a name="l-202"></a><span class="tm">12:13:47</span><span class="nk"> &lt;jow_laptop&gt;</span> entware-ng
+<a name="l-203"></a><span class="tm">12:13:47</span><span class="nk"> &lt;blogic&gt;</span> taiwan, japan, hong kong china ... all have thriving communities
+<a name="l-204"></a><span class="tm">12:15:35</span><span class="nk"> &lt;jow_laptop&gt;</span> qmp, guifi, confine
+<a name="l-205"></a><span class="tm">12:15:39</span><span class="nk"> &lt;jow_laptop&gt;</span> openmesh
+<a name="l-206"></a><span class="tm">12:16:51</span><span class="nk"> &lt;Hauke_1&gt;</span> ok lets also talk to all the other communities after the anouncment how we could improve so that it is easier for them to work more closely with us
+<a name="l-207"></a><span class="tm">12:17:01</span><span class="nk"> &lt;blogic&gt;</span> well not really
+<a name="l-208"></a><span class="tm">12:17:11</span><span class="nk"> &lt;blogic&gt;</span> ah ok, lets talk about improvement afterwards
+<a name="l-209"></a><span class="tm">12:17:24</span><span class="nk"> &lt;blogic&gt;</span> i think we should however inform key players of those communities up front
+<a name="l-210"></a><span class="tm">12:17:35</span><span class="nk"> &lt;blogic&gt;</span> a few days prior to a public annoucnement
+<a name="l-211"></a><span class="tm">12:17:45</span><span class="nk"> &lt;blogic&gt;</span> they are part of this and should get a lead time
+<a name="l-212"></a><span class="tm">12:17:56</span><span class="nk"> &lt;blogic&gt;</span> it is only fair and the whole point of what we are doing
+<a name="l-213"></a><span class="tm">12:19:24</span><span class="nk"> &lt;jow_laptop&gt;</span> then I guess it is time to move to the timeline now
+<a name="l-214"></a><span class="tm">12:19:44</span><span class="nk"> &lt;blogic&gt;</span> please
+<a name="l-215"></a><span class="tm">12:20:01</span><span class="nk"> &lt;jow_laptop&gt;</span> let me document the action items first
+<a name="l-216"></a><span class="tm">12:20:30</span><span class="nk"> &lt;blogic&gt;</span> thanks !
+<a name="l-217"></a><span class="tm">12:20:31</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#action </span><span class="cmdline">discuss contributor proposals on a to-be-set-up mailinglist</span>
+<a name="l-218"></a><span class="tm">12:21:07</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#action </span><span class="cmdline">get in touch with community key players upfront to involve them in the decision making process</span>
+<a name="l-219"></a><span class="tm">12:21:25</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="topic">#topic </span><span class="topicline">Timeline</span>
+<a name="l-220"></a><span class="tm">12:22:16</span><span class="nk"> &lt;jow_laptop&gt;</span> we only have one fixed date so far more or less which is during the timeframe of the upcoming battlemesh
+<a name="l-221"></a><span class="tm">12:22:22</span><span class="nk"> &lt;nbd&gt;</span> moin
+<a name="l-222"></a><span class="tm">12:22:25</span><span class="nk"> &lt;blogic&gt;</span> he just came online in jabber ;)
+<a name="l-223"></a><span class="tm">12:22:43</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="hi">nbd:</span> http://meetings.lede-project.org/lede-adm/2016/lede-adm.2016-03-30-11.05.log.txt
+<a name="l-224"></a><span class="tm">12:22:47</span><span class="nk"> &lt;cyrusff&gt;</span> where is the next battlemesh?
+<a name="l-225"></a><span class="tm">12:22:58</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">cyrusff:</span> slovenia
+<a name="l-226"></a><span class="tm">12:23:05</span><span class="nk"> &lt;nbd&gt;</span> <span class="hi">jow_laptop:</span> user/pw?
+<a name="l-227"></a><span class="tm">12:23:10</span><span class="nk"> &lt;Hauke_1&gt;</span> no porto
+<a name="l-228"></a><span class="tm">12:23:15</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="hi">nbd:</span> lede:g3h3im
+<a name="l-229"></a><span class="tm">12:23:16</span><span class="nk"> &lt;blogic&gt;</span> ah sorry
+<a name="l-230"></a><span class="tm">12:23:26</span><span class="nk"> &lt;blogic&gt;</span> in parallel there is WCW which i will attend
+<a name="l-231"></a><span class="tm">12:23:29</span><span class="nk"> &lt;nbd&gt;</span> <span class="hi">jow_laptop:</span> thx
+<a name="l-232"></a><span class="tm">12:23:46</span><span class="nk"> &lt;blogic&gt;</span> and we are considering to do a videoconf between the 2
+<a name="l-233"></a><span class="tm">12:23:57</span><span class="nk"> &lt;blogic&gt;</span> might be a good time to announce this community reboot
+<a name="l-234"></a><span class="tm">12:24:15</span><span class="nk"> &lt;Hauke_1&gt;</span> ok so one month till then
+<a name="l-235"></a><span class="tm">12:24:48</span><span class="nk"> &lt;blogic&gt;</span> yes
+<a name="l-236"></a><span class="tm">12:24:51</span><span class="nk"> &lt;nbd&gt;</span> i will leave from porto one day early so i can be at most of WCW
+<a name="l-237"></a><span class="tm">12:25:23</span><span class="nk"> &lt;cyrusff&gt;</span> hmm, since i'm working in Berlin anyway now I will try to attend WCW
+<a name="l-238"></a><span class="tm">12:25:31</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#info </span><span class="cmdline">We plan to announce the community reboot simultaneously at WBM and WCW</span>
+<a name="l-239"></a><span class="tm">12:25:32</span><span class="nk"> &lt;cyrusff&gt;</span> but not 100% sure yet
+<a name="l-240"></a><span class="tm">12:26:04</span><span class="nk"> &lt;blogic&gt;</span> those are 2 of the biggest *wrt related events so its the natural place
+<a name="l-241"></a><span class="tm">12:26:07</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="hi">Hauke_1:</span> you're in porto too?
+<a name="l-242"></a><span class="tm">12:26:51</span><span class="nk"> &lt;Hauke_1&gt;</span> yes I plan to
+<a name="l-243"></a><span class="tm">12:27:22</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#action </span><span class="cmdline">nbd, Hauke_1, jow_laptop plan to present the project at the WBM</span>
+<a name="l-244"></a><span class="tm">12:27:37</span><span class="nk"> &lt;Hauke_1&gt;</span> but probably only till Thursday
+<a name="l-245"></a><span class="tm">12:27:40</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#action </span><span class="cmdline">blogic, cyrusff, nbd plan to present the project at the WCW</span>
+<a name="l-246"></a><span class="tm">12:28:31</span><span class="nk"> &lt;Hauke_1&gt;</span> I think that is a possible timeframe
+<a name="l-247"></a><span class="tm">12:28:49</span><span class="nk"> &lt;jow_laptop&gt;</span> It would be great if we could have a few more meetings until then
+<a name="l-248"></a><span class="tm">12:28:53</span><span class="nk"> &lt;Hauke_1&gt;</span> which topics are still mising on the agenda?
+<a name="l-249"></a><span class="tm">12:28:57</span><span class="nk"> &lt;blogic&gt;</span> i think we should invite new commiters 2 weeks before that date
+<a name="l-250"></a><span class="tm">12:29:13</span><span class="nk"> &lt;blogic&gt;</span> and have at least 1 meeting with all involved before the launch
+<a name="l-251"></a><span class="tm">12:29:41</span><span class="nk"> &lt;blogic&gt;</span> it should be semi public before we should not suprise folks but gradually be more public
+<a name="l-252"></a><span class="tm">12:29:49</span><span class="nk"> &lt;blogic&gt;</span> if there is a leak then that is ok i guess
+<a name="l-253"></a><span class="tm">12:29:53</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="hi">Hauke_1:</span> I think we covered most, last remaing item would be a few quick decisions on a few questions
+<a name="l-254"></a><span class="tm">12:30:03</span><span class="nk"> &lt;Hauke_1&gt;</span> ok
+<a name="l-255"></a><span class="tm">12:30:33</span><span class="nk"> &lt;Hauke_1&gt;</span> what does lede stands for?
+<a name="l-256"></a><span class="tm">12:30:40</span><span class="nk"> &lt;blogic&gt;</span> ah ...
+<a name="l-257"></a><span class="tm">12:30:41</span><span class="nk"> &lt;blogic&gt;</span> :-)
+<a name="l-258"></a><span class="tm">12:30:53</span><span class="nk"> &lt;jow_laptop&gt;</span> it was suggested by nbd . Linux Embedded Development Environment
+<a name="l-259"></a><span class="tm">12:30:59</span><span class="nk"> &lt;blogic&gt;</span> The name LEDE is an abbreviation for Linux Embedded Development Environment, a reference to its flexibility and embedded buildroot origins, making it a solid choice for embedded Linux applications far beyound the wireless router and network appliance realm.
+<a name="l-260"></a><span class="tm">12:31:03</span><span class="nk"> &lt;blogic&gt;</span> The word LEDE is also an alternation of the phrase to lead, describing an introductory section of a news story that is intended to entice the reader to read the full story.
+<a name="l-261"></a><span class="tm">12:31:26</span><span class="nk"> &lt;jow_laptop&gt;</span> it might not be the most cracy marketing name but it is easy to spell and remember
+<a name="l-262"></a><span class="tm">12:31:43</span><span class="nk"> &lt;blogic&gt;</span> we also have the domain linux-ede.org
+<a name="l-263"></a><span class="tm">12:31:47</span><span class="nk"> &lt;blogic&gt;</span> its only a name
+<a name="l-264"></a><span class="tm">12:31:58</span><span class="nk"> &lt;jow_laptop&gt;</span> additionally I also got wrt-project.org and wrtproject.org
+<a name="l-265"></a><span class="tm">12:32:16</span><span class="nk"> &lt;jow_laptop&gt;</span> but that "w" is always problematic in english abbreviations
+<a name="l-266"></a><span class="tm">12:32:23</span><span class="nk"> &lt;blogic&gt;</span> and cpewrt.org linuxcpe.org
+<a name="l-267"></a><span class="tm">12:32:24</span><span class="nk"> &lt;Hauke_1&gt;</span> so how is the transition from OpenWrt planed? It looks like most OpenWrt core developers are in LEDE now
+<a name="l-268"></a><span class="tm">12:32:42</span><span class="nk"> &lt;blogic&gt;</span> good question
+<a name="l-269"></a><span class="tm">12:33:00</span><span class="nk"> &lt;blogic&gt;</span> one thing we need to put emphazie on id that we wont tear down bridges
+<a name="l-270"></a><span class="tm">12:33:01</span><span class="nk"> &lt;jow_laptop&gt;</span> Initially we plan to bootstrap the project and shape it in a way we deem useful to use and the community
+<a name="l-271"></a><span class="tm">12:33:12</span><span class="nk"> &lt;blogic&gt;</span> we will keep all infrastructire running and maintain if for the time being
+<a name="l-272"></a><span class="tm">12:33:18</span><span class="nk"> &lt;jow_laptop&gt;</span> yes
+<a name="l-273"></a><span class="tm">12:33:35</span><span class="nk"> &lt;blogic&gt;</span> i do not consider this a fork, but more a reboot
+<a name="l-274"></a><span class="tm">12:33:39</span><span class="nk"> &lt;jow_laptop&gt;</span> there are several possible scenarios
+<a name="l-275"></a><span class="tm">12:34:02</span><span class="nk"> &lt;jow_laptop&gt;</span> 1) lede continues maintaing the openwrt codebase for a while, openwrt eventually stalls and lede becomes its successor
+<a name="l-276"></a><span class="tm">12:34:34</span><span class="nk"> &lt;jow_laptop&gt;</span> 2) lede continues maintaing the openwrt codebase, openwrt dies, lede adopts it as umbrella organization
+<a name="l-277"></a><span class="tm">12:34:40</span><span class="nk"> &lt;Hauke_1&gt;</span> and how do we communicate this to the current OpenWrt core develoeprs that are not in this channel?
+<a name="l-278"></a><span class="tm">12:34:45</span><span class="nk"> &lt;jow_laptop&gt;</span> 3) both lede and openwrt continue to evolve differently
+<a name="l-279"></a><span class="tm">12:35:26</span><span class="nk"> &lt;jow_laptop&gt;</span> I planned to send an open letter of resignation as soon as lede becomes official, offering the other developers to join in under the agreed upon governance framework
+<a name="l-280"></a><span class="tm">12:35:43</span><span class="nk"> &lt;Hauke_1&gt;</span> and is the renaming a good idea? LEDE is a better name than OpenWrt, but OpenWrt is known by many people
+<a name="l-281"></a><span class="tm">12:36:47</span><span class="nk"> &lt;cyrusff&gt;</span> the thing is, openwrt is a trademark
+<a name="l-282"></a><span class="tm">12:36:52</span><span class="nk"> &lt;blogic&gt;</span> no
+<a name="l-283"></a><span class="tm">12:36:56</span><span class="nk"> &lt;Hauke_1&gt;</span> yes
+<a name="l-284"></a><span class="tm">12:37:00</span><span class="nk"> &lt;blogic&gt;</span> the trademark is not registered properly
+<a name="l-285"></a><span class="tm">12:37:07</span><span class="nk"> &lt;cyrusff&gt;</span> ah it isn't ?
+<a name="l-286"></a><span class="tm">12:37:11</span><span class="nk"> &lt;blogic&gt;</span> OpenWrt vs OpenWRT
+<a name="l-287"></a><span class="tm">12:37:13</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="hi">blogic:</span> it is. I've been told that the different casing is not a problem
+<a name="l-288"></a><span class="tm">12:37:17</span><span class="nk"> &lt;Hauke_1&gt;</span> I am not intrested in a legal fight
+<a name="l-289"></a><span class="tm">12:37:17</span><span class="nk"> &lt;blogic&gt;</span> ah ok
+<a name="l-290"></a><span class="tm">12:37:24</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke_1:</span> hence the rename
+<a name="l-291"></a><span class="tm">12:37:32</span><span class="nk"> &lt;blogic&gt;</span> we do not want to damage anyones work
+<a name="l-292"></a><span class="tm">12:37:44</span><span class="nk"> &lt;blogic&gt;</span> it is our private and personal choice what we do
+<a name="l-293"></a><span class="tm">12:37:50</span><span class="nk"> &lt;blogic&gt;</span> and the code is GPL
+<a name="l-294"></a><span class="tm">12:38:07</span><span class="nk"> &lt;Hauke_1&gt;</span> yes as long as it is not named OpenWrt there is no legal problem
+<a name="l-295"></a><span class="tm">12:38:15</span><span class="nk"> &lt;blogic&gt;</span> i hope there will be understanding and cooperation on both sides
+<a name="l-296"></a><span class="tm">12:38:17</span><span class="nk"> &lt;blogic&gt;</span> i really do
+<a name="l-297"></a><span class="tm">12:38:20</span><span class="nk"> &lt;Hauke_1&gt;</span> I think OpenWrt is dead without us
+<a name="l-298"></a><span class="tm">12:38:20</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="hi">Hauke_1:</span> we considered the brand value of openwrt as well but I personally think that the history and expectations tied to the name are problematic for a clean start
+<a name="l-299"></a><span class="tm">12:38:48</span><span class="nk"> &lt;blogic&gt;</span> it is also as clear a signal we can send for a reboot
+<a name="l-300"></a><span class="tm">12:38:49</span><span class="nk"> &lt;cyrusff&gt;</span> not only that but also the problems, the lack of communication and the drama
+<a name="l-301"></a><span class="tm">12:39:06</span><span class="nk"> &lt;jow_laptop&gt;</span> whenever I got in touch with users our outsiders it was percived as a cathedral kind of thing with very opague development hierarchies and decision processes
+<a name="l-302"></a><span class="tm">12:39:28</span><span class="nk"> &lt;blogic&gt;</span> personally i think we should not launder our dirty washing now
+<a name="l-303"></a><span class="tm">12:39:35</span><span class="nk"> &lt;blogic&gt;</span> the future is too bright for that
+<a name="l-304"></a><span class="tm">12:40:07</span><span class="nk"> &lt;jow_laptop&gt;</span> exactly, we plan to be neutral, professional and welcoming to openwrt to keep the door open for a future reintrgration
+<a name="l-305"></a><span class="tm">12:40:25</span><span class="nk"> &lt;jow_laptop&gt;</span> I could think of openwrt as just a distribution of lede in the future but thats just my personal take
+<a name="l-306"></a><span class="tm">12:40:52</span><span class="nk"> &lt;Hauke_1&gt;</span> I would like to stay with OpenWrt, to do so we could anounce these plans to the the remaining people and ask if they want to join under the rules given and if they are ok to use the trade mark
+<a name="l-307"></a><span class="tm">12:41:10</span><span class="nk"> &lt;blogic&gt;</span> no
+<a name="l-308"></a><span class="tm">12:41:12</span><span class="nk"> &lt;Hauke_1&gt;</span> the trade mark is not hold by one person but by an organisation in the name of OpenWrt
+<a name="l-309"></a><span class="tm">12:41:19</span><span class="nk"> &lt;blogic&gt;</span> i dont think we should intermingel
+<a name="l-310"></a><span class="tm">12:41:49</span><span class="nk"> &lt;blogic&gt;</span> it will just add to the cinfusion
+<a name="l-311"></a><span class="tm">12:42:04</span><span class="nk"> &lt;Hauke_1&gt;</span> <span class="hi">jow_laptop:</span> do you have different technical plans with LEDE compared to OpenWrt?
+<a name="l-312"></a><span class="tm">12:42:44</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">Hauke_1:</span> the ones listed at 12:18
+<a name="l-313"></a><span class="tm">12:42:45</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="hi">Hauke_1:</span> not really. I plan to put more effort on stabilization and polishing, less on "hunting kernel releases"
+<a name="l-314"></a><span class="tm">12:43:01</span><span class="nk"> &lt;blogic&gt;</span> pppoe is utterly broken
+<a name="l-315"></a><span class="tm">12:43:06</span><span class="nk"> &lt;blogic&gt;</span> so is ipv6
+<a name="l-316"></a><span class="tm">12:43:11</span><span class="nk"> &lt;blogic&gt;</span> art71xx needs a ot of work
+<a name="l-317"></a><span class="tm">12:43:22</span><span class="nk"> &lt;jow_laptop&gt;</span> I could for example imagine keeping the tree mostly as is for two to three months and only fix regressions
+<a name="l-318"></a><span class="tm">12:43:22</span><span class="nk"> &lt;blogic&gt;</span> buildbots aswell
+<a name="l-319"></a><span class="tm">12:43:24</span><span class="nk"> &lt;cyrusff&gt;</span> is there a list of things broken with v6?
+<a name="l-320"></a><span class="tm">12:43:26</span><span class="nk"> &lt;nbd&gt;</span> i think we need to communicate clearly that the openwrt core developer team decided to reboot the project under a different name
+<a name="l-321"></a><span class="tm">12:43:31</span><span class="nk"> &lt;nbd&gt;</span> and that everybody should move over
+<a name="l-322"></a><span class="tm">12:43:34</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">cyrusff:</span> not yet
+<a name="l-323"></a><span class="tm">12:43:49</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">cyrusff:</span> been a few recent changes causing people to complain not looked in detail
+<a name="l-324"></a><span class="tm">12:43:53</span><span class="nk"> &lt;cyrusff&gt;</span> okay
+<a name="l-325"></a><span class="tm">12:44:13</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="hi">cyrusff:</span> its a bad mix of various little issues, changed defaults leading to broken configs (or wrong expecations), resource issues etc.
+<a name="l-326"></a><span class="tm">12:44:19</span><span class="nk"> &lt;cyrusff&gt;</span> okay
+<a name="l-327"></a><span class="tm">12:44:42</span><span class="nk"> &lt;blogic&gt;</span> i for myself want to stop spending endless hours just merging and start developing again
+<a name="l-328"></a><span class="tm">12:44:52</span><span class="nk"> &lt;blogic&gt;</span> i curently spend 20+ hours a week on $foo
+<a name="l-329"></a><span class="tm">12:44:58</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="hi">Hauke_1:</span> I could also imagine cutting down some targets
+<a name="l-330"></a><span class="tm">12:45:06</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">jow_laptop:</span> please
+<a name="l-331"></a><span class="tm">12:45:09</span><span class="nk"> &lt;jow_laptop&gt;</span> like xburst which is broken since 6 months or so
+<a name="l-332"></a><span class="tm">12:47:16</span><span class="nk"> &lt;jow_laptop&gt;</span> my opinion regarding LEDE/OpenWrt naming: while we establish the reboot and work out governance rules, infrastructure responsibilities and the like I'd like to use LEDE name
+<a name="l-333"></a><span class="tm">12:47:27</span><span class="nk"> &lt;blogic&gt;</span> yes
+<a name="l-334"></a><span class="tm">12:47:27</span><span class="nk"> &lt;rmilecki&gt;</span> what about making it a new rule? handling hald-abonded targets
+<a name="l-335"></a><span class="tm">12:47:33</span><span class="nk"> &lt;rmilecki&gt;</span> &amp;half
+<a name="l-336"></a><span class="tm">12:47:36</span><span class="nk"> &lt;blogic&gt;</span> sure
+<a name="l-337"></a><span class="tm">12:47:49</span><span class="nk"> &lt;blogic&gt;</span> you could propose it upfront for the next meetig and we make a vote
+<a name="l-338"></a><span class="tm">12:47:53</span><span class="nk"> &lt;rmilecki&gt;</span> just a side note, to be discussed later
+<a name="l-339"></a><span class="tm">12:47:54</span><span class="nk"> &lt;jow_laptop&gt;</span> once this is in place I'd lake to stage another majority vote about the future project name etc.
+<a name="l-340"></a><span class="tm">12:47:55</span><span class="nk"> &lt;blogic&gt;</span> that should be the process
+<a name="l-341"></a><span class="tm">12:48:10</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">jow_laptop:</span> good idea
+<a name="l-342"></a><span class="tm">12:48:37</span><span class="nk"> &lt;nbd&gt;</span> ack
+<a name="l-343"></a><span class="tm">12:49:08</span><span class="nk"> &lt;nbd&gt;</span> with infratstructure there should be a hard rule 'no single point of failure'
+<a name="l-344"></a><span class="tm">12:49:18</span><span class="nk"> &lt;nbd&gt;</span> in terms of admin access
+<a name="l-345"></a><span class="tm">12:49:24</span><span class="nk"> &lt;jow_laptop&gt;</span> + documented responsibilities
+<a name="l-346"></a><span class="tm">12:49:26</span><span class="nk"> &lt;nbd&gt;</span> yes
+<a name="l-347"></a><span class="tm">12:49:52</span><span class="nk"> &lt;jow_laptop&gt;</span> git -&gt; nbd, jow, blogic; web -&gt; blogic, hauke, rafal; etc.
+<a name="l-348"></a><span class="tm">12:50:05</span><span class="nk"> &lt;jow_laptop&gt;</span> (just an example)
+<a name="l-349"></a><span class="tm">12:50:20</span><span class="nk"> &lt;jow_laptop&gt;</span> it should be three people at least
+<a name="l-350"></a><span class="tm">12:50:34</span><span class="nk"> &lt;nbd&gt;</span> ack
+<a name="l-351"></a><span class="tm">12:51:14</span><span class="nk"> &lt;jow_laptop&gt;</span> and the general idea is to make everything as simple as possible and automate whatever can be automated
+<a name="l-352"></a><span class="tm">12:51:25</span><span class="nk"> &lt;jow_laptop&gt;</span> like building releases with buildbots
+<a name="l-353"></a><span class="tm">12:52:02</span><span class="nk"> &lt;jow_laptop&gt;</span> we made some considerable progress on this front and will likely fully solve it soon
+<a name="l-354"></a><span class="tm">12:52:45</span><span class="nk"> &lt;jow_laptop&gt;</span> ok, I'd like to move to the final vote agenda item so that we can finish the official meeting
+<a name="l-355"></a><span class="tm">12:52:57</span><span class="nk"> &lt;jow_laptop&gt;</span> if you agree, respond with "+"
+<a name="l-356"></a><span class="tm">12:53:04</span><span class="nk"> &lt;jow_laptop&gt;</span> if you disagree, respond with "-"
+<a name="l-357"></a><span class="tm">12:53:19</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="topic">#topic </span><span class="topicline">Vote</span>
+<a name="l-358"></a><span class="tm">12:53:25</span><span class="nk"> &lt;blogic&gt;</span> small intermezzo on web
+<a name="l-359"></a><span class="tm">12:53:35</span><span class="nk"> &lt;blogic&gt;</span> web is asciidoc in a git tree
+<a name="l-360"></a><span class="tm">12:53:46</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#item </span><span class="cmdline">Project Rules</span>
+<a name="l-361"></a><span class="tm">12:53:49</span><span class="nk"> &lt;blogic&gt;</span> a cronjob will regenerate the html code every few hours and redeploy it
+<a name="l-362"></a><span class="tm">12:54:11</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#info </span><span class="cmdline">Project Rules</span>
+<a name="l-363"></a><span class="tm">12:54:54</span><span class="nk"> &lt;jow_laptop&gt;</span> Do you agree with rules outlined at https://www.lede-project.org/rules.html as a working draft for further discussion?
+<a name="l-364"></a><span class="tm">12:54:59</span><span class="nk"> &lt;jow_laptop&gt;</span> +
+<a name="l-365"></a><span class="tm">12:55:12</span><span class="nk"> &lt;blogic&gt;</span> +
+<a name="l-366"></a><span class="tm">12:55:33</span><span class="nk"> &lt;cyrusff&gt;</span> +
+<a name="l-367"></a><span class="tm">12:55:55</span><span class="nk"> &lt;nbd&gt;</span> +
+<a name="l-368"></a><span class="tm">12:58:22</span><span class="nk"> &lt;jow_laptop&gt;</span> Hauke_1, rmilecki ?
+<a name="l-369"></a><span class="tm">12:58:29</span><span class="nk"> &lt;rmilecki&gt;</span> + just fix the typos ;) s/elast/least/ s/the project/The project/
+<a name="l-370"></a><span class="tm">12:59:16</span><span class="nk"> &lt;blogic&gt;</span> <span class="hi">rmilecki:</span> yes ;)
+<a name="l-371"></a><span class="tm">12:59:26</span><span class="nk"> &lt;cyrusff&gt;</span> There _are_ two roles... ;)
+<a name="l-372"></a><span class="tm">12:59:43</span><span class="nk"> &lt;blogic&gt;</span> there are far worse typos still on the pages
+<a name="l-373"></a><span class="tm">13:00:12</span><span class="nk"> &lt;nbd&gt;</span> this is just draft stuff anyway, typos can be discussed separately ;)
+<a name="l-374"></a><span class="tm">13:00:47 </span><span class="nka">* rmilecki</span> <span class="ac">is going afk for some dinner</span>
+<a name="l-375"></a><span class="tm">13:01:06</span><span class="nk"> &lt;Hauke_1&gt;</span> +
+<a name="l-376"></a><span class="tm">13:01:10 </span><span class="nka">* nbd</span> <span class="ac">will go to sleep soon-ish</span>
+<a name="l-377"></a><span class="tm">13:01:13</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#agreed </span><span class="cmdline">6/6 attendees agree to accept the rules as outlined in https://git.lede-project.org/?p=web.git;a=blob;f=pages/rules.txt;h=13ad62790d69d92c4a24122d664dc498c750a005 as a wroking draft for further refinement</span>
+<a name="l-378"></a><span class="tm">13:02:33</span><span class="nk"> &lt;jow_laptop&gt;</span> Ok, anything else?
+<a name="l-379"></a><span class="tm">13:02:51</span><span class="nk"> &lt;blogic&gt;</span> mailing list
+<a name="l-380"></a><span class="tm">13:02:59</span><span class="nk"> &lt;blogic&gt;</span> please invite the others to the mailing list
+<a name="l-381"></a><span class="tm">13:03:11</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#action </span><span class="cmdline">jow_laptop Invites the other to the mailing list</span>
+<a name="l-382"></a><span class="tm">13:03:15</span><span class="nk"> &lt;blogic&gt;</span> so we can discuss when to invite and inform the next crowd and organize the next meeting
+<a name="l-383"></a><span class="tm">13:03:37</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#action </span><span class="cmdline">next meeting date and agenda items will be dicussed on the list</span>
+<a name="l-384"></a><span class="tm">13:04:06</span><span class="nk"> &lt;blogic&gt;</span> thanks and lets try to recude the meetings to 30-60 minutes next time ;)
+<a name="l-385"></a><span class="tm">13:04:25</span><span class="nk"> &lt;jow_laptop&gt;</span> Do you agree to close this meeting now and creating an agenda and a date on the list? [+/-]
+<a name="l-386"></a><span class="tm">13:04:32</span><span class="nk"> &lt;blogic&gt;</span> +
+<a name="l-387"></a><span class="tm">13:05:14</span><span class="nk"> &lt;jow_laptop&gt;</span> +
+<a name="l-388"></a><span class="tm">13:05:18</span><span class="nk"> &lt;Hauke_1&gt;</span> +
+<a name="l-389"></a><span class="tm">13:05:19</span><span class="nk"> &lt;cyrusff&gt;</span> +
+<a name="l-390"></a><span class="tm">13:05:49</span><span class="nk"> &lt;jow_laptop&gt;</span> thats enough :)
+<a name="l-391"></a><span class="tm">13:05:51</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#agreed </span><span class="cmdline">4/6 attendees agree to create and agenda and finding a date on the mailing list</span>
+<a name="l-392"></a><span class="tm">13:05:54</span><span class="nk"> &lt;jow_laptop&gt;</span> <span class="cmd">#endmeeting</span><span class="cmdline"></span></pre>
+</body></html>

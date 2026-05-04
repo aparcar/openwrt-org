@@ -1,0 +1,42 @@
+baseURL = "https://openwrt.org/"
+relativeURLs = true
+[languages.en]
+  locale = "en-us"
+  weight = 1
+title = "OpenWrt"
+defaultContentLanguage = "en"
+
+[params]
+  description = "OpenWrt is a Linux operating system targeting embedded devices."
+  tagline = "Wireless Freedom"
+  currentRelease = "25.12.2"
+  previousRelease = "24.10.6"
+
+# Primary nav — project / marketing
+[[menu.main]]
+  name = "About"
+  url = "/about/"
+  weight = 10
+
+[[menu.main]]
+  name = "Downloads"
+  url = "https://downloads.openwrt.org/"
+  weight = 20
+
+[[menu.main]]
+  name = "News"
+  url = "/news/"
+  weight = 30
+
+[[menu.main]]
+  name = "Forum"
+  url = "https://forum.openwrt.org/"
+  weight = 40
+
+[[menu.main]]
+  name = "Donate"
+  url = "/donate/"
+  weight = 50
+
+[markup.goldmark.renderer]
+  unsafe = true

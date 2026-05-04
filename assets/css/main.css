@@ -1,0 +1,370 @@
+:root {
+  /* OpenWrt core palette (per styleguide) */
+  --navy: #002B49;        /* Pantone 7463 C */
+  --cyan: #00B5E2;        /* Pantone 306 C */
+  --black: #212322;       /* Pantone 419 C */
+  --white: #FFFFFF;
+
+  /* Tints derived from core palette for UI states */
+  --cyan-hover: #009ec6;
+  --navy-hover: #001f36;
+
+  /* Neutrals */
+  --text: var(--black);
+  --muted: #5a5d5c;
+  --border: #dee2e6;
+  --bg: var(--white);
+  --bg-soft: #f5f7f9;
+
+  /* Links — brand cyan per styleguide */
+  --link: var(--cyan);
+  --link-hover: var(--cyan-hover);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { height: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+main { flex: 1 0 auto; }
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { color: var(--link-hover); text-decoration: underline; }
+
+/* External link icon (inlined so it works at any deploy URL) */
+a[href^="http://"]:not(.brand):not(:has(img))::after,
+a[href^="https://"]:not(.brand):not(:has(img))::after {
+  content: "";
+  display: inline-block;
+  width: 0.65em;
+  height: 0.65em;
+  margin-left: 0.22em;
+  vertical-align: baseline;
+  background-color: currentColor;
+  opacity: 0.7;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/><polyline points='15 3 21 3 21 9'/><line x1='10' y1='14' x2='21' y2='3'/></svg>") no-repeat center / contain;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/><polyline points='15 3 21 3 21 9'/><line x1='10' y1='14' x2='21' y2='3'/></svg>") no-repeat center / contain;
+}
+
+img { max-width: 100%; height: auto; }
+
+h1, h2, h3 { line-height: 1.25; }
+
+/* Header */
+.site-header {
+  background: var(--navy);
+  color: #fff;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  gap: 1rem;
+}
+.site-header .brand {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+.site-header .brand img {
+  display: block;
+  height: 40px;
+  width: auto;
+  min-width: 70px;
+}
+
+.main-nav { position: relative; margin-left: auto; }
+.main-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 0.25rem;
+}
+.main-nav a {
+  color: #fff;
+  padding: 0.6rem 0.9rem;
+  display: inline-block;
+  border-radius: 3px;
+}
+.main-nav a:hover {
+  background: rgba(255,255,255,0.08);
+  text-decoration: none;
+}
+
+.nav-toggle { display: none; }
+.nav-toggle-label { display: none; }
+
+@media (max-width: 768px) {
+  .nav-toggle-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 28px;
+    height: 22px;
+    cursor: pointer;
+  }
+  .nav-toggle-label span {
+    display: block;
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
+  }
+  .main-nav ul {
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    flex-direction: column;
+    background: var(--navy);
+    padding: 0.5rem 0;
+    min-width: 200px;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  .nav-toggle:checked ~ ul {
+    display: flex;
+  }
+  .main-nav a {
+    border-radius: 0;
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* Hero */
+.hero {
+  background: var(--navy);
+  color: var(--white);
+  padding: 3rem 0 2.5rem;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: minmax(140px, 220px) 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+.hero-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 220px;
+  justify-self: center;
+}
+.hero-text { min-width: 0; }
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  margin: 0 0 1rem;
+  font-weight: 600;
+}
+.tagline {
+  color: var(--cyan);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 0 0 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.lede {
+  font-size: 1.1rem;
+  max-width: 700px;
+  color: #d8e2eb;
+  margin: 0 0 0.85rem;
+}
+.lede:last-child { margin-bottom: 0; }
+.lede a { color: var(--cyan); }
+.lede a:hover { color: var(--white); }
+@media (max-width: 640px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    text-align: left;
+  }
+  .hero-logo { max-width: 140px; justify-self: start; }
+}
+
+/* Home grid (news + dev) */
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+  padding: 2.5rem 1rem 3rem;
+}
+.home-col h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+  border-bottom: 2px solid var(--cyan);
+  padding-bottom: 0.4rem;
+  display: inline-block;
+}
+.home-col p { margin: 0.5rem 0; }
+.more {
+  font-size: 0.95rem;
+  margin-top: 1rem;
+}
+
+.link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.25rem 0;
+}
+.link-list li {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.link-list li:last-child { border-bottom: 0; }
+
+/* Page content */
+.page {
+  padding: 2.5rem 0;
+  min-width: 0;
+}
+.page > h1 { margin-top: 0; }
+
+/* Layout with sidebar */
+.with-sidebar {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+@media (max-width: 768px) {
+  .with-sidebar {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+/* Sidebar */
+.sidebar {
+  padding: 2.5rem 0 1rem;
+  font-size: 0.95rem;
+}
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+.sidebar-nav li { margin: 0; }
+.sidebar-nav a {
+  display: block;
+  padding: 0.3rem 0.5rem;
+  color: var(--text);
+  border-radius: 3px;
+}
+.sidebar-nav a:hover {
+  background: var(--bg-soft);
+  color: var(--cyan-hover);
+  text-decoration: none;
+}
+.sidebar-nav ul {
+  margin: 0.15rem 0 0.4rem 0.75rem;
+  border-left: 1px solid var(--border);
+}
+.sidebar-nav ul a {
+  padding-left: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.sidebar-heading {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 1.25rem 0 0.4rem 0.5rem;
+}
+@media (max-width: 768px) {
+  .sidebar {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-soft);
+    margin: 0 -1rem;
+  }
+}
+
+.prose h2 { margin-top: 2em; }
+.prose h3 { margin-top: 1.5em; }
+.prose pre {
+  background: var(--bg-soft);
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+.prose code {
+  background: var(--bg-soft);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  font-size: 0.95em;
+}
+.prose pre code { background: none; padding: 0; }
+.prose blockquote {
+  border-left: 3px solid var(--border);
+  margin: 1em 0;
+  padding-left: 1rem;
+  color: var(--muted);
+}
+.prose table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: 0.95em;
+}
+.prose th, .prose td {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.prose th {
+  background: var(--bg-soft);
+  font-weight: 600;
+}
+
+/* Post lists (news index, news previews) */
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.post-list li {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.post-list time {
+  color: var(--muted);
+  font-size: 0.9rem;
+  min-width: 7em;
+  font-variant-numeric: tabular-nums;
+}
+
+.meta { color: var(--muted); margin-top: -0.5rem; }
+
+/* Footer */
+.site-footer {
+  background: var(--navy);
+  color: #cfd8e0;
+  padding: 1.25rem 0;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+.site-footer a { color: #fff; }
+.site-footer p { margin: 0.3rem 0; }
+.footer-links a { color: #d8e2eb; }

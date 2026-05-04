@@ -1,0 +1,405 @@
+12:59:43 <jow_laptop> #startmeeting
+12:59:43 <lede-bot> Meeting started Tue Apr  5 12:59:43 2016 UTC.  The chair is jow_laptop. Information about MeetBot at http://wiki.debian.org/MeetBot.
+12:59:43 <lede-bot> Useful Commands: #action #agreed #help #info #idea #link #topic.
+12:59:54 <jow_laptop> #topic Meeting agenda
+13:00:12 <jow_laptop> Hi all
+13:00:33 <jow_laptop> Todays agenda has these items
+13:00:39 <jow_laptop> * Infrastructure
+13:00:44 <jow_laptop> *Repository
+13:00:51 <jow_laptop> * Release Signing
+13:00:57 <jow_laptop> * Engeagements
+13:01:00 <jow_laptop> * Roadmap
+13:01:02 <jow_laptop> * Votes
+13:01:17 <jow_laptop> We can postpone items we cannot / do not want to discuss today
+13:01:34 <jow_laptop> I'll start with the first agenda item
+13:01:39 <jow_laptop> #topic Infrastrucutre
+13:02:14 <jow_laptop> #info I am in the progress of syncing downloads.openwrt.org to our buildserver so that we have a complete mirror copy, just in case
+13:02:41 <jow_laptop> #info John contacted dwvm about the mailinglists, the setup is pending
+13:03:00 <jow_laptop> #info I did a little bit of work on the website but otherwise not much yet
+13:03:22 <jow_laptop> So much for the progress part on my side.
+13:04:01 <jow_laptop> #action I plan to document our current server infrastrucutre and the responsible people in the next days
+13:05:16 <Hauke_1> hi
+13:06:09 <jow_laptop> funny how I constantly misspeel infrastructure... oh well
+13:07:10 <Hauke_1> so we will have a complete mirror of downloads.openwrt.org and can provide it in our own infrastructure then
+13:07:19 <neoraider> re
+13:07:20 <neoraider> Hi all
+13:07:20 <Hauke_1> or let it be mirrored by others
+13:07:27 <jow_laptop> I'd like to find a people volunteering to be the backup admins of the git and web servers as well as the system running this bot
+13:07:46 <jow_laptop> Hauke_1: yes, we'll have a complete copy, will provide an rsync server and call for public mirrors asap
+13:08:36 <Hauke_1> do we have to trust the mirrors? how do we prevent them from changing the files and adding bad content?
+13:08:59 <Hauke_1> is the signature check by opkg enoght
+13:09:18 <jow_laptop> for the legacy resources (whiterussian, kamikaze, ...) I plan to provide pgp signatures
+13:09:34 <Hauke_1> ok, but I do not care much about them ;-)
+13:09:38 <jow_laptop> for our new upcoming stuff we'll do pgp signing from the get-go most likely
+13:09:53 <Hauke_1> get-go?
+13:10:00 <jow_laptop> from the beginning
+13:10:40 <blogic> hi
+13:10:44 <blogic> sorry i forgot
+13:11:08 <jow_laptop> when using detached pgp signatures, multiple people can sign the same stuff so ideally a few developers sign releases and people can verify the integrity later on
+13:11:36 <jow_laptop> #action I'll write a proposol for this to the list
+13:12:06 <blogic> thanks
+13:12:38 <jow_laptop> What I'd also like to have with the future mirrors is some DNS indirection, even if it is just an downloads.lede-project.org cname -> mirror1.lede-project.org in the beginning so that we'll have rthe ability for round-robin distribution in the future
+13:13:44 <jow_laptop> So much for the mirroring, the freenode organization registration is still pending
+13:13:59 <jow_laptop> got no feedback on that front yet
+13:14:29 <jow_laptop> Any question so far?
+13:14:41 <blogic> nope
+13:14:52 <nbd> nope
+13:14:58 <neoraider> nope
+13:15:02 <jow_laptop> Ok, lets proceed to the repository topic
+13:15:07 <jow_laptop> #topic Repository
+13:15:33 <jow_laptop> It has been asked whether we will utilize github for repository hosting
+13:15:58 <jow_laptop> personally I'd like to just provide an offical mirror there but do not want to host the main operations on github
+13:16:02 <blogic> complicated
+13:16:48 <blogic> me too, we could self host gerrit
+13:17:01 <jow_laptop> #info Hauke suggested Gerrit as possible alternative
+13:17:05 <blogic> but relying ona free cloud provider is dangerous
+13:17:21 <jow_laptop> for those who didn't follow the topic here, gerrit is a sort of augmented pull request review platform
+13:17:23 <nbd> what does gerrit do aside from code review and some repo management?
+13:17:36 <jow_laptop> people can vote on merge requests with different weights
+13:17:43 <jow_laptop> ordinary users can +1 stuff, admins can +2 it
+13:17:51 <nbd> in general, i'm not a big fan of these web based review things
+13:17:59 <blogic> me neither
+13:18:02 <nbd> and i'm not a big fan of voting on pull requests either
+13:18:08 <blogic> we can only use it if it interacts with email
+13:18:34 <Hauke_1> I do not know if gerrit can interact with email
+13:18:43 <blogic> we need to find out in that case
+13:18:50 <Hauke_1> I can check
+13:19:12 <blogic> #action Hauke will find out if gerrit can interact with email threads
+13:19:12 <Hauke_1> so how should our process look like?
+13:19:25 <neoraider> Has a self-hosted Gitlab instance been considered already?
+13:19:36 <jow_laptop> with or without some system in place we need to decide on how to deal with invasive pull requests, those that can be considered architectural changes
+13:19:59 <blogic> patchwork handles PRs
+13:20:07 <neoraider> I have not hosted one myself so far, but as I understand it, it has a lot of the advantages of Github (and even allows cross-instance pull requests, if I understand correctly)
+13:20:12 <Hauke_1> should it be the same as how with people sending mails go a mailng list and patchwork and them manually appliing them?
+13:20:22 <jow_laptop> Hauke_1: likely yes
+13:20:40 <jow_laptop> neoraider: I briefly thought about it but form collegues I learned that hosting it is nontrivial
+13:20:55 <jow_laptop> especially if you anticipate huge amounts of traffic
+13:20:59 <neoraider> jow_laptop, I see. Meh.
+13:21:47 <blogic> basically we are runnng into the trac trap again where we will spend again hostiong the platform and making it stable rather than using it
+13:22:04 <blogic> we dont want to build or design a process or tool, but use an existing one
+13:22:16 <jow_laptop> yes, trac has been a huge drag in oepnwrt and until today we've not been able to make it stable or performant
+13:22:33 <blogic> personally i dont see what is wrong with using patchwork
+13:22:38 <jow_laptop> probably also due to the fact that we're no professional admins :)
+13:23:05 <blogic> o'rly
+13:23:40 <jow_laptop> I'm not fundamentally opposed to patchwork either
+13:23:56 <nbd> is there a demo page that shows how patchwork handles PRs?
+13:24:10 <nbd> i didn't know it could even do PRs
+13:24:11 <blogic> they are listed just like patches
+13:24:22 <blogic> if you send a PR to a mailinglist patchwork will show it
+13:24:36 <blogic> i have seen them in linux-mips patchwork
+13:25:10 <blogic> https://patchwork.linux-mips.org/patch/12771/
+13:25:11 <lede-bot> Title: MIPS: Pull request - Patchwork (at patchwork.linux-mips.org)
+13:25:17 <blogic> note the extra link on the top
+13:25:36 <nbd> ah
+13:26:11 <blogic> and the rest will be listed just like any other thread, just this one never had a reply
+13:26:30 <nbd> ok
+13:26:50 <nbd> fine with me
+13:27:40 <jow_laptop> so we go forward with selfhosted git via http and ssh plus patchwork for pr/patch visualization and mailing lists for communication?
+13:27:54 <nbd> ack
+13:27:55 <blogic> i am not opposed to having a github'is type thing but it needs to be selfhostable with little effort and interact with mails
+13:28:10 <nbd> i think the biggest issue is how do we handle bug reporting?
+13:28:18 <blogic> until we have that we should stick to what how just described
+13:28:48 <jow_laptop> we didn't make much progress on the bug reporting front yet. My personal redical suggestion is mailing list only
+13:29:52 <blogic> we need a bugworks really
+13:29:58 <nbd> yeah
+13:30:09 <nbd> otherwise it's just too hard to keep track of information
+13:30:14 <blogic> yep
+13:30:26 <blogic> maybe we can patch patchwork
+13:30:30 <nbd> especially with ath9k, i tend to monitor several long running tickets with lots of user comments
+13:30:34 <blogic> but again, then we would be building tools
+13:30:51 <nbd> i don't think patchwork can easily be made to handle that
+13:31:00 <blogic> exactly
+13:31:21 <nbd> afaik the cerowrt guys have used redmine
+13:31:28 <nbd> not sure how well that worked for them
+13:31:29 <jow_laptop> Gitlab provides neat ticketing as well
+13:31:42 <jow_laptop> including line comments, code links, hash links etc.
+13:31:55 <neoraider> In my experience, Redmine is as inperformant as Trac (I've been hosting both on my private server for some time)
+13:32:13 <jow_laptop> I agree with neoraider here. Redmine is slow. very slow
+13:32:17 <nbd> what if we disable lots of stuff like wiki, repository browser, etc
+13:32:23 <nbd> and use it *only* for issue tracking
+13:32:27 <nbd> to bring down the load
+13:32:50 <blogic> nbd: of what ?
+13:32:52 <blogic> trac ?
+13:33:03 <blogic> to be frank its a graveyard of crap
+13:33:03 <nbd> redmine, trac, whatever
+13:33:24 <nbd> if it doesn't even see repository updates, the database will be much smaller
+13:33:37 <nbd> and it will see only a fraction of the requests
+13:33:48 <blogic> hmmm
+13:33:49 <nbd> since people can't use it to browse random crap anymore
+13:34:00 <blogic> and look at the timeline
+13:34:02 <jow_laptop> in this case we could also pure standalone trackers like mantis
+13:34:13 <jow_laptop> +use
+13:34:15 <nbd> is the UI of mantis any good?
+13:34:35 <blogic> https://www.mantisbt.org/demo.php
+13:34:36 <lede-bot> Title: Mantis Bug Tracker | Demo (at www.mantisbt.org)
+13:35:36 <jow_laptop> hm, to me it looks very confusing
+13:35:46 <jow_laptop> you have to search the actual contents
+13:36:50 <jow_laptop> on the other hand it provides better filter capabilities and it likely has better integration capabilities compared to trac
+13:36:59 <jow_laptop> like ticket autoclosing and stuff
+13:36:59 <nbd> if it's not too hard to set up, i guess we could give it a try
+13:37:19 <jow_laptop> okay, so do we all agree with  self git + patchwork + mailinglist + mantis here?
+13:37:35 <jow_laptop> plus the ability to maybe have an auxilliary gitlab later on
+13:37:44 <nbd> ack
+13:37:46 <neoraider> How does Mantis integrate with mail?
+13:38:50 <jow_laptop> https://www.mantisbt.org/wiki/doku.php/mantisbt:emailreporting
+13:38:51 <lede-bot> Title: EmailReporting Plugin [Mantis Bug Tracker Wiki] (at www.mantisbt.org)
+13:39:37 <blogic> ah lol ... mantis .. i get the joke only now ...
+13:40:19 <jow_laptop> it seems you can post mantis issues by mail
+13:40:48 <blogic> and add notes to it
+13:41:06 <blogic> if we can also get it to push new bugs to a mailinglist then we have the perfect bridge between the 2
+13:41:19 <blogic> that would be like bugwords in that case
+13:41:23 <jow_laptop> that should be no problem
+13:41:49 <blogic> i will ask davif for a lede-bugs mailinglist aswell and we should give it a shot
+13:42:23 <nbd> next topic?
+13:43:27 <jow_laptop> #agreed For now, rely on self hosted Git + Patchwork + mailing lists and try Mantis for bug tracking
+13:43:43 <jow_laptop> #topic Release signing
+13:43:59 <jow_laptop> This topic intersects a bit with the mirror debate we had before
+13:44:10 <jow_laptop> problem with release signing is a principal one
+13:44:27 <jow_laptop> we do not want to have a group of only a few selected people who are the only ones to hold the secret key to sign releases
+13:44:55 <jow_laptop> plus we'll need keys suitable for semi-automatic operation, e.g. when building updated binaries for security updates
+13:45:20 <jow_laptop> pgp allows signing by multiple, independant people - that would cover the firmware image integrity bit
+13:45:36 <jow_laptop> but for opkg we rely on usign which has a way more limited key "architecture"
+13:45:56 <nbd> usign doesn't really limit us much
+13:46:10 <nbd> there's not much in the way of adding some multi signature verification around it
+13:46:19 <nbd> similar to how we'd use pgp
+13:46:45 <jow_laptop> I propose something like that:
+13:46:57 <jow_laptop> - each developer generates his own secret usign keypair
+13:47:16 <jow_laptop> - we'll setup a keyring.git where each developer puts his public usign and pgp keys
+13:47:29 <jow_laptop> - we'll package that as a keyring.ipk which is part of the base system
+13:48:17 <neoraider> Makes sense
+13:48:17 <jow_laptop> whenever any developer does a release or incremental package / feed rebuilds he'll simply sign with his private key
+13:48:33 <jow_laptop> whenever a leak occurs we'll udpate keyring.ipk and issue an advisory
+13:49:04 <jow_laptop> or when a new developer joins or another one leaves we update keyring.ipk as well
+13:49:11 <nbd> when i'm back in germany, i can also work on multi-signature support
+13:49:19 <Noltari> makes sense to me to
+13:49:32 <neoraider> Yes, multi-signature support would be great
+13:49:33 <nbd> and add a command line parameter to define a number-of-signatures threshold
+13:49:45 <nbd> which the user can also configure based on personal paranoia
+13:50:05 <jow_laptop> regarding multiple signatures;
+13:50:09 <neoraider> We also have that in Gluon's autoupdater infrastructure
+13:50:20 <jow_laptop> there's about one incremental rebuild per week to issue security updates
+13:50:40 <jow_laptop> this means multiple developer need to sign the patched package index files at least once per week
+13:50:54 <jow_laptop> obviously we cannot mail the plaintext file around anytime and ask anyone to add his .sig
+13:51:52 <nbd> i guesss this is stuff we'll figure out later as we go along
+13:52:00 <nbd> we start with the simple case of trusting all developer keys
+13:52:07 <nbd> in keyring.git
+13:52:20 <jow_laptop> fine with me
+13:52:21 <neoraider> Regarding images, we'd also need to decide what exactly will be signed
+13:52:44 <jow_laptop> neoraider: I plan to sign md5sums and sha256sums with usign and pgp
+13:53:02 <jow_laptop> that should provide a long enough chain of trust
+13:53:07 <nbd> and in the future we will have sysupgrade integration for usign
+13:53:12 <jow_laptop> s/long/strong/ :D
+13:53:13 <neoraider> jow_laptop, okay. These files should also contain some meta information (version number etc.) in the signed data
+13:53:56 <neoraider> Signatures should always cover all relevant context of the signature
+13:53:57 <blogic> nbd: ?
+13:54:01 <blogic> how so ?
+13:54:05 <jow_laptop> neoraider: maybe it is better to introduce a manifest file for that
+13:54:27 <jow_laptop> neoraider: but it can be sha256sums with a comment section as well
+13:54:33 <neoraider> jow_laptop, I agree. For Gluon, this manifest looks like this: http://luebeck.freifunk.net/firmware/0.7.1/sysupgrade/stable.manifest
+13:54:47 <jow_laptop> yep exactly, something like this
+13:55:01 <jow_laptop> as long as it can be processed by any traditional verification tool
+13:55:10 <nbd> blogic: well, i'd like firmware images to be signed directly as well at some point in the future
+13:55:32 <nbd> and have those checked by sysupgrade with an option to bypass the check
+13:56:16 <jow_laptop> ok, to summarize
+13:56:26 <jow_laptop> 1) we begin with establishing keyring.git
+13:56:59 <jow_laptop> 2) we'll let opkg accept any key from keyring.git in the beginning to have a simple, yet secure start
+13:57:19 <jow_laptop> 3) we'll gradually refine this system until eventually we have multi signature support, thresholds etc. in opkg
+13:57:48 <nbd> ack
+13:58:13 <jow_laptop> 4) we'll introduce manifest files / checksum files with metadata which verify and describe a set of release images and which in turn are signed by multiple developers
+13:58:21 <jow_laptop> anyone agrees so far?
+13:58:30 <nbd> ack
+13:58:31 <neoraider> ack
+13:58:34 <Hauke_1> ack
+13:58:34 <Noltari> ack
+13:58:35 <blogic> ok
+13:59:29 <jow_laptop> #agreed We'll pool pubkeys in a keyring.git, let opkg trust any of those pubkeys. System will be refined in the future and signed manifests introduced for images
+13:59:48 <jow_laptop> next topic?
+14:00:03 <Hauke_1> next
+14:00:05 <jow_laptop> #topic Engagements
+14:00:50 <jow_laptop> so blogic and me already invited neoraider and Noltari
+14:01:14 <jow_laptop> next candidates on our list are stintel, hnyman and thess
+14:02:08 <jow_laptop> we also approached dangole as he's doing good work in maintaining the oxnas target
+14:02:34 <Hauke_1> I am fine with tem
+14:02:38 <Hauke_1> them
+14:02:40 <nbd> ack
+14:02:59 <Noltari> ack
+14:03:14 <jow_laptop> We didn't yet work out any list of communities to approach
+14:04:04 <jow_laptop> I propose to setup another etherpad we can use to pool suggestions
+14:04:15 <blogic> lynxsis
+14:04:18 <jow_laptop> then we'll approach those candidates top down
+14:04:20 <blogic> and yousong
+14:04:47 <blogic> we have a chat with stintel tonight
+14:05:00 <blogic> and thess next couple of days, need to reply to his mail
+14:05:55 <neoraider> What is your idea of "approaching a community"? I think many communities don't have a private way to contact them, so you would contact leading developers in these communities?
+14:06:10 <jow_laptop> neoraider: yes
+14:06:22 <jow_laptop> that plus asking for an endorsement maybe
+14:06:52 <blogic> neoraider: yes, about a week or two before launch and then we paln to send an email to the mailing lists
+14:07:44 <jow_laptop> or maybe just leaving a message on a mailinglist, like "Hi, this is the lede project, we're doing this and that and welcome you to join collaborating with us ... link to mission statement etc.pp."
+14:08:24 <jow_laptop> I expect the new to become viral anyway
+14:08:28 <jow_laptop> *the news
+14:08:55 <jow_laptop> in so far as that the people working with openwrt will also hear about lede sooner or later
+14:09:53 <Noltari> I will happily announce it to the spanish "community"/forum if that helps :)
+14:10:02 <jow_laptop> blogic also epxressed interest in reaching out to the asian openwrt communities
+14:10:12 <blogic> yes
+14:10:36 <blogic> i would like to ask yousing to help us setup some communities in asia that we would endorse
+14:10:48 <blogic> like a "offifical project server" type thing
+14:10:59 <blogic> we horribly failed at this over the last decade
+14:11:29 <blogic> oops *yousong, i have a bad typo day today
+14:11:29 <neoraider> I can obviously play herald for the Gluon community - and also inform the other 3 Gluon maintainers beforehand if we think this makes sense
+14:11:55 <neoraider> (2 of the 3 are also based in Lübeck, so I can just talk to them in person)
+14:12:05 <jow_laptop> neoraider: this makes sense
+14:12:10 <blogic> sure
+14:12:15 <blogic> its not a big secret
+14:12:36 <blogic> the only reason we are not public yet is that we want to have it all setup and nice and polished and do it organized
+14:12:56 <blogic> there is no secret really the aim is to be public and transparent hence all the IRC logs and mailinglist logs
+14:13:05 <jow_laptop> ok, so we're already over an hour now - to protect nbd from sleep deprivation we should hurry up :)
+14:13:12 <blogic> the whole process leading up to the reboot will be published
+14:13:50 <jow_laptop> any further thoughts on the company approachment aspect?
+14:14:08 <jow_laptop> personally I can't think of any company at this stage that I would approach directly
+14:14:27 <Hauke_1> We should make a press release when this goes official with the names of the developers supporting this, so we get some media conervage
+14:14:39 <Hauke_1> for the people not so active in the communities
+14:14:41 <jow_laptop> we're still working out rules who to deal with them in thefirst place, Hauke made some suggestions on the list already
+14:14:50 <Hauke_1> and to avoid any wrong information
+14:15:03 <nbd> yeah, let's leave out companies at this stage
+14:15:09 <jow_laptop> yes, agreeing with hauke here - we should put up some official press release which we consider to be the authoartive media statement
+14:15:23 <jow_laptop> maybe with a numbero f endorsements of both communities and develoeprs
+14:15:46 <nbd> companies can endorse the project as well if they want to, but they shouldn't get advance information
+14:15:54 <nbd> they can do so when the announcement is out already
+14:15:59 <jow_laptop> ok, so to recap:
+14:16:35 <jow_laptop> #action Anyone will reach out to his respective communities when we start the project
+14:17:09 <jow_laptop> #action We'll prepare a template message we can use to send it to the various lists of relevant projects, asking for endorsements and inviting them to collaborate
+14:17:27 <jow_laptop> #action We'll prepare a press release
+14:17:46 <jow_laptop> #action We'll setup another etherpad where we pool community and develoepr suggestions
+14:18:01 <jow_laptop> right so far?
+14:18:08 <Hauke_1> yes
+14:18:10 <nbd> ack
+14:18:12 <neoraider> ack
+14:18:25 <blogic> ok
+14:18:55 <Noltari> ack
+14:19:04 <jow_laptop> okay, lets quickly move on to the Roadmap
+14:19:20 <jow_laptop> I think there's not much to discuss here yet
+14:19:32 <blogic> feature freeze
+14:19:36 <blogic> stabalize
+14:19:41 <blogic> release
+14:20:02 <Hauke_1> and auomatisation
+14:20:10 <jow_laptop> http://lede:g3h3im@www.lede-project.org/todo.html
+14:20:12 <blogic> we are automatic already
+14:20:18 <blogic> 95%
+14:20:25 <blogic> at least on the release front
+14:21:43 <jow_laptop> #topic Roadmap
+14:22:14 <jow_laptop> #info blogic wrote down a number of todos in semirandom order
+14:22:23 <jow_laptop> #link http://www.lede-project.org/todo.html
+14:23:02 <jow_laptop> I suggest setting up a pad here again where we can maybe start to shape a timeline
+14:23:16 <jow_laptop> especially for the near term things up to date we're going public
+14:23:28 <blogic> ok
+14:24:16 <jow_laptop> more thoughts on this?
+14:24:38 <jow_laptop> #action jow_laptop will setup an etherpad where we can work on a roadmap/timeline draft
+14:25:23 <blogic> focus is on stabilizing and not having amazing new ideas for new stuff
+14:25:51 <nbd> btw. can we move future discussions like the one we had today to a pad or something? i have no idea when i'm going to be available for another meeting
+14:25:56 <blogic> and once we stabilized we shoul reach out to the userbase and find out what the need
+14:26:02 <jow_laptop> to put it bluntly; make existing stuff actually work, then start building new stuff :)
+14:26:12 <nbd> travelling all over the place and i'm not sure when/where i will have internet access and time
+14:26:18 <jow_laptop> ok
+14:26:27 <blogic> nbd: well complicated
+14:26:34 <blogic> discussion needs interaction
+14:26:41 <blogic> and if you wont be near inet anyhow
+14:26:55 <nbd> i will be near inet, i just don't know ahead of time when
+14:27:06 <blogic> it will just kill the conversation
+14:27:17 <blogic> i would prefer to crunch the discussion into the weekly meetings
+14:27:22 <blogic> we agreed on day 1 to have them
+14:27:23 <jow_laptop> but we can try to prepare some stuff upfront
+14:27:29 <blogic> it was key part of the whole idea
+14:27:36 <blogic> sure
+14:27:40 <blogic> liek we did this time
+14:27:47 <jow_laptop> like setting up pads with most sutff already mention which we can then briefly skim over in the meetings
+14:27:57 <blogic> anyone was free to put stuff int he pad or actively push conversations on the ML
+14:28:02 <nbd> if i find some times where i know i will be available, i'll let you guys know
+14:28:10 <blogic> cool !
+14:28:11 <jow_laptop> allright, lets wrap this up guys
+14:28:14 <jow_laptop> we're almost through
+14:28:18 <blogic> yay
+14:28:27 <blogic> small offtopic
+14:28:37 <jow_laptop> final topic, some simple decisions
+14:28:43 <jow_laptop> #topic Votes
+14:28:47 <blogic> i built a huge regex monster to convert wiki 2 asciidoc and am currently pulling the uci docs into web.git ;)
+14:28:50 <blogic> looks good
+14:28:58 <nbd> cool
+14:29:05 <Noltari> nice!
+14:29:22 <jow_laptop> I reworked our project rule draft a little bit to kill a number of typos
+14:29:40 <nbd> looks good to me
+14:29:44 <jow_laptop> to make the woring a little more eloquent and to better convey the idea or reason behind those rules
+14:29:56 <blogic> yes
+14:30:22 <jow_laptop> I kept the original spirit and added one thing, the requirement to publically dedocument responsibilities
+14:30:29 <jow_laptop> *document
+14:30:30 <jow_laptop> damn
+14:30:35 <jow_laptop> too much coffee
+14:30:52 <blogic> what does that mean ?
+14:31:31 <jow_laptop> it means that we'll have a page somewhere that states: git server is oprerated by jow, john and noltari, irc bot is operated by nbd, neoraider and rafal etc.
+14:31:48 <jow_laptop> just so that people know whom to contact when stuff is broken
+14:31:57 <blogic> ok
+14:32:02 <blogic> lets vote on that one then
+14:32:11 <jow_laptop> can be irc nicks, mail adresses etc.
+14:32:25 <jow_laptop> ok
+14:32:26 <jow_laptop> +
+14:32:28 <blogic> +
+14:32:35 <nbd> +
+14:32:37 <neoraider> +
+14:32:42 <Noltari> +
+14:32:58 <Hauke_1> nice
+14:33:05 <Hauke_1> +
+14:33:22 <jow_laptop> #agreed 6/6 attendees accept the new rule draft
+14:33:30 <jow_laptop> #action jow_laptop will commit it asap
+14:33:41 <jow_laptop> Final decision,
+14:34:08 <jow_laptop> CC BY-SA 4.0 unported for logo, documentation, website resources etc.
+14:34:12 <nbd> +
+14:34:20 <blogic> wait
+14:34:34 <blogic> do we understand if this is a good one ?
+14:34:49 <blogic> i know jow and me concluded it is good but we were not sure
+14:35:23 <jow_laptop> I specifically wanted to allow commercial use (think of e.g. printing documentation or using the logo for a product description)
+14:35:30 <blogic> also the docs are partially based on those from the owrt wiki
+14:35:33 <jow_laptop> attribution is desirable
+14:35:38 <blogic> ok
+14:35:38 <jow_laptop> share alike as well
+14:35:45 <blogic> if you are confident then
+14:35:46 <blogic> +
+14:35:46 <jow_laptop> in case someone extends the docu
+14:35:54 <jow_laptop> so from me, +
+14:35:57 <Noltari> +
+14:35:57 <neoraider> +
+14:36:16 <blogic> i'll check the wiki license and see if we need to mark those pages separatly
+14:37:13 <jow_laptop> Hauke_1: any thoughts on it?
+14:39:17 <nbd> anything else?
+14:39:32 <jow_laptop> nbd: nope, you're free to go
+14:39:36 <nbd> ok, thx
+14:39:37 <nbd> bbl
+14:39:40 <jow_laptop> bye
+14:40:08 <jow_laptop> will wait for a feedback from Hauke_1 before closing this
+14:42:59 <Hauke_1> +
+14:43:10 <jow_laptop> #agreed 6/6 attendees agree on putting the logo and website resources under the CC BY-SA 4.0 unported license
+14:43:18 <jow_laptop> thats it!
+14:43:25 <blogic> thanks !
+14:43:31 <jow_laptop> thank you very much for your time guys
+14:43:31 <Noltari> :)
+14:43:40 <Hauke_1> cc by-sa-4.0 is also compatible with gpl and so on, so I can integarte it into such software
+14:43:49 <Hauke_1> ?
+14:43:56 <Hauke_1> that was a question  ;-)
+14:44:12 <jow_laptop> https://www.fsf.org/blogs/licensing/creative-commons-by-sa-4-0-declared-one-way-compatible-with-gnu-gpl-version-3
+14:44:14 <lede-bot> Title: Creative Commons BY-SA 4.0 declared one-way compatible with GNU GPL version 3 Free Software Foundation working together for free software (at www.fsf.org)
+14:45:23 <Hauke_1> and version 2?
+14:48:14 <jow_laptop> not officially endorsed by the FSF
+14:48:19 <jow_laptop> but they want to kill v2 anyway
+14:49:18 <jow_laptop> ah SA conflicts with GPLv2
+14:50:33 <jow_laptop> Hauke_1: do you foresee any practical problems?
+14:50:56 <Hauke_1> can I integarte this logo then into a GPLv2 gui?
+14:52:31 <Hauke_1> and can we license all code snipets in the wiki under bsd license
+14:52:39 <Hauke_1> I will bring this up next time
+14:52:50 <jow_laptop> yes, lets simply formulate a license exception then
+14:53:27 <jow_laptop> like "artwork maybe used in gplv2 programs" and "code snippets in documentation are considered to be public domain / bsd"
+14:53:33 <jow_laptop> I hate legal stuff
+14:53:41 <jow_laptop> any other final remarks?
+14:53:51 <Hauke_1> yes that would be nice
+14:54:38 <Hauke_1> when you work for a big company you get too often in contact with all these legal details
+14:54:54 <jow_laptop> #topic Links
+14:55:29 <jow_laptop> #link http://piratepad.net/J10bwpdbQJ Next meeting agenda
+14:55:30 <lede-bot> Title: PiratePad: J10bwpdbQJ (at piratepad.net)
+14:56:00 <jow_laptop> #endmeeting

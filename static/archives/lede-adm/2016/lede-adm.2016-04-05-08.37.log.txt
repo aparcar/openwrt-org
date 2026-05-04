@@ -1,0 +1,5 @@
+08:37:55 <blogic> #startmeeting
+08:37:55 <lede-bot> Meeting started Tue Apr  5 08:37:55 2016 UTC.  The chair is blogic. Information about MeetBot at http://wiki.debian.org/MeetBot.
+08:37:55 <lede-bot> Useful Commands: #action #agreed #help #info #idea #link #topic.
+08:38:02 <blogic> test
+08:38:05 <blogic> #endmeeting

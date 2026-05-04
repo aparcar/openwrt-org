@@ -1,0 +1,382 @@
+17:28:41 <jow> #startmeeting
+17:28:41 <lede-bot> Meeting started Wed Jul 20 17:28:41 2016 UTC.  The chair is jow. Information about MeetBot at http://wiki.debian.org/MeetBot.
+17:28:41 <lede-bot> Useful Commands: #action #agreed #help #info #idea #link #topic.
+17:28:56 <jow> #topic LEDE July meeting
+17:29:21 <thess> nbd: It wouldn't hurt. We could possible archive to gmail
+17:29:21 <jow> we can start if you're ready
+17:29:34 <blogic> hi
+17:29:38 <blogic> sorry got held up
+17:29:57 <jow> np, greato have you here
+17:31:11 <jow> SO the agenda proposal is here
+17:31:13 <Hauke> agenda: http://piratepad.net/RVVihbFpUh
+17:31:14 <lede-bot> Title: PiratePad: RVVihbFpUh (at piratepad.net)
+17:31:19 <jow> #link http://piratepad.net/RVVihbFpUh
+17:32:21 <jow> #topic Infrastructure
+17:33:10 <thess> OK - I'll bite. Flyspray?
+17:33:53 <Hauke> no problem we can start with Flyspray
+17:35:02 <thess> I have been in contact with the developers (such as they) are and they mentioned the desire for help with the product.
+17:35:27 <thess> Personally, I am not all that interested in doing that, but I will continue to look into bugs,
+17:35:39 <thess> report them and push fixes to them on Github.
+17:36:38 <thess> Also, I would like to do more triage work on reports and have a request for all of you.
+17:37:09 <thess> I would assign bugs for investigation or fixing if we had a list to topics each of us was
+17:37:26 <thess> interested in handling. Otherwise things just sit there until someone picks them up.
+17:38:56 <jow> makes sense to me
+17:39:23 <jow> at least I know that I cannot really fix ath9k or ethernet driver bugs
+17:39:36 <jow> I'm happy to deal with buildroot or packaging stuff though
+17:39:59 <jow> or fix things in the projects/ realm, such as ubox and things
+17:40:08 <thess> Any objects to me putting out a request (email) for topics / specialities from each developer/committer.
+17:40:22 <blogic> thess: sounds good
+17:40:53 <thess> I'll put it up as a page on our site
+17:41:07 <jow> #action inquire committer topics for better future bug triage
+17:41:31 <jow> #action publish results in web.git
+17:42:11 <thess> Anything else with FS?
+17:42:27 <blogic> thess: i like it alot
+17:42:29 <jow> at some point I like to put some effort into the design
+17:42:43 <jow> the layout of comments to an issue is unlucky imho
+17:43:02 <jow> like shifted to the left below the menu and way narrower than the rest
+17:43:07 <jow> makes it easy to overlook
+17:43:22 <jow> but all in all I like it too, especially the github auth
+17:43:50 <thess> Yeah, the Github auth is awesome.
+17:44:26 <thess> Layout changes are pretty straight forward as it is a themed CSS (ala Drupal/Joomla)
+17:44:26 <jow> KanjiMonster asked for less redundant info in the mail notifications
+17:44:41 <jow> but I didn't find the motivation to redo that part yet
+17:44:54 <thess> jow: Yes, still have open task on that.
+17:44:58 <jow> I was lucky that the lede-bugs and lede-commits lists work as they do for the moment
+17:45:07 <KanjiMonster> I mostly care about the subject
+17:45:32 <jow> that we can probably change easily
+17:45:54 <jow> #action rework FS issue notification mail subjects to allow gmail threading
+17:46:12 <jow> iirc it is an printf-like string available directly via the settings menu
+17:46:22 <thess> Didn't we do that already?
+17:46:41 <jow> I changed some thing already but did not yet remove the change/action type from the subject
+17:47:31 <jow> it should basically always contain just the issue title without any "comment added" or "issue changed" suffix
+17:47:33 <thess> With respect to layout - take a look at bugs.archlinux.org (Flyspray site)
+17:48:33 <jow> thess: it has the same problem though, comments feel a bit "unstructured" and unrelated to the actual issue
+17:48:57 <jow> but thats bikeshedding - lets move to the next item
+17:49:17 <jow> Regarding the mirror situation
+17:50:33 <jow> currently we have the problem that half a dozen different build slaves are rsyncing their artefacts to the download server at random intervals
+17:50:53 <jow> on top of that the hetzner rsync performance is awful at best
+17:51:43 <jow> the mirror team of the RWTH aachen sponsored us a machine we can use to act as primary download server
+17:52:32 <jow> that machine should provide a more stable rsync performance compared to hetzner, downside is that it does not have ipv6 connectivity
+17:52:52 <Hauke> are they working on ipv6?
+17:53:05 <jow> it is supposed to be available "soon"
+17:53:17 <jow> but as we all know this can mean next month or next decade
+17:54:01 <blogic> jow: howabout having master at aachen
+17:54:09 <blogic> and sync to hetzner and provide ipv6 there ?
+17:54:23 <jow> furthermore we got another mirror sponsored from rwth aachen (aside from the yet-to-be used master machine)
+17:54:56 <Hauke> I am for blogic's idea
+17:55:01 <jow> we got asked by the people there why their mirror receives so little traffic and whether they should continue providing it
+17:55:16 <thess> +1 w/john
+17:55:27 <jow> they said its currently spending more bandwidth rsyncing than serving any clients
+17:55:41 <jow> which brings me to the next problem giving me headaches
+17:56:16 <jow> our build artefacts are extremely volatile, from the rsync pov there is little similarities between the binaries produced by two consecutive build runs
+17:56:24 <jow> we should investigate why
+17:57:29 <jow> example here: http://phase2.builds.lede-project.org/builders/mipsel_74kc_dsp2/builds/134/steps/packageupload/logs/stdio
+17:57:58 <blogic> weird
+17:58:03 <thess> date stamps, signatures ?
+17:58:12 <blogic> lynxis: did we not have reproducable builds ?
+17:58:22 <jow> thess: possible, it needs to be figured out
+17:58:42 <jow> so what did I do so far;
+17:59:06 <jow> - I lowered the TTL of downloads.lede-project.org to 5 minutes so that we can quickly switch to the new host
+17:59:39 <jow> - I assigned an alternative name to the current rsync server and reconfigured the buildbots to sync there, to not interrupt things during the switch
+18:00:04 <lynxis> blogic: reproducible builds: I'm working on that one. will finish it tonight.
+18:00:09 <jow> - I prepared HTTP, HTTPS and RSYNC on the new machine
+18:00:36 <jow> What I need to figure out yet is how to make the rsync transfers atomic
+18:01:54 <jow> my plan was to investigate pre-xfer and post-xfer hooks in rsyncd
+18:02:44 <jow> the basic idea is to acquire an exclusive file lock when rsyncing to the download master and let upload requests from builders stall until that master transfer is through
+18:03:11 <thess> jow: just need way to cleanup lock after failures/timeouts, etc.
+18:03:34 <lynxis> how is debian doing those things?
+18:03:36 <jow> the current (old) download master will serve 1) as staging area to gather and consolidate the buildbot uploads
+18:03:44 <jow> 2) as ipv6 mirror
+18:04:00 <KanjiMonster> also ensure that other builders that wait for the lock won't get killed because of a percieved lockup as well
+18:04:28 <jow> KanjiMonster: that is part of the investigations
+18:04:33 <jow> lynxis: they don't
+18:05:03 <jow> at least from the things I found in the internet
+18:06:11 <Hauke> is it possible to upload to a tmp directory and when it is finished just change the link from the old one to the new one
+18:06:25 <jow> KanjiMonster: the idea was to use some kind of best-effort flock, basically wait for something like 30s on the exclusive lock then continue anyway
+18:06:59 <jow> KanjiMonster: that should already dramatically reduce the likelyhood of rsyncing partial uploads to the download master (assuming the staging<->master connection is reliable and fast)
+18:07:35 <jow> Hauke: that would be my backup plan
+18:07:38 <Hauke> if we upload it to a tmp directory which changes for each upload we do not have any locking issues
+18:08:54 <nbd> jow: is --delay-updates not enough?
+18:09:31 <jow> nbd: no, it cannot guarantee the consistency of the entire tree, e.g. if the Packages index fits to the .ipk files
+18:10:26 <jow> the other point I want to discuss quickly is the traffic distribution
+18:10:48 <nbd> jow: how about this: hard link the dl dir to a new one, rsync to that one, then rename it and get rid of the old one
+18:10:51 <jow> as I wrote above we got complaints from the rwth that their lede mirror is underutilizied
+18:11:34 <blogic> jow: just turn it into the master
+18:11:41 <blogic> and point downloads.lede... there
+18:11:45 <blogic> that should utilize it :-)
+18:12:08 <jow> blogic: the one they complained about is not the future master machine but their main ftp
+18:12:58 <jow> we've got five instances from them by now, three buildslaves and two download machines
+18:13:10 <Hauke> does opkg use the mirros or only the master?
+18:13:17 <jow> opkg only uses the master
+18:15:13 <thess> jow: So as blogic said - make it the master
+18:15:49 <jow> ok
+18:15:49 <thess> I never thought I'd hear of someone complaining about not consumming bandwidth
+18:16:13 <jow> #action promote RWTH machine to new download master
+18:16:48 <jow> SHall we switch to the code updates?
+18:17:25 <lynxis> +1
+18:17:32 <jow> okay
+18:17:32 <thess> OK
+18:17:36 <jow> #topic Codebase updates
+18:17:50 <jow> Not much from me here, a few very minor commits aside
+18:18:03 <jow> I mostly merged random PRs and a few patchwork items
+18:18:19 <blogic> same here
+18:18:34 <lynxis> I'm working on omap to become compatible with beaglebone black cape's
+18:18:39 <blogic> updated lots of image building code with mayor collateral dammge
+18:18:52 <blogic> but nbd fixed most of it now
+18:18:53 <thess> lynxis: Great!
+18:19:00 <blogic> ipq seems stable now
+18:19:29 <Hauke> is this todo list up to date: https://lede-project.org/todo.html ?
+18:19:29 <KanjiMonster> apart from the mange bootargs thingy hanging on certain cmdline contents
+18:19:30 <lede-bot> Title: Project ToDos (at lede-project.org)
+18:19:38 <KanjiMonster> *mangle
+18:20:02 <blogic> KanjiMonster: i did not follow it to be honest
+18:20:03 <jow> Hauke: no, the todo needs a mjor overhaul, ideally we decide the new contents in this meeting
+18:20:25 <blogic> KanjiMonster: the conversation cinfused me and i did not understand what the problem was so i am waiting for someone to send a patch
+18:20:59 <Hauke> what are the bigger topics which are missing for the next release?
+18:21:27 <jow> the one big topic which is affecting the actual release mechanics is the multi device image building code
+18:22:04 <KanjiMonster> blogic:   it seems to choke at a root= argument that doesn't match what the code is expecting, hanging the device. I guess, the code isn't the most readable.
+18:22:43 <blogic> KanjiMonster: as i said, i'll wait for a patch to fix it
+18:22:54 <blogic> KanjiMonster: i only have the eval kit so i am already chuffed we got thi far
+18:23:03 <blogic> jow: yes
+18:23:06 <jow> from my side I'd say we could start release branches any moment as soon as we can build images containing their profile packages
+18:23:10 <Hauke> jow:  is this only the target specific code or some generic code which is missing?
+18:23:28 <jow> Hauke: as far as I know the entire implementation of it needs to be done
+18:23:33 <jow> nbd correct me if I'm wrong
+18:23:36 <blogic> jow: once that is done we should fire up the infra and push a release and use it as a testing release to get status quo and then push another release soonish
+18:23:50 <jow> the image building rework in the targets is basically preparation steps to overhaul the image building
+18:24:03 <Hauke> ok
+18:24:50 <Hauke> is IPv6 working now? there is "
+18:24:52 <Hauke> Review recent IPV6 changes
+18:24:57 <Hauke> on the list
+18:25:16 <jow> the idea is that we can build multiple rootfs images in one go, to let each final device image contain exactly those packages it specified in its default packages (e.g. kmod-usb in tplink units having usb ports)
+18:25:38 <jeffree> sorry to be offtopic: does anyone know why wikidevi has been down for days?
+18:26:19 <jow> Hauke: it was never really broken, it just has various quirks
+18:26:25 <Hauke> ok
+18:26:41 <jow> but all in all I'd say that it works
+18:29:07 <jow> anything else here?
+18:29:14 <thess> Release names?
+18:29:19 <jow> ah yes
+18:30:10 <jow> I'm for the pragmatic approach and would just call it LEDE 1, LEDE 2, ... LEDE N
+18:30:10 <thess> I have become partial to yy.mm.minor however, it should be the actual release date and not a desire.
+18:30:40 <jow> but yy.mm is fine for me too
+18:30:57 <jow> I just want to not deal with the code naming anymore
+18:31:32 <thess> Fine with me -- projects have names, release have version numbers
+18:31:38 <jow> its tedious to find suitable names and without inside knowledge its hard to figure out which version it corresponds to
+18:31:47 <jow> I never know how debian 8 is called
+18:31:54 <thess> jessie
+18:31:58 <lynxis> :)
+18:31:59 <jow> and I never know what version "Gutsy Gibbon" is
+18:32:03 <jow> ...
+18:32:03 <thess> whoops - wrong
+18:32:46 <thess> dates are fine - how about use the date we branch and the minor for releases (candidates and actual)
+18:33:16 <jow> yeah, something like branchyear.branchmonth.buildnr or something like that
+18:33:29 <thess> +1
+18:33:53 <KanjiMonster> regarding version numbering, I find the libreoffice approach for rcs sensible, where xx.yy.zz rc1 is just xx.yy.zz.1, rc2 then xx.yy.zz.2 etc, which avoids the rc -> final rename issue for opkg paths
+18:34:30 <jow> why not
+18:35:19 <Hauke> I prefere LEDE 1, LEDE 2, ... over a date
+18:35:20 <jow> what I was aiming at was simply carving out some side branches that represent a release and put aside some buildbot resources to just watch those branches
+18:36:03 <jow> e.g. branch master into 16.09 or lede1, then let buildbots build that whenever something is pushed there, much like the current snapshots are done
+18:36:07 <jow> this has a few upsides:
+18:36:11 <Hauke> having build bot build the branches would be very nice
+18:36:23 <jow> - new users always install the latest patch version
+18:36:37 <thess> hauke: the problem with LEDE 1, 2 etc. is these names are more appropriate for a product name than an engineering release
+18:36:42 <jow> - rolling out fixes is as easy as cherry picking or push things to the branch
+18:37:11 <jow> - no dedicated release maintainer is needed anymore
+18:37:40 <thess> jow: whatever the name, your strategy is good
+18:37:53 <Hauke> what do we do when the kernel version or config gets changed, then a full upgrade is needed
+18:38:09 <Hauke> I like the strategy
+18:38:12 <jow> Hauke: in an existing release?
+18:38:37 <jow> we should simply avoid it
+18:38:44 <Hauke> like a minor kernel version update
+18:38:49 <jow> we can still just make a new release
+18:39:24 <jow> its basically zero effort, just branch, adjust default config, tell buildbot to watch releasebranch++
+18:39:27 <rmilecki> i wish names were sortable
+18:39:37 <rmilecki> e.g. 1 vs. 12
+18:39:42 <rmilecki> so we should have... 001?
+18:39:45 <rmilecki> sounds weird
+18:40:06 <Hauke> rmilecki: sort -n can also sort 1 vs 12
+18:40:14 <Hauke> jow: sounds good
+18:40:16 <rmilecki> yes, but some tools can't
+18:40:26 <rmilecki> e.g. i'm not so sure about nginx listing
+18:40:27 <KanjiMonster> so back to yy.mm ? ;p
+18:40:52 <jow> yeah lets do yy.mm[.buildnr]
+18:41:01 <thess> agree w/jow
+18:41:02 <wiulinu> +1
+18:41:05 <Hauke> will be add luci by default in the stable branch builds?
+18:41:11 <jow> I guess so
+18:41:16 <rmilecki> ack on both
+18:41:20 <rmilecki> yy.dd + luci
+18:41:24 <rmilecki> yy.mm ;)
+18:42:01 <jow> #topic Releases
+18:42:12 <jow> #agreed use buildbots to build release branches
+18:42:30 <jow> #agreed use branch year and month (yy.mm) as version designation
+18:42:52 <jow> this all depends on the image building though
+18:43:01 <jow> last time we had no eta for that
+18:43:13 <jow> nbd: can you chime in?
+18:45:16 <jow> I guess no, so lets move to the openwrt merge discussion?
+18:45:35 <rmilecki> i wish to have this completed
+18:45:38 <rmilecki> and then take a decision
+18:45:47 <rmilecki> see who of is working on what
+18:45:56 <rmilecki> and agree on some schedule
+18:46:03 <jow> rmilecki: this = merge or this = release stuff?
+18:46:08 <rmilecki> rootfs
+18:46:10 <jow> ah
+18:46:27 <jow> yeah I wish to have it completed too then carve out a release asap
+18:46:33 <lynxis> +1
+18:46:45 <blogic> +1
+18:48:38 <jow> #agreed multi rootfs image building needs to be finished asap
+18:49:10 <jow> shall we wait for nbd?
+18:49:33 <jow> I need to leave soon
+18:49:40 <blogic> let me call him
+18:49:43 <blogic> 1 sec
+18:49:46 <thess> meet again soon?
+18:50:10 <nbd> re
+18:50:40 <blogic> nbd: comments ?
+18:50:58 <nbd> just a moment, need to read backlog
+18:51:30 <nbd> image building is still a bit hard to predict, but i got most of the groundwork in place now
+18:51:42 <nbd> there is now a way to deal with ubifs and its different flash settings properly
+18:51:45 <nbd> using the new image format
+18:51:49 <nbd> i've converted some targets to it already
+18:52:08 <nbd> i should be able to make legacy images work with the new rootfs building code as well
+18:52:48 <nbd> if no unexpected issues show up, i hope to be able to get a prototype of it working in maybe 2 weeks
+18:52:55 <nbd> it requires more porting work though
+18:53:07 <nbd> to make targets use either the new image building code or at least the LegacyDevice wrappers
+18:53:38 <jow> I guess we can all volunteer in converting the target parts
+18:54:04 <thess> OK
+18:54:59 <blogic> jow: most is done
+18:55:08 <blogic> rt305x is missing, i forgot about it
+18:55:08 <nbd> got mvebu fully ported over in my staging tree
+18:55:14 <nbd> kirkwood definitely needs some love
+18:55:26 <thess> legacy nand devices don't produce images
+18:55:46 <thess> maybe related to ubi-utils
+18:56:03 <lynxis> #action Give some love to kirkwood
+18:56:58 <jow> anything else on the image building topic?
+18:57:34 <thess> jow: If you need another target builder, I have have one ready to go.
+18:57:35 <lynxis> i would take care of reproducible-build on https://reproducible-builds.org/
+18:57:36 <lede-bot> Title: reproducible-builds.org (at reproducible-builds.org)
+18:58:07 <blogic> jow: only that i wish i had not had the idea :-)
+18:58:51 <jow> blogic: but it is long overdue
+18:58:56 <blogic> jow: i know
+18:59:09 <jow> ok, remerge topic?
+18:59:19 <blogic> ok
+18:59:29 <jow> #topic OpenWrt merge discussion
+18:59:48 <jow> must things that happened in the last weeks can be seen on the mailing list
+19:00:44 <jow> prpl reiterated their wish for us to sit together and work out the issues
+19:01:05 <Hauke> is there big intrest in a merge ? The discussion on the list stoped 2 weeks ago
+19:01:23 <blogic> Hauke: i think yes
+19:01:33 <jow> personally I'm a bit lost in the topic
+19:01:42 <jow> not sure waht we're still supposed to do
+19:01:43 <blogic> Hauke: i guess people are scared to be flamed at so they dont get involved
+19:01:51 <rmilecki> if you ask me, I don't have too much interest, i'm unfortunately getting annyoed by remaining OpenWrt ppl from time to time :(
+19:01:51 <blogic> jow: agreed
+19:02:15 <KanjiMonster> kaloz being MIA doesn't help either (at least it seems that way)
+19:02:31 <jow> I helped zoltan to migrate the openwrt wiki to a non-lede machine
+19:02:35 <blogic> jow: i honestly would not mind, however i think we cant make it happen
+19:02:37 <nbd> yeah, last i heard from him he wanted to try to put together an opportunity for a face to face meeting
+19:02:41 <blogic> its up to the owrt folks i guess
+19:02:51 <nbd> but i didn't hear back from him
+19:03:07 <blogic> jow: the thing is we did everything thewy asked, name conditions, propose a process, enter discussions
+19:04:16 <jow> KanjiMonster: what is the situation on the openwrt side? is there any more activity in irc?
+19:05:00 <jow> nbd: so the paris meeting was just happy talk?
+19:05:54 <KanjiMonster> jow: the public channels are still rather active
+19:06:32 <jow> ok
+19:06:46 <nbd> jow: mostly. i still do think that a face to face meeting would be quite important for getting closer to being able to get the remerge discussion going in a constructive direction again
+19:06:59 <jow> nbd: the question is what should be in the end
+19:07:19 <jow> personally I neither care about the openwrt name nor about the old openwrt codebase
+19:07:43 <jow> and I know that we cannot handle wiki and forum without serious volunteer help
+19:07:50 <Hauke> like I said having a F2F meeting would probably exclude some people that have problems traveling
+19:08:07 <jow> well f2f could be a video conference too I think
+19:08:29 <lynxis> I like f2f meeting and it gives us much more than a video conference
+19:09:00 <jow> so I guess one thing we should figure out first;
+19:09:07 <Hauke> someone added a meeting at the ELCE
+19:09:17 <Hauke> I assume that many people will be there
+19:09:46 <jow> is any active lede developer willing to support a remerge and willing to work on a reunified project or is someone having objections
+19:09:54 <Hauke> I think we shold do an audio/video meeting first and then decide for F2F
+19:10:00 <jow> or rather are all instead of is any
+19:10:28 <Hauke> I would like to see us merge again
+19:10:29 <jow> and, where do we want to end up, what is the desired outcome
+19:11:19 <blogic> jow: well, we already agreed on what we think should be the way
+19:11:47 <blogic> in short, have them join lede and then use the old brand in one way or another after the domain is handed over to spi
+19:12:02 <blogic> i doubt we would find much support for doing it the other way around
+19:12:22 <rmilecki> blogic: there is more than domain if u ask me
+19:12:34 <rmilecki> mail servers, mailing lists, irc channels, servers
+19:12:36 <blogic> rmilecki: yes that was the short version
+19:12:37 <rmilecki> what about them?
+19:12:45 <rmilecki> nto that I expect a full answer
+19:12:48 <rmilecki> just many things to consider
+19:12:54 <blogic> sure
+19:13:05 <jow> mailing lists can be forwarded
+19:13:16 <jow> irc channels live and die by their participants
+19:13:28 <rmilecki> jow: they are maintained by someone at OpenWrt who does random things silently
+19:13:31 <jow> servers can be repurposed
+19:13:46 <rmilecki> that's why I can't figure out a good way to work with OpenWrt
+19:14:39 <jow> rmilecki: but thats the exact problem, once you're outside of the openwrt core its a nebulous thing
+19:15:02 <blogic> jow: i never realized how much until i was not part of the core anymore
+19:15:02 <thess> Does OpenWrt represent more to us than just resources.
+19:15:09 <jow> its almost impossible to get a proper handle onto it, much like on the entire remerge discussion in the first place
+19:15:31 <blogic> thess: well, at least some of us have a histroy with it
+19:15:49 <KanjiMonster> thess: it's also brand name / recognition. everyone knows openwrt, but lede is "new"
+19:15:49 <blogic> thess: and at least some $corp had made an investment, which they are now worried about
+19:16:06 <jow> thess: for me its nostalgia, a more or less strong brand name and community resources
+19:16:53 <jow> but personally I do not really care about the brand
+19:17:06 <wiulinu> brand name isnt as important as most people think, people who use openwrt also know about lede, most of them.
+19:17:17 <jow> thats my perception as well
+19:17:33 <thess> So our choices seem to be: attract the resources, or get openwrt to be organized and managed as LEDE
+19:17:46 <jow> I guess it is more about aligning with the community, everything else is replacable (in my opinion)
+19:18:35 <KanjiMonster> having both openwrt and lede also splits contributions; NXP chose openwrt for their initial submission of their amd64 platform
+19:18:35 <blogic> it would be nice to get it resolved in one way or the other
+19:18:47 <blogic> we have a long history after all
+19:19:59 <jow> KanjiMonster: sure but is there someone acting upon those submissions?
+19:20:05 <Hauke> as an external contributor who is not so activae in the commonity it is now hard to decide where to contribute
+19:20:34 <KanjiMonster> jow: wigyori is at least merging pull requests on github
+19:21:22 <jow> ok
+19:21:48 <jow> so what shall we do in adition to what we already did?
+19:21:58 <jow> simply ask them to join us, thne share the name?
+19:22:24 <jow> we can keep telling eachother that we would like to meet and discuss but I see very little momentum
+19:22:49 <thess> It would help us going forward if we had a Wiki & Forum. Who manages the openwrt ones now?
+19:23:03 <jow> and more importantly I do not even see any indication of discussions similar to ours going on on the openwrt side
+19:23:17 <Hauke> last week I asked in the thread to find a date for a audio meeting
+19:23:55 <Hauke> but got now response so far: http://comments.gmane.org/gmane.comp.embedded.openwrt.devel/40938
+19:23:56 <lede-bot> Title: OpenWrt Development List (at comments.gmane.org)
+19:24:02 <jow> thess: I managed the oepnwrt wiki until recently and helped zoltan to migrate
+19:24:14 <Hauke> that was the reason for my question if anybody is intrested in a merge
+19:24:21 <jow> thess: the forum is administered by imre iirc
+19:24:23 <KanjiMonster> since wigyori seems to run openwrt now, maybe we just need to coordinate with him
+19:24:48 <KanjiMonster> (but I guess the final blocker for some things remains kaloz ...)
+19:24:56 <Hauke> at least he is the most active person there
+19:25:10 <jow> KanjiMonster: you mean because kaloz is mia?
+19:25:44 <jow> thess: we do have a copy of the openwrt wiki data lying around on our download server
+19:25:48 <Hauke> I do not want to wait for kaloz forever
+19:26:04 <KanjiMonster> jow: assuming there are some adminstrative things for the domain/servers for which noone else has access/the rights
+19:26:15 <jow> we could also try to talk to mikwe
+19:26:17 <jow> #*mike
+19:26:58 <jow> thess: but not sure if we really want to host a wiki copy with s/OpenWrt/LEDE/
+19:27:17 <thess> Wasn't suggesting that!
+19:27:29 <KanjiMonster> jow: I guess that would be a viable workaround
+19:28:58 <jow> thess: that was partly joking; its just that any kind of wiki we'd set up would contain mostly contain redundant info
+19:29:20 <jow> and I didn't want to maintain the authorative documentation in the wiki but rather in git
+19:29:41 <jow> so what remains is the community wiki contents and those are already well served by the openwrt wiki
+19:30:33 <jow> similar to the forum, the topics discussed there are already openwrt/lede universal, its just running under the openwrt domain
+19:30:50 <jow> so it likely makes no sense to start a different competing forum with the very same topic scope
+19:31:49 <thess> Any way to cross-reference without pissing people off? Are the OpenWrt forum moderators amenable to LEDE topics?
+19:32:36 <blogic> thess: lede users on the owrt forum started to refer to usign "the drak side" because they get flamed ;)
+19:32:38 <jow> that would be the big question
+19:32:59 <jow> a cheap diplomatic solutiopn would be a LEDE subforum or something
+19:33:08 <jow> and let openwrt treat us as a community build
+19:33:15 <thess> The Wike has too much valuable data to loose. The dev doc could use some updates, etc.
+19:33:25 <thess> s/Wike/Wiki/
+19:34:10 <blogic> i am afraid i need to leave now
+19:34:19 <thess> l8r
+19:34:36 <blogic> thess: gn8
+19:34:50 <jow> me too, shall we summarize hise point on the public list? maybe we can facilitate some more feedback there?
+19:35:13 <jow> s/hise point/this points/
+19:35:18 <Hauke> yes jow will you do this?
+19:35:28 <jow> yes but probably not before tomorrow
+19:35:35 <Hauke> mo problem
+19:35:48 <thess> Yes, we could try a further public discussion.
+19:36:27 <jow> #action Try to work out more details regarding the LEDE/OpenWrt coexistence on the public list
+19:36:34 <thess> jow: Your points (topics) in a old mail message may be a good start
+19:37:07 <jow> can I close the meeting log?
+19:37:11 <thess> OK
+19:37:13 <Hauke> yes
+19:37:19 <jow> #endmeeting
