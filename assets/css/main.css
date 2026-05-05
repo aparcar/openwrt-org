@@ -46,8 +46,8 @@ a { color: var(--link); text-decoration: none; }
 a:hover { color: var(--link-hover); text-decoration: underline; }
 
 /* External link icon (inlined so it works at any deploy URL) */
-a[href^="http://"]:not(.brand):not(:has(img))::after,
-a[href^="https://"]:not(.brand):not(:has(img))::after {
+a[href^="http://"]:not(.brand):not(.toh-btn):not(:has(img))::after,
+a[href^="https://"]:not(.brand):not(.toh-btn):not(:has(img))::after {
   content: "";
   display: inline-block;
   width: 0.65em;
@@ -333,6 +333,390 @@ h1, h2, h3 { line-height: 1.25; }
   background: var(--bg-soft);
   font-weight: 600;
 }
+
+/* Table of Hardware (in-page app) */
+.toh-app { margin: 1.25rem 0; }
+.toh-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.toh-controls input,
+.toh-controls select {
+  font: inherit;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--white);
+  color: var(--text);
+}
+.toh-controls input { flex: 1 1 220px; min-width: 160px; }
+.toh-controls input:focus,
+.toh-controls select:focus {
+  outline: 2px solid var(--cyan);
+  outline-offset: -1px;
+  border-color: var(--cyan);
+}
+.toh-count {
+  flex-basis: 100%;
+  text-align: right;
+  color: var(--muted);
+  font-size: 0.9em;
+  font-variant-numeric: tabular-nums;
+}
+.toh-status:empty { display: none; }
+.toh-status {
+  color: var(--muted);
+  font-size: 0.95em;
+  margin: 0.5rem 0;
+}
+
+/* Filter panel */
+.toh-filters {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.4rem 0.75rem;
+  margin: 0 0 1rem;
+  background: var(--bg-soft);
+}
+.toh-filters > summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95em;
+  padding: 0.2rem 0;
+  color: var(--text);
+}
+.toh-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.75rem 1.25rem;
+  margin: 0.75rem 0 0.5rem;
+}
+.toh-filter-grid fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.toh-filter-grid legend {
+  font-weight: 600;
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  padding: 0;
+  margin-bottom: 0.25rem;
+}
+.toh-filter-grid label {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-size: 0.88em;
+  padding: 0.15rem 0;
+  cursor: pointer;
+  line-height: 1.3;
+}
+.toh-filter-grid input[type="checkbox"] { margin: 0; }
+.toh-f-label { color: var(--text); }
+.toh-f-sub {
+  color: var(--muted);
+  font-size: 0.85em;
+  text-align: right;
+}
+.toh-filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.5rem 0;
+  font-size: 0.9em;
+}
+.toh-filter-actions button {
+  font: inherit;
+  font-size: 0.9em;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--white);
+  color: var(--text);
+  cursor: pointer;
+  margin-left: auto;
+}
+.toh-filter-actions button:hover {
+  border-color: var(--cyan);
+  color: var(--cyan-hover);
+}
+.toh-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  color: var(--muted);
+}
+.toh-toggle input { margin: 0; }
+
+/* Quick filter toggles inline with the search box */
+.toh-quick {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.toh-quick-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.95rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--white);
+  font: inherit;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.toh-quick-item:hover { border-color: var(--cyan); }
+/* Visually hide the native checkbox while keeping it focusable. */
+.toh-quick-item input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.toh-quick-item:has(input:checked) {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: var(--white);
+}
+.toh-quick-item:has(input:checked):hover {
+  background: var(--cyan-hover);
+  border-color: var(--cyan-hover);
+}
+.toh-quick-item:has(input:focus-visible) {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+/* Technical columns hidden by default */
+.toh-table .toh-tech { display: none; }
+.toh-table.show-tech .toh-tech { display: table-cell; }
+
+/* Expand toggle in the Images column */
+.toh-expand {
+  font: inherit;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0.05em 0.45em;
+  color: var(--muted);
+  line-height: 1;
+}
+.toh-expand:hover {
+  border-color: var(--cyan);
+  color: var(--cyan-hover);
+}
+.toh-expand[aria-expanded="true"] {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: var(--bg-soft);
+}
+
+/* Detail row revealed on expand. Specificity bumped to beat
+   `.toh-table td { white-space: nowrap }` regardless of source order. */
+.toh-table .toh-detail td {
+  background: var(--bg-soft);
+  padding: 1rem 1.25rem;
+  white-space: normal;
+}
+.toh-detail-inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem 2rem;
+}
+.toh-detail-section {
+  min-width: 0; /* allow grid items to shrink and wrap text */
+}
+.toh-detail-section h4,
+.toh-detail-section p,
+.toh-detail-section ul,
+.toh-detail-section li,
+.toh-detail-na {
+  white-space: normal;
+}
+.toh-detail-section h4 {
+  margin: 0 0 0.35rem;
+  font-size: 0.95em;
+  color: var(--text);
+}
+.toh-detail-section p {
+  margin: 0 0 0.5rem;
+  font-size: 0.88em;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.toh-detail-section ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.toh-detail-section li {
+  padding: 0;
+  font-size: 0.9em;
+}
+
+/* Firmware download buttons */
+.toh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--white);
+  color: var(--text);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.toh-btn:hover {
+  border-color: var(--cyan);
+  color: var(--cyan-hover);
+  background: var(--bg-soft);
+  text-decoration: none;
+}
+.toh-btn::before {
+  content: "";
+  display: inline-block;
+  width: 0.95em;
+  height: 0.95em;
+  background-color: currentColor;
+  flex: none;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/><polyline points='7 10 12 15 17 10'/><line x1='12' y1='15' x2='12' y2='3'/></svg>") no-repeat center / contain;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/><polyline points='7 10 12 15 17 10'/><line x1='12' y1='15' x2='12' y2='3'/></svg>") no-repeat center / contain;
+}
+.toh-detail-na {
+  font-style: italic;
+  font-size: 0.88em;
+  color: var(--muted);
+}
+.toh-low-mem + .toh-detail td { background: #fbf2f2; }
+
+/* Combined Brand · Model cell. Both elements truncate independently;
+   the full string is visible on hover via the `title` attribute. */
+.toh-brand,
+.toh-model {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+.toh-brand {
+  font-weight: 600;
+  margin-right: 0.25em;
+  max-width: 14ch;
+}
+.toh-model {
+  max-width: 26ch;
+}
+
+/* Wi-Fi generation tags */
+.toh-wifi {
+  display: inline-block;
+  padding: 0.05em 0.5em;
+  border-radius: 3px;
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--bg-soft);
+  color: var(--text);
+}
+.toh-wifi-7 { background: var(--cyan);  color: var(--white); }
+.toh-wifi-6 { background: #cdeaf3;     color: #003a5a; }
+.toh-wifi-5 { background: #dde6ec;     color: #2a4a60; }
+.toh-wifi-4 { background: #e6ebef;     color: #4a5a68; }
+.toh-wifi-3,
+.toh-wifi-2,
+.toh-wifi-1 { background: #f0f2f4;     color: #6a7480; }
+
+/* Memory: warning style for devices below the recommended threshold */
+.toh-mem-bad {
+  display: inline-block;
+  padding: 0.05em 0.45em;
+  border-radius: 3px;
+  background: #f4dada;
+  color: #8a1f1f;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.toh-low-mem td { background: #fbf2f2; }
+.toh-low-mem:hover td { background: #f5e5e5; }
+
+/* "Do not buy" notice above the table */
+.toh-notice {
+  margin: 0.75rem 0 0.5rem;
+  padding: 0.6rem 0.85rem;
+  border-left: 3px solid #8a1f1f;
+  background: #fbf2f2;
+  color: #6a1818;
+  font-size: 0.9em;
+}
+.toh-table-wrap {
+  overflow-x: auto;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  /* Fit the remaining viewport height (page chrome + filters above) so the
+     site footer stays visible. Floor at 16rem on small screens. */
+  max-height: calc(100dvh - 32rem);
+  min-height: 16rem;
+}
+.toh-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 0;
+}
+.toh-table th,
+.toh-table td {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.toh-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--bg-soft);
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+.toh-table thead th:hover { color: var(--cyan-hover); }
+.toh-table thead th[data-sort]::after {
+  content: " \2195";
+  color: var(--border);
+  font-weight: normal;
+}
+.toh-table thead th.sort-asc::after  { content: " \25B2"; color: var(--cyan); }
+.toh-table thead th.sort-desc::after { content: " \25BC"; color: var(--cyan); }
+.toh-table tbody tr:hover { background: var(--bg-soft); }
+.toh-links a { white-space: nowrap; }
 
 /* Release status badges */
 .status {

@@ -13,4 +13,10 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
   <link rel="manifest" href="/favicon/site.webmanifest">
   <meta name="theme-color" content="#002B49">
+  {{ range .Params.extra_scripts }}
+    {{ with resources.Get . }}
+      {{ $js := . | resources.Minify | resources.Fingerprint }}
+      <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+    {{ end }}
+  {{ end }}
 </head>
