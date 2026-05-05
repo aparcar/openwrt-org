@@ -9,8 +9,7 @@ defaultContentLanguage = "en"
 [params]
   description = "OpenWrt is a Linux operating system targeting embedded devices."
   tagline = "Wireless Freedom"
-  currentRelease = "25.12.2"
-  previousRelease = "24.10.6"
+  # Release lifecycle data lives in data/releases.toml.
 
 # Primary nav — project / marketing
 [[menu.main]]

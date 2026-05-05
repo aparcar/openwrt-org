@@ -334,6 +334,19 @@ h1, h2, h3 { line-height: 1.25; }
   font-weight: 600;
 }
 
+/* Release status badges */
+.status {
+  display: inline-block;
+  padding: 0.15em 0.6em;
+  border-radius: 3px;
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.status-supported   { background: #dcefdc; color: #1d6b1d; }
+.status-maintenance { background: #fdf3cf; color: #836914; }
+.status-eol         { background: #f4dada; color: #8a1f1f; }
+
 /* Post lists (news index, news previews) */
 .post-list {
   list-style: none;

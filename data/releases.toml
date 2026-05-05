@@ -1,0 +1,79 @@
+# Single source of truth for OpenWrt release lifecycle.
+# Bump entries here; the support-status table in /security/ and any other
+# templated reference (via .Site.Data.releases) updates automatically.
+#
+# status values:  supported | maintenance | eol
+# status_label is what gets rendered in the badge.
+# Order top-to-bottom = newest series first.
+
+[[releases]]
+series       = "25.12"
+status       = "supported"
+status_label = "Supported"
+initial      = "2026-03-06"
+latest       = "25.12.2"
+latest_date  = "2026-03-27"
+eol          = "TBD"
+
+[[releases]]
+series       = "24.10"
+status       = "maintenance"
+status_label = "Security maintenance"
+initial      = "2025-02-06"
+latest       = "24.10.6"
+latest_date  = "2026-03-18"
+eol          = "2026-09"
+
+[[releases]]
+series       = "23.05"
+status       = "eol"
+status_label = "End of life"
+initial      = "2023-10-13"
+latest       = "23.05.6"
+latest_date  = "2025-08-20"
+eol          = "2025-08"
+
+[[releases]]
+series       = "22.03"
+status       = "eol"
+status_label = "End of life"
+initial      = "2022-09-06"
+latest       = "22.03.7"
+latest_date  = "2024-07-25"
+eol          = "2024-07"
+
+[[releases]]
+series       = "21.02"
+status       = "eol"
+status_label = "End of life"
+initial      = "2021-09-04"
+latest       = "21.02.7"
+latest_date  = "2023-05-01"
+eol          = "2023-05"
+
+[[releases]]
+series       = "19.07"
+status       = "eol"
+status_label = "End of life"
+initial      = "2020-01-06"
+latest       = "19.07.10"
+latest_date  = "2022-04-20"
+eol          = "2022-04"
+
+[[releases]]
+series       = "18.06"
+status       = "eol"
+status_label = "End of life"
+initial      = "2018-07-31"
+latest       = "18.06.9"
+latest_date  = "2020-12-09"
+eol          = "2020-12"
+
+[[releases]]
+series       = "17.01"
+status       = "eol"
+status_label = "End of life"
+initial      = "2017-02-22"
+latest       = "17.01.7"
+latest_date  = "2019-06-20"
+eol          = "2019-06"

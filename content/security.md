@@ -23,16 +23,7 @@ OpenWrt provides security fixes only for the most recent two stable series. The 
 
 A new major release enters *Supported* status. When the next major release ships, the previous one drops to *Security maintenance*. A release reaches *EoL* one year after its initial release, or six months after its successor ships, whichever is later. A final minor release is normally cut at the end of the support cycle.
 
-| Series | Status               | Initial release | Latest minor | Latest release date | EoL (projected) |
-|--------|----------------------|-----------------|--------------|---------------------|-----------------|
-| 25.12  | Supported            | 2026-03-06      | 25.12.2      | 2026-03-27          | TBD             |
-| 24.10  | Security maintenance | 2025-02-06      | 24.10.6      | 2026-03-18          | 2026-09         |
-| 23.05  | End of life          | 2023-10-13      | 23.05.6      | 2025-08-20          | 2025-08         |
-| 22.03  | End of life          | 2022-09-06      | 22.03.7      | 2024-07-25          | 2024-07         |
-| 21.02  | End of life          | 2021-09-04      | 21.02.7      | 2023-05-01          | 2023-05         |
-| 19.07  | End of life          | 2020-01-06      | 19.07.10     | 2022-04-20          | 2022-04         |
-| 18.06  | End of life          | 2018-07-31      | 18.06.9      | 2020-12-09          | 2020-12         |
-| 17.01  | End of life          | 2017-02-22      | 17.01.7      | 2019-06-20          | 2019-06         |
+{{< release-table >}}
 
 Caveats:
 
