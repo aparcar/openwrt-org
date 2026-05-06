@@ -22,6 +22,15 @@ jobs:
           install -m 0755 hugo /usr/local/bin/hugo
           hugo version
 
+      - name: Snapshot toh.json (fallback if live fetch is rate-limited)
+        run: |
+          set -eu
+          mkdir -p static/toh
+          # openwrt.org rejects requests without a browser-like UA.
+          curl -fsSL -A "Mozilla/5.0 openwrt-website-build" \
+            https://openwrt.org/toh.json -o static/toh/data.json
+          ls -la static/toh/data.json
+
       - name: Build
         run: hugo --minify --gc
 

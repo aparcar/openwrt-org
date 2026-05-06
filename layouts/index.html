@@ -1,11 +1,21 @@
 {{ define "main" }}
+{{- $latest := "" -}}
+{{- with index (where .Site.Data.releases.releases "status" "supported") 0 -}}
+  {{- $latest = .latest -}}
+{{- end -}}
 <section class="hero">
   <div class="container hero-inner">
     <img class="hero-logo" src="/images/openwrt-icon-white-and-blue.svg" alt="" aria-hidden="true">
     <div class="hero-text">
       <p class="tagline">{{ .Site.Params.tagline }}</p>
       <p class="lede">The OpenWrt Project is a Linux operating system targeting embedded devices. Instead of trying to create a single, static firmware, OpenWrt provides a fully writable filesystem with package management. This frees you from the application selection and configuration provided by the vendor and allows you to customize the device through the use of packages to suit any application. For developers, OpenWrt is the framework to build an application without having to build a complete firmware around it; for users this means the ability for full customization, to use the device in ways never envisioned.</p>
-      <p class="lede">See the <a href="https://toh.openwrt.org/">Table of Hardware</a> for supported devices. For more information about OpenWrt project organization, see the <a href="/about/">About OpenWrt</a> pages.</p>
+      <p class="lede">See the <a href="/toh/">Table of Hardware</a> for supported devices. For more information about OpenWrt project organization, see the <a href="/about/">About OpenWrt</a> pages.</p>
+      {{- if $latest }}
+      <p class="hero-cta">
+        <a class="btn btn-primary" href="https://downloads.openwrt.org/releases/{{ $latest }}/">Download OpenWrt {{ $latest }}</a>
+        <a class="btn" href="/security/">Releases &amp; support</a>
+      </p>
+      {{- end }}
     </div>
   </div>
 </section>

@@ -8,7 +8,10 @@
 
   const $ = (sel) => root.querySelector(sel);
   const RENDER_CAP = 500;
-  const DATA_URL = 'https://openwrt.org/toh.json';
+  const LIVE_URL = 'https://openwrt.org/toh.json';
+  // Build-time snapshot of toh.json bundled into the site (see deploy.yml).
+  // Same-origin and reliable; falls back to live if missing/stale.
+  const LOCAL_URL = new URL('data.json', document.baseURI).href;
 
   // Filter definitions, organised by visibility tier.
   // Each filter: [id, label, sub-text (or ''), test(entry, idx) -> bool].
@@ -95,27 +98,47 @@
   let columns, idx, entries;
   let sortKey = 'brand';
   let sortDir = 1;
+  let releaseFilter = null; // e.g. "25.12.2" — set from ?release=
+  let seriesFilter = null;  // e.g. "25.12" — derived from releaseFilter
 
   buildQuick();
   buildGroups(filterPanel, FILTER_GROUPS);
 
-  fetch(DATA_URL)
-    .then((r) => {
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.json();
-    })
+  fetchToh()
     .then(init)
     .catch((err) => {
       countEl.textContent = '';
       statusEl.textContent =
-        'Could not load device data from ' + DATA_URL + ' (' + err.message + ').';
+        'Could not load device data (' + err.message + ').';
     });
+
+  // Try the build-time snapshot first (same-origin, reliable). Fall back to
+  // live openwrt.org/toh.json if the snapshot is missing or invalid.
+  function fetchToh() {
+    const tryFetch = (url) =>
+      fetch(url).then((r) => {
+        if (!r.ok) throw new Error(url + ' HTTP ' + r.status);
+        return r.json();
+      });
+    return tryFetch(LOCAL_URL).catch(() => tryFetch(LIVE_URL));
+  }
 
   function init(data) {
     columns = data.columns;
     entries = data.entries;
     idx = {};
     columns.forEach((k, i) => (idx[k] = i));
+
+    // Honour ?release=X.Y.Z in the URL — pre-filters to devices supported in
+    // that series. Reachable from the Downloads page's "Find your device" CTA.
+    const params = new URLSearchParams(location.search);
+    const rel = params.get('release');
+    if (rel) {
+      releaseFilter = rel;
+      const m = rel.match(/^(\d+\.\d+)/);
+      seriesFilter = m ? m[1] : null;
+      if (seriesFilter) showReleaseBanner(rel);
+    }
 
     statusEl.textContent = '';
     render();
@@ -214,7 +237,40 @@
         if (cb.id !== 'toh-show-tech') cb.checked = false;
       });
     search.value = '';
+    clearReleaseFilter();
     render();
+  }
+
+  function clearReleaseFilter() {
+    if (!releaseFilter) return;
+    releaseFilter = null;
+    seriesFilter = null;
+    history.replaceState(null, '', location.pathname);
+    const banner = root.querySelector('.toh-release-filter');
+    if (banner) banner.remove();
+  }
+
+  function showReleaseBanner(release) {
+    const banner = document.createElement('div');
+    banner.className = 'toh-release-filter';
+    banner.append('Showing devices supported in OpenWrt ');
+    const strong = document.createElement('strong');
+    strong.textContent = release;
+    banner.appendChild(strong);
+    banner.append('. ');
+    const a = document.createElement('a');
+    a.href = location.pathname;
+    a.textContent = 'Show all devices';
+    a.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      clearReleaseFilter();
+      render();
+    });
+    banner.appendChild(a);
+
+    const controls = root.querySelector('.toh-controls');
+    if (controls) controls.parentNode.insertBefore(banner, controls);
+    else root.prepend(banner);
   }
 
   function updateSortIndicators() {
@@ -238,6 +294,10 @@
       if (q) {
         const hay = (e[idx.brand] || '') + ' ' + (e[idx.model] || '');
         if (!hay.toLowerCase().includes(q)) return false;
+      }
+      if (seriesFilter) {
+        const cur = String(e[idx.supportedcurrentrel] ?? '');
+        if (cur !== seriesFilter && !cur.startsWith(seriesFilter + '.')) return false;
       }
       return true;
     });

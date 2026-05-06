@@ -1,5 +1,6 @@
 baseURL = "https://openwrt.org/"
 relativeURLs = true
+enableRobotsTXT = true
 [languages.en]
   locale = "en-us"
   weight = 1
@@ -19,7 +20,7 @@ defaultContentLanguage = "en"
 
 [[menu.main]]
   name = "Downloads"
-  url = "https://downloads.openwrt.org/"
+  url = "/downloads/"
   weight = 20
 
 [[menu.main]]

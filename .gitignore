@@ -6,3 +6,6 @@
 # Editor / OS
 .DS_Store
 *.swp
+
+# Fetched at build time (see .forgejo/workflows/deploy.yml)
+/static/toh/data.json

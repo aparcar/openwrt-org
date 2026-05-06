@@ -188,6 +188,204 @@ h1, h2, h3 { line-height: 1.25; }
 .lede:last-child { margin-bottom: 0; }
 .lede a { color: var(--cyan); }
 .lede a:hover { color: var(--white); }
+
+/* Buttons. Default styling works on light page backgrounds; .hero overrides
+   for the dark navy hero. .btn-primary stays cyan-fill / navy-text in both
+   contexts (cyan + white text only gives ~2:1 contrast — too low). */
+.btn {
+  display: inline-block;
+  padding: 0.55rem 1.15rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--white);
+  color: var(--text);
+  font-weight: 500;
+  text-decoration: none;
+  margin-right: 0.4rem;
+  margin-bottom: 0.4rem;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.btn:hover {
+  border-color: var(--cyan);
+  color: var(--cyan-hover);
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: var(--navy);
+  font-weight: 600;
+}
+.btn-primary:hover {
+  background: var(--cyan-hover);
+  border-color: var(--cyan-hover);
+  color: var(--navy);
+}
+.hero .btn {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.55);
+  color: var(--white);
+}
+.hero .btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.75);
+  color: var(--white);
+}
+.hero-cta {
+  margin: 1.25rem 0 0;
+}
+
+/* Downloads page (search-first) */
+.dl-loading { color: var(--muted); font-style: italic; }
+.dl-error {
+  color: var(--text);
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg-soft);
+}
+.dl-empty {
+  color: var(--muted);
+  margin: 0.85rem 0;
+}
+
+.dl-search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: stretch;
+  margin: 1rem 0 0.75rem;
+}
+.dl-search-bar input,
+.dl-search-bar select {
+  font: inherit;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--white);
+  color: var(--text);
+}
+.dl-search-bar input { flex: 1 1 220px; min-width: 0; }
+.dl-search-bar select { flex: 0 1 auto; }
+.dl-search-bar input:focus,
+.dl-search-bar select:focus {
+  outline: 2px solid var(--cyan);
+  outline-offset: -1px;
+  border-color: var(--cyan);
+}
+
+.dl-card {
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-soft);
+  border-left: 4px solid var(--cyan);
+  border-radius: 4px;
+  margin: 0.5rem 0 1rem;
+}
+.dl-card h2 { margin: 0; color: var(--navy); }
+.dl-card-sub { color: var(--muted); margin: 0.25rem 0 0; }
+.dl-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.9rem 0 0;
+}
+.dl-actions .btn { margin: 0; }
+
+.dl-results-meta {
+  color: var(--muted);
+  font-size: 0.9em;
+  margin: 0 0 0.5rem;
+}
+.dl-results-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.dl-row + .dl-row { border-top: 1px solid var(--border); }
+.dl-row-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  background: var(--white);
+  border: 0;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  color: var(--text);
+}
+.dl-row-head:hover { background: var(--bg-soft); }
+.dl-row-head[aria-expanded="true"] {
+  background: var(--bg-soft);
+  border-bottom: 1px solid var(--border);
+}
+.dl-row-brand { font-weight: 600; }
+.dl-row-model { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dl-row-chev {
+  margin-left: auto;
+  color: var(--muted);
+  font-family: monospace;
+}
+.dl-row-detail {
+  padding: 0.85rem 1rem 1.1rem;
+  background: var(--bg-soft);
+}
+
+.dl-specs {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.2rem 1rem;
+  margin: 0 0 0.85rem;
+  font-size: 0.92em;
+}
+.dl-specs dt {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.78em;
+  align-self: center;
+}
+.dl-specs dd { margin: 0; }
+
+.dl-warn {
+  margin-top: 0.75rem;
+  padding: 0.55rem 0.75rem;
+  background: #f4dada;
+  color: #8a1f1f;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* Snapshot ("developers only") version dropdown styling.
+   <option> styling support varies by browser; we colour the option text where
+   we can and switch the parent <select> to a red border/text when active. */
+option.dl-snapshot-option {
+  color: #8a1f1f;
+  font-weight: 600;
+}
+.dl-search-bar select.dl-snapshot-active {
+  border-color: #8a1f1f;
+  color: #8a1f1f;
+  font-weight: 600;
+}
+.dl-snapshot-warn {
+  padding: 0.6rem 0.85rem;
+  background: #f4dada;
+  color: #8a1f1f;
+  border-left: 3px solid #8a1f1f;
+  border-radius: 3px;
+  margin: 0 0 0.75rem;
+  font-size: 0.95em;
+}
+.dl-card-warn {
+  border-left-color: #8a1f1f;
+  background: #fbf2f2;
+}
+.dl-card-warn h2 { color: #8a1f1f; }
 @media (max-width: 640px) {
   .hero-inner {
     grid-template-columns: 1fr;
@@ -371,6 +569,19 @@ h1, h2, h3 { line-height: 1.25; }
   color: var(--muted);
   font-size: 0.95em;
   margin: 0.5rem 0;
+}
+
+/* Release-aware pre-filter banner (set when /toh/?release=… is in the URL) */
+.toh-release-filter {
+  padding: 0.5rem 0.85rem;
+  background: var(--bg-soft);
+  border-left: 3px solid var(--cyan);
+  border-radius: 3px;
+  margin: 0 0 0.75rem;
+  font-size: 0.95em;
+}
+.toh-release-filter a {
+  margin-left: 0.25em;
 }
 
 /* Filter panel */

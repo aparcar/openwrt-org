@@ -1,22 +1,67 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ if .IsHome }}{{ .Site.Title }} — {{ .Site.Params.tagline }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
-  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-  {{ with resources.Get "css/main.css" }}
+  {{- $is404 := eq .Kind "404" -}}
+  {{- $base := .Site.BaseURL | strings.TrimSuffix "/" -}}
+  {{- $title := cond .IsHome (printf "%s — %s" .Site.Title .Site.Params.tagline) (printf "%s | %s" .Title .Site.Title) -}}
+  {{- if $is404 }}{{ $title = printf "Page not found | %s" .Site.Title }}{{ end -}}
+  {{- $description := or .Description .Site.Params.description -}}
+  {{- $ogImage := printf "%s/favicon/android-chrome-512x512.png" $base -}}
+  {{- $ogType := cond (eq .Section "news") "article" "website" -}}
+
+  <title>{{ $title }}</title>
+  <meta name="description" content="{{ $description }}">
+
+  {{- if $is404 }}
+  <base href="{{ .Site.BaseURL }}">
+  {{- end }}
+
+  {{- if not $is404 }}
+  <link rel="canonical" href="{{ .Permalink }}">
+  {{- end }}
+
+  <meta property="og:title" content="{{ $title }}">
+  <meta property="og:description" content="{{ $description }}">
+  <meta property="og:type" content="{{ $ogType }}">
+  <meta property="og:url" content="{{ .Permalink }}">
+  <meta property="og:site_name" content="{{ .Site.Title }}">
+  <meta property="og:image" content="{{ $ogImage }}">
+  {{- if and (eq .Section "news") (not .Date.IsZero) }}
+  <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+  {{- end }}
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{ $title }}">
+  <meta name="twitter:description" content="{{ $description }}">
+  <meta name="twitter:image" content="{{ $ogImage }}">
+
+  {{- with resources.Get "css/main.css" }}
     {{ $css := . | resources.Minify | resources.Fingerprint }}
-    <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
-  {{ end }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+  {{- end }}
+
   <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
   <link rel="manifest" href="/favicon/site.webmanifest">
   <meta name="theme-color" content="#002B49">
-  {{ range .Params.extra_scripts }}
-    {{ with resources.Get . }}
-      {{ $js := . | resources.Minify | resources.Fingerprint }}
-      <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
-    {{ end }}
-  {{ end }}
+
+  {{- /* RSS feed discovery — page-specific (e.g. /news/) plus a global pointer to /news/ on every page. */ -}}
+  {{- range .AlternativeOutputFormats -}}
+  {{- if eq .Name "RSS" }}
+  <link rel="alternate" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}" title="{{ $.Site.Title }} – {{ $.Title }}">
+  {{- end -}}
+  {{- end }}
+  {{- if not (eq .Section "news") }}
+  <link rel="alternate" type="application/rss+xml" href="{{ printf "%s/news/index.xml" $base | safeURL }}" title="OpenWrt news">
+  {{- end }}
+
+  {{- range .Params.extra_scripts }}
+    {{- with resources.Get . }}
+    {{ $js := . | resources.Minify | resources.Fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+    {{- end }}
+  {{- end }}
+
 </head>
