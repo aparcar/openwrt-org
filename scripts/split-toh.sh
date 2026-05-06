@@ -1,18 +1,18 @@
 #!/bin/sh
 # Split the wiki toh.json export into one JSON file per device.
 #
-# Reads the columnar export (with `.columns` and `.entries`) and emits a
-# flat key-indexed object per device into $OUT. The downloads page fetches
-# only the device it needs instead of the 4 MB monolith.
+# Reads the columnar export (`.columns` + `.entries[]`) and writes a flat
+# key/value object per device into $OUT. The downloads page fetches one of
+# these per row-expand instead of the 4 MB monolith.
+#
+# Filename rule: the part of `deviceid` after the colon (the wiki uses
+# `vendor:id`). For the rare case where the wiki id doesn't match the
+# buildbot's profile id (e.g. `openwrt:openwrt_one_1` → buildbot
+# `openwrt_one`), add an entry to the case statement below.
 #
 # Usage:
 #   scripts/split-toh.sh [INPUT] [OUTPUT_DIR]
-#
 # Defaults: ./static/toh/data.json -> ./static/toh/devices/
-#
-# Run locally with the data already fetched, or via the CI step in
-# .forgejo/workflows/deploy.yml.
-
 set -eu
 
 IN="${1:-static/toh/data.json}"
@@ -28,15 +28,20 @@ if [ ! -f "$IN" ]; then
   exit 1
 fi
 
+# Manual overrides: wiki deviceid → buildbot profile id.
+# Keep this list small; only add when the wiki and the buildbot disagree.
+remap() {
+  case "$1" in
+    openwrt:openwrt_one_1) printf '%s' 'openwrt_one' ;;
+    *) return 1 ;;
+  esac
+}
+
 mkdir -p "$OUT"
-# Wipe stale per-device files so removed/renamed devices do not linger.
 find "$OUT" -name '*.json' -type f -delete
 
 TAB=$(printf '\t')
 
-# Stream one line per device as "<deviceid><TAB><object as JSON>".
-# tojson never produces literal tabs or newlines (escapes them as \t / \n)
-# and -c keeps each value on a single line, so the TAB split is unambiguous.
 jq -rc '
   .columns as $cols
   | .entries[]
@@ -46,12 +51,15 @@ jq -rc '
       | from_entries) as $obj
   | (($obj.deviceid // "_unknown") + "\t" + ($obj | tojson))
 ' "$IN" | while IFS="$TAB" read -r did json; do
-  # The buildbot profile id is the part after the colon in `vendor:id`.
-  case "$did" in
-    *:*) name="${did#*:}" ;;
-    *)   name="$did" ;;
-  esac
-  # Filename: only safe characters.
+  # Apply override if any, otherwise take the part after the colon.
+  if name=$(remap "$did"); then
+    :
+  else
+    case "$did" in
+      *:*) name="${did#*:}" ;;
+      *)   name="$did" ;;
+    esac
+  fi
   safe=$(printf '%s' "$name" | tr -c 'A-Za-z0-9._-' '_')
   printf '%s\n' "$json" >"$OUT/$safe.json"
 done
