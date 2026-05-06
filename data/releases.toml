@@ -11,8 +11,8 @@ series       = "25.12"
 status       = "supported"
 status_label = "Supported"
 initial      = "2026-03-06"
-latest       = "25.12.2"
-latest_date  = "2026-03-27"
+latest       = "25.12.3"
+latest_date  = "2026-04-06"
 eol          = "TBD"
 
 [[releases]]
