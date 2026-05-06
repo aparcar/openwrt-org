@@ -1,0 +1,4 @@
+# Codeberg Pages / Netlify-format redirects.
+# Catch-all 404: any path not served by a real file falls back to /404.html
+# with a 404 status code (so search engines don't index it as a real page).
+/*  /404.html  404
