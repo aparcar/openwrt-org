@@ -1,49 +1,52 @@
-// Search-first downloads page.
-// Loads the device list from https://openwrt.org/toh.json and the active
-// release list from https://downloads.openwrt.org/.versions.json (both
-// CORS-permissive). Empty search → latest-stable card; typing a brand or
-// model → up to RESULT_CAP matches, click a row to expand specs and grab
-// install / sysupgrade images.
+// Downloads page (search-first device picker).
+//
+// Data flow (no wiki dependency for the device list):
+//   1. .versions.json → release dropdown.
+//   2. /releases/{ver}/.overview.json → list of profiles (search index).
+//   3. On row expand:
+//        a. /toh/devices/{id}.json (per-device snapshot of toh.json,
+//           produced by scripts/split-toh.sh in CI) → specs.
+//        b. /releases/{ver}/targets/{target}/profiles.json → image URLs.
+//
+// All four endpoints are CORS-permissive. Snapshot mode (developers only)
+// is currently a card-only view because no per-release overview is
+// published for snapshots.
 (function () {
   const root = document.getElementById('downloads-app');
   if (!root) return;
 
-  const LIVE_TOH_URL = 'https://openwrt.org/toh.json';
-  // Build-time snapshot of toh.json (see deploy.yml). Same-origin and reliable;
-  // falls back to live if the snapshot is missing.
-  const LOCAL_TOH_URL = new URL('../toh/data.json', document.baseURI).href;
   const VERSIONS_URL = 'https://downloads.openwrt.org/.versions.json';
   const RELEASE_BASE = 'https://downloads.openwrt.org/releases/';
   const NOTES_BASE = 'https://openwrt.org/releases/';
-  const WIKI_BASE = 'https://openwrt.org/';
   const SNAPSHOTS_URL = 'https://downloads.openwrt.org/snapshots/';
+  const WIKI_BASE = 'https://openwrt.org/';
+  // Per-device toh files live next to /toh/. Use document.baseURI so the
+  // path resolves correctly under any deploy prefix.
+  const TOH_DEVICE_BASE = new URL('../toh/devices/', document.baseURI).href;
   const RESULT_CAP = 30;
 
-  let columns, idx, entries;
+  const overviewCache = new Map();   // fullVersion -> overview JSON
+  const profilesCache = new Map();   // `${ver}|${target}` -> Promise<profiles JSON>
+  const deviceCache = new Map();     // profileId -> Promise<device JSON | null>
+
   let stable = '', oldstable = '', upcoming = '';
+  let currentProfileIndex = []; // built from current overview's `.profiles[]`
   let searchEl, versionEl, resultsEl;
 
-  Promise.all([fetchToh(), fetchJSON(VERSIONS_URL)])
-    .then(([toh, versions]) => {
-      columns = toh.columns;
-      entries = toh.entries;
-      idx = {};
-      columns.forEach((k, i) => (idx[k] = i));
+  fetchJSON(VERSIONS_URL)
+    .then((versions) => {
       stable = versions.stable_version || '';
       oldstable = versions.oldstable_version || '';
       upcoming = versions.upcoming_version || '';
-
       buildShell();
-      renderResults();
+      onVersionChange();
     })
     .catch((err) => {
       root.replaceChildren();
       const p = el('p', 'dl-error');
-      p.append(
-        'Could not load device data (' + err.message + '). Browse ',
-        link('https://downloads.openwrt.org/', 'downloads.openwrt.org'),
-        ' directly.'
-      );
+      p.append('Could not load release info (' + err.message + '). Browse ');
+      p.appendChild(link('https://downloads.openwrt.org/', 'downloads.openwrt.org'));
+      p.append(' directly.');
       root.appendChild(p);
     });
 
@@ -64,22 +67,18 @@
     versionEl.id = 'dl-version';
     versionEl.setAttribute('aria-label', 'OpenWrt release version');
 
-    // Populate the dropdown with the currently-built series (stable + oldstable).
-    // We filter by series, so "25.12.2" and "25.12.0-rc5" both contribute the
-    // same series option.
     const seen = new Set();
-    if (stable) addVersionOption(versionEl, stable, seriesOf(stable), 'stable', seen);
+    if (stable)    addVersionOption(versionEl, stable,    seriesOf(stable),    'stable',               seen);
     if (oldstable) addVersionOption(versionEl, oldstable, seriesOf(oldstable), 'security maintenance', seen);
-    if (upcoming) addVersionOption(versionEl, upcoming, seriesOf(upcoming), 'release candidate', seen);
+    if (upcoming)  addVersionOption(versionEl, upcoming,  seriesOf(upcoming),  'release candidate',    seen);
 
-    // Snapshot — bleeding-edge dev builds. Marked red.
     const snapOpt = document.createElement('option');
     snapOpt.value = 'snapshot';
     snapOpt.className = 'dl-snapshot-option';
     snapOpt.textContent = 'Snapshot — developers only';
     versionEl.appendChild(snapOpt);
 
-    versionEl.addEventListener('change', renderResults);
+    versionEl.addEventListener('change', onVersionChange);
 
     bar.appendChild(searchEl);
     bar.appendChild(versionEl);
@@ -100,38 +99,88 @@
     sel.appendChild(opt);
   }
 
-  // ---- results render ------------------------------------------------------
+  // ---- version handling / overview load ------------------------------------
+
+  function onVersionChange() {
+    const isSnapshot = versionEl.value === 'snapshot';
+    versionEl.classList.toggle('dl-snapshot-active', isSnapshot);
+
+    if (isSnapshot) {
+      currentProfileIndex = [];
+      renderResults();
+      return;
+    }
+
+    const fullVersion = versionEl.selectedOptions[0]?.dataset.fullVersion;
+    if (!fullVersion) return;
+
+    resultsEl.replaceChildren(el('p', 'dl-loading', 'Loading firmware list…'));
+
+    loadOverview(fullVersion)
+      .then((data) => {
+        // Race check: user may have switched versions while we were fetching.
+        if (versionEl.selectedOptions[0]?.dataset.fullVersion !== fullVersion) return;
+        currentProfileIndex = buildProfileIndex(data);
+        renderResults();
+      })
+      .catch((err) => {
+        resultsEl.replaceChildren(
+          el('p', 'dl-error', 'Could not load release overview (' + err.message + ').')
+        );
+      });
+  }
+
+  function loadOverview(fullVersion) {
+    if (overviewCache.has(fullVersion)) {
+      return Promise.resolve(overviewCache.get(fullVersion));
+    }
+    return fetchJSON(RELEASE_BASE + fullVersion + '/.overview.json').then((data) => {
+      overviewCache.set(fullVersion, data);
+      return data;
+    });
+  }
+
+  function buildProfileIndex(overview) {
+    return (overview.profiles || []).map((p) => {
+      const titles = p.titles || [];
+      return {
+        id: p.id,
+        target: p.target,
+        vendor: titles[0]?.vendor || '',
+        model: titles[0]?.model || '',
+        searchHay: titles
+          .map((t) => (t.vendor || '') + ' ' + (t.model || ''))
+          .join(' ')
+          .toLowerCase(),
+      };
+    });
+  }
+
+  // ---- render --------------------------------------------------------------
 
   function renderResults() {
     const q = searchEl.value.trim().toLowerCase();
-    const series = versionEl.value;
-    const isSnapshot = series === 'snapshot';
-    const fullVersion = versionEl.selectedOptions[0]?.dataset.fullVersion || series;
+    const isSnapshot = versionEl.value === 'snapshot';
+    const fullVersion = versionEl.selectedOptions[0]?.dataset.fullVersion || versionEl.value;
 
-    versionEl.classList.toggle('dl-snapshot-active', isSnapshot);
     resultsEl.replaceChildren();
-
     if (isSnapshot) resultsEl.appendChild(snapshotWarning());
 
+    if (isSnapshot) {
+      resultsEl.appendChild(snapshotCard());
+      return;
+    }
+
     if (!q) {
-      resultsEl.appendChild(isSnapshot ? snapshotCard() : stableCard(fullVersion, series));
+      resultsEl.appendChild(stableCard(fullVersion, seriesOf(fullVersion)));
       resultsEl.appendChild(searchHint());
       return;
     }
 
-    const matches = entries.filter((e) => {
-      const hay = (e[idx.brand] || '') + ' ' + (e[idx.model] || '');
-      if (!hay.toLowerCase().includes(q)) return false;
-      if (isSnapshot) {
-        return !!first(e[idx.firmwareopenwrtsnapshotinstallurl]);
-      }
-      const cur = String(e[idx.supportedcurrentrel] ?? '');
-      if (series && cur !== series && !cur.startsWith(series + '.')) return false;
-      return true;
-    });
+    const matches = currentProfileIndex.filter((p) => p.searchHay.includes(q));
 
     if (matches.length === 0) {
-      resultsEl.appendChild(emptyResults(q, isSnapshot ? 'snapshot builds' : fullVersion));
+      resultsEl.appendChild(emptyResults(q, fullVersion));
       return;
     }
 
@@ -139,15 +188,223 @@
     if (matches.length > RESULT_CAP) {
       meta.textContent = `${matches.length.toLocaleString()} matches — showing first ${RESULT_CAP}. Refine your search to narrow down.`;
     } else {
-      meta.textContent =
-        `${matches.length.toLocaleString()} ${matches.length === 1 ? 'match' : 'matches'}`;
+      meta.textContent = `${matches.length.toLocaleString()} ${matches.length === 1 ? 'match' : 'matches'}`;
     }
     resultsEl.appendChild(meta);
 
     const ul = el('ul', 'dl-results-list');
-    for (const e of matches.slice(0, RESULT_CAP)) ul.appendChild(deviceRow(e));
+    for (const p of matches.slice(0, RESULT_CAP)) ul.appendChild(deviceRow(p, fullVersion));
     resultsEl.appendChild(ul);
   }
+
+  function deviceRow(profileMeta, fullVersion) {
+    const li = el('li', 'dl-row');
+
+    const head = document.createElement('button');
+    head.type = 'button';
+    head.className = 'dl-row-head';
+    head.setAttribute('aria-expanded', 'false');
+    head.appendChild(el('span', 'dl-row-brand', profileMeta.vendor));
+    head.appendChild(el('span', 'dl-row-model', profileMeta.model));
+    const chev = el('span', 'dl-row-chev', '▸');
+    head.appendChild(chev);
+    li.appendChild(head);
+
+    const detail = el('div', 'dl-row-detail');
+    detail.hidden = true;
+
+    head.addEventListener('click', () => {
+      if (detail.hidden) {
+        if (!detail.dataset.built) {
+          buildDetail(detail, profileMeta, fullVersion);
+          detail.dataset.built = '1';
+        }
+        detail.hidden = false;
+        head.setAttribute('aria-expanded', 'true');
+        chev.textContent = '▾';
+      } else {
+        detail.hidden = true;
+        head.setAttribute('aria-expanded', 'false');
+        chev.textContent = '▸';
+      }
+    });
+
+    li.appendChild(detail);
+    return li;
+  }
+
+  function buildDetail(detail, profileMeta, fullVersion) {
+    detail.appendChild(el('p', 'dl-empty', 'Loading device info…'));
+
+    Promise.all([
+      loadDevice(profileMeta.id),
+      loadProfiles(fullVersion, profileMeta.target).catch(() => null),
+    ]).then(([deviceData, profilesData]) => {
+      const profile = profilesData?.profiles?.[profileMeta.id] || null;
+      renderDetail(detail, deviceData, profile, fullVersion, profileMeta);
+    });
+  }
+
+  function renderDetail(detail, deviceData, profile, fullVersion, profileMeta) {
+    detail.replaceChildren();
+
+    if (deviceData) detail.appendChild(renderSpecs(deviceData));
+
+    const actions = el('p', 'dl-actions');
+    if (profile && Array.isArray(profile.images) && profile.images.length) {
+      const baseUrl = RELEASE_BASE + fullVersion + '/targets/' + profileMeta.target + '/';
+      const installImg = pickImage(profile.images, [
+        'factory',
+        'combined-factory',
+        'sdcard',
+        'sysupgrade-factory',
+      ]);
+      const upgradeImg = pickImage(profile.images, ['sysupgrade']);
+      if (installImg) actions.appendChild(btn(baseUrl + installImg.name, 'Install image', 'btn-primary'));
+      if (upgradeImg) actions.appendChild(btn(baseUrl + upgradeImg.name, 'Sysupgrade image'));
+    }
+
+    const wikiUrl = wikiPageUrl(deviceData && deviceData.devicepage);
+    if (wikiUrl) actions.appendChild(btn(wikiUrl, 'Wiki page'));
+
+    if (actions.childNodes.length) detail.appendChild(actions);
+    else detail.appendChild(el('p', 'dl-empty', 'No images published for this device.'));
+
+    if (deviceData) {
+      const note = noteForDevice(deviceData);
+      if (note) detail.appendChild(note);
+    }
+  }
+
+  // ---- per-device + per-target loaders -------------------------------------
+
+  // /toh/devices/{safe-id}.json — split-toh.sh sanitises identically.
+  function loadDevice(profileId) {
+    if (deviceCache.has(profileId)) return deviceCache.get(profileId);
+    const safe = profileId.replace(/[^A-Za-z0-9._-]/g, '_');
+    const url = TOH_DEVICE_BASE + encodeURIComponent(safe) + '.json';
+    const p = fetchJSON(url).catch(() => null); // missing toh data is non-fatal
+    deviceCache.set(profileId, p);
+    return p;
+  }
+
+  // /releases/{ver}/targets/{target}/profiles.json — authoritative URLs.
+  function loadProfiles(fullVersion, targetPath) {
+    const key = fullVersion + '|' + targetPath;
+    if (profilesCache.has(key)) return profilesCache.get(key);
+    const p = fetchJSON(
+      RELEASE_BASE + fullVersion + '/targets/' + targetPath + '/profiles.json'
+    ).catch((err) => {
+      profilesCache.delete(key); // don't cache failures
+      throw err;
+    });
+    profilesCache.set(key, p);
+    return p;
+  }
+
+  // ---- spec rendering (operates on a flat per-device toh object) ----------
+
+  function renderSpecs(d) {
+    const dl = el('dl', 'dl-specs');
+    addSpec(dl, 'Target',          targetCellOf(d));
+    addSpec(dl, 'CPU',             strOf(d.cpu));
+    addSpec(dl, 'Memory/Storage',  memoryCellOf(d));
+    addSpec(dl, 'Wi-Fi',           wifiTextOf(d));
+    addSpec(dl, 'Ethernet',        ethernetCellOf(d));
+    addSpec(dl, 'USB',             usbCellOf(d));
+    addSpec(dl, 'Supported since', strOf(d.supportedsincerel));
+    addSpec(dl, 'Current release', strOf(d.supportedcurrentrel));
+    return dl;
+  }
+
+  function targetCellOf(d) {
+    const t = strOf(d.target);
+    const s = strOf(d.subtarget);
+    if (!t) return '';
+    return s ? t + '/' + s : t;
+  }
+
+  function memoryCellOf(d) {
+    const f = num(d.flashmb);
+    const r = num(d.rammb);
+    if (!f && !r) return '';
+    return (f || '?') + ' MB flash / ' + (r || '?') + ' MB RAM';
+  }
+
+  function ethernetCellOf(d) {
+    const parts = [];
+    const ports = (k, label) => {
+      const c = num(d[k]);
+      if (c >= 1) parts.push(c + '× ' + label);
+    };
+    ports('ethernet10gports', '10G');
+    ports('ethernet5gports', '5G');
+    ports('ethernet2_5gports', '2.5G');
+    ports('ethernet1gports', '1G');
+    ports('ethernet100mports', '100M');
+    return parts.join(', ');
+  }
+
+  function usbCellOf(d) {
+    const v = d.usbports;
+    if (!v) return '';
+    const arr = Array.isArray(v) ? v : [v];
+    return arr.filter((s) => s && s !== '-' && !/^\s*$/.test(String(s))).join(', ');
+  }
+
+  function wikiPageUrl(p) {
+    if (!p || p === '-') return null;
+    return WIKI_BASE + String(p).replace(/:/g, '/');
+  }
+
+  function wifiTextOf(d) {
+    const std = highestWifiStdOf(d);
+    if (!std) return '';
+    const gen = { BE: 7, AX: 6, AC: 5, N: 4, G: 3, A: 2, B: 1 }[std];
+    const b24 = strOf(d.wlan24ghz);
+    const b50 = strOf(d.wlan50ghz);
+    const b60 = strOf(d.wlan60ghz);
+    const has24 = b24 && b24 !== '-';
+    const has50 = b50 && b50 !== '-';
+    const has60 = b60 && b60 !== '-';
+    let band = '';
+    if (has60 && (has50 || has24)) band = 'tri-band';
+    else if (has50 && has24) band = 'dual-band';
+    else if (has50) band = '5 GHz';
+    else if (has24) band = '2.4 GHz';
+    else if (has60) band = '60 GHz';
+    return 'Wi-Fi ' + gen + (band ? ' · ' + band : '');
+  }
+
+  function highestWifiStdOf(d) {
+    const all = (
+      strOf(d.wlan24ghz) + ' ' + strOf(d.wlan50ghz) + ' ' + strOf(d.wlan60ghz)
+    ).toLowerCase();
+    if (/(^|[/, ])be([/, ]|$)/.test(all)) return 'BE';
+    if (/(^|[/, ])ax([/, ]|$)/.test(all)) return 'AX';
+    if (/(^|[/, ])ac([/, ]|$)/.test(all)) return 'AC';
+    if (/(^|[/, ])n([/, ]|$)/.test(all))  return 'N';
+    if (/(^|[/, ])g([/, ]|$)/.test(all))  return 'G';
+    if (/(^|[/, ])a([/, ]|$)/.test(all))  return 'A';
+    if (/(^|[/, ])b([/, ]|$)/.test(all))  return 'B';
+    return '';
+  }
+
+  function noteForDevice(d) {
+    const flash = num(d.flashmb);
+    const ram = num(d.rammb);
+    if ((flash > 0 && flash <= 8) || (ram > 0 && ram <= 64)) {
+      const div = el('div', 'dl-warn');
+      div.append(
+        '⚠ Only ' + (flash || '?') + ' MB flash / ' + (ram || '?') +
+          ' MB RAM. Modern OpenWrt may not run comfortably and updates may stop. Avoid for new installs.'
+      );
+      return div;
+    }
+    return null;
+  }
+
+  // ---- cards / banners / hints --------------------------------------------
 
   function stableCard(fullVersion, series) {
     const card = el('div', 'dl-card');
@@ -166,16 +423,6 @@
     return card;
   }
 
-  function searchHint() {
-    const p = el('p', 'dl-empty');
-    p.append(
-      'Start typing your device above to see download links, or ',
-      link('/toh/', 'browse the full Table of Hardware'),
-      ' to filter by capabilities.'
-    );
-    return p;
-  }
-
   function snapshotCard() {
     const card = el('div', 'dl-card dl-card-warn');
     card.appendChild(el('h2', null, 'Snapshot builds'));
@@ -183,7 +430,6 @@
     sub.textContent =
       'Automatic builds of the development branch. They can break, are not security-supported, and may not upgrade cleanly. For everyday use pick a stable release above.';
     card.appendChild(sub);
-
     const actions = el('p', 'dl-actions');
     actions.appendChild(btn(SNAPSHOTS_URL, 'Browse snapshot files', 'btn-primary'));
     card.appendChild(actions);
@@ -200,6 +446,16 @@
     return div;
   }
 
+  function searchHint() {
+    const p = el('p', 'dl-empty');
+    p.append(
+      'Start typing your device above to see download links, or ',
+      link('/toh/', 'browse the full Table of Hardware'),
+      ' to filter by capabilities.'
+    );
+    return p;
+  }
+
   function emptyResults(q, fullVersion) {
     const wrap = el('div');
     const p = el('p', 'dl-empty');
@@ -214,210 +470,6 @@
     return wrap;
   }
 
-  // ---- per-device row ------------------------------------------------------
-
-  function deviceRow(e) {
-    const li = el('li', 'dl-row');
-
-    const head = document.createElement('button');
-    head.type = 'button';
-    head.className = 'dl-row-head';
-    head.setAttribute('aria-expanded', 'false');
-
-    const brand = el('span', 'dl-row-brand', e[idx.brand] || '');
-    head.appendChild(brand);
-    const model = el('span', 'dl-row-model', e[idx.model] || '');
-    head.appendChild(model);
-    const wifi = wifiTag(e);
-    if (wifi) head.appendChild(wifi);
-    const chev = el('span', 'dl-row-chev', '▸');
-    head.appendChild(chev);
-    li.appendChild(head);
-
-    const detail = el('div', 'dl-row-detail');
-    detail.hidden = true;
-
-    head.addEventListener(
-      'click',
-      () => {
-        if (detail.hidden) {
-          if (!detail.dataset.built) {
-            detail.appendChild(buildDetail(e));
-            detail.dataset.built = '1';
-          }
-          detail.hidden = false;
-          head.setAttribute('aria-expanded', 'true');
-          chev.textContent = '▾';
-        } else {
-          detail.hidden = true;
-          head.setAttribute('aria-expanded', 'false');
-          chev.textContent = '▸';
-        }
-      },
-      false
-    );
-
-    li.appendChild(detail);
-    return li;
-  }
-
-  function buildDetail(e) {
-    const wrap = el('div');
-
-    const specs = el('dl', 'dl-specs');
-    addSpec(specs, 'Target',          targetCell(e));
-    addSpec(specs, 'CPU',             strOf(e[idx.cpu]));
-    addSpec(specs, 'Memory/Storage',  memoryCell(e));
-    addSpec(specs, 'Wi-Fi',           wifiText(e));
-    addSpec(specs, 'Ethernet',        ethernetCell(e));
-    addSpec(specs, 'USB',             usbCell(e));
-    addSpec(specs, 'Supported since', strOf(e[idx.supportedsincerel]));
-    addSpec(specs, 'Current release', strOf(e[idx.supportedcurrentrel]));
-    wrap.appendChild(specs);
-
-    const isSnapshot = versionEl.value === 'snapshot';
-    const actions = el('p', 'dl-actions');
-    const installUrl = first(
-      isSnapshot
-        ? e[idx.firmwareopenwrtsnapshotinstallurl]
-        : e[idx.firmwareopenwrtinstallurl]
-    );
-    const upgradeUrl = first(
-      isSnapshot
-        ? e[idx.firmwareopenwrtsnapshotupgradeurl]
-        : e[idx.firmwareopenwrtupgradeurl]
-    );
-    const installLabel = isSnapshot ? 'Snapshot install image' : 'Install image';
-    const upgradeLabel = isSnapshot ? 'Snapshot sysupgrade image' : 'Sysupgrade image';
-    if (installUrl) actions.appendChild(btn(installUrl, installLabel, 'btn-primary'));
-    if (upgradeUrl) actions.appendChild(btn(upgradeUrl, upgradeLabel));
-    const wikiUrl = wikiPageUrl(e[idx.devicepage]);
-    if (wikiUrl) actions.appendChild(btn(wikiUrl, 'Wiki page'));
-    if (!actions.childNodes.length) {
-      const p = el('p', 'dl-empty');
-      p.textContent = 'No images published for this device.';
-      wrap.appendChild(p);
-    } else {
-      wrap.appendChild(actions);
-    }
-
-    const note = noteForDevice(e);
-    if (note) wrap.appendChild(note);
-
-    return wrap;
-  }
-
-  function noteForDevice(e) {
-    const flash = num(e[idx.flashmb]);
-    const ram = num(e[idx.rammb]);
-    if ((flash > 0 && flash <= 8) || (ram > 0 && ram <= 64)) {
-      const div = el('div', 'dl-warn');
-      div.append(
-        '⚠ This device has only ' + (flash || '?') + ' MB flash and ' + (ram || '?') +
-          ' MB RAM. Modern OpenWrt may not run comfortably and updates may stop. Avoid for new installs.'
-      );
-      return div;
-    }
-    return null;
-  }
-
-  // ---- spec helpers --------------------------------------------------------
-
-  function addSpec(dl, key, value) {
-    if (!value) return;
-    const dt = el('dt', null, key);
-    const dd = el('dd', null, value);
-    dl.appendChild(dt);
-    dl.appendChild(dd);
-  }
-
-  function targetCell(e) {
-    const t = strOf(e[idx.target]);
-    const s = strOf(e[idx.subtarget]);
-    if (!t) return '';
-    return s ? t + '/' + s : t;
-  }
-
-  function memoryCell(e) {
-    const f = num(e[idx.flashmb]);
-    const r = num(e[idx.rammb]);
-    if (!f && !r) return '';
-    return (f || '?') + ' MB flash / ' + (r || '?') + ' MB RAM';
-  }
-
-  function ethernetCell(e) {
-    const parts = [];
-    const ports = (n, label) => {
-      const c = num(e[idx[n]]);
-      if (c >= 1) parts.push(c + '× ' + label);
-    };
-    ports('ethernet10gports', '10G');
-    ports('ethernet5gports', '5G');
-    ports('ethernet2_5gports', '2.5G');
-    ports('ethernet1gports', '1G');
-    ports('ethernet100mports', '100M');
-    return parts.join(', ');
-  }
-
-  function usbCell(e) {
-    const v = e[idx.usbports];
-    if (!v) return '';
-    const arr = Array.isArray(v) ? v : [v];
-    const filtered = arr.filter((s) => s && s !== '-' && !/^\s*$/.test(String(s)));
-    return filtered.join(', ');
-  }
-
-  function wikiPageUrl(p) {
-    if (!p || p === '-') return null;
-    return WIKI_BASE + String(p).replace(/:/g, '/');
-  }
-
-  function wifiTag(e) {
-    const std = highestWifiStd(e);
-    if (!std) return null;
-    const gen = { BE: 7, AX: 6, AC: 5, N: 4, G: 3, A: 2, B: 1 }[std];
-    const span = el('span', 'toh-wifi toh-wifi-' + gen, 'Wi-Fi ' + gen);
-    span.title = '802.11' + std.toLowerCase();
-    return span;
-  }
-
-  function wifiText(e) {
-    const std = highestWifiStd(e);
-    if (!std) return '';
-    const gen = { BE: 7, AX: 6, AC: 5, N: 4, G: 3, A: 2, B: 1 }[std];
-    const b24 = strOf(e[idx.wlan24ghz]);
-    const b50 = strOf(e[idx.wlan50ghz]);
-    const b60 = strOf(e[idx.wlan60ghz]);
-    const has24 = b24 && b24 !== '-';
-    const has50 = b50 && b50 !== '-';
-    const has60 = b60 && b60 !== '-';
-    let band = '';
-    if (has60 && (has50 || has24)) band = 'tri-band';
-    else if (has50 && has24) band = 'dual-band';
-    else if (has50) band = '5 GHz';
-    else if (has24) band = '2.4 GHz';
-    else if (has60) band = '60 GHz';
-    return 'Wi-Fi ' + gen + (band ? ' · ' + band : '');
-  }
-
-  function highestWifiStd(e) {
-    const all = (
-      strOf(e[idx.wlan24ghz]) +
-      ' ' +
-      strOf(e[idx.wlan50ghz]) +
-      ' ' +
-      strOf(e[idx.wlan60ghz])
-    ).toLowerCase();
-    if (/(^|[/, ])be([/, ]|$)/.test(all)) return 'BE';
-    if (/(^|[/, ])ax([/, ]|$)/.test(all)) return 'AX';
-    if (/(^|[/, ])ac([/, ]|$)/.test(all)) return 'AC';
-    if (/(^|[/, ])n([/, ]|$)/.test(all))  return 'N';
-    if (/(^|[/, ])g([/, ]|$)/.test(all))  return 'G';
-    if (/(^|[/, ])a([/, ]|$)/.test(all))  return 'A';
-    if (/(^|[/, ])b([/, ]|$)/.test(all))  return 'B';
-    return '';
-  }
-
   // ---- generic helpers -----------------------------------------------------
 
   function fetchJSON(url) {
@@ -427,10 +479,12 @@
     });
   }
 
-  // Try the build-time snapshot first (same-origin, reliable). Fall back to
-  // live openwrt.org/toh.json if the snapshot is missing or invalid.
-  function fetchToh() {
-    return fetchJSON(LOCAL_TOH_URL).catch(() => fetchJSON(LIVE_TOH_URL));
+  function pickImage(images, types) {
+    for (const t of types) {
+      const img = images.find((i) => i && i.type === t);
+      if (img) return img;
+    }
+    return null;
   }
 
   function num(v) {
@@ -443,11 +497,6 @@
     if (v == null) return '';
     if (Array.isArray(v)) return v.filter(Boolean).join(' ');
     return String(v);
-  }
-
-  function first(v) {
-    if (Array.isArray(v) && v[0]) return v[0];
-    return null;
   }
 
   function seriesOf(v) {
@@ -475,5 +524,13 @@
     a.textContent = text;
     a.className = 'btn' + (cls ? ' ' + cls : '');
     return a;
+  }
+
+  function addSpec(dl, key, value) {
+    if (!value) return;
+    const dt = el('dt', null, key);
+    const dd = el('dd', null, value);
+    dl.appendChild(dt);
+    dl.appendChild(dd);
   }
 })();

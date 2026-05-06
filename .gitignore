@@ -7,5 +7,6 @@
 .DS_Store
 *.swp
 
-# Fetched at build time (see .forgejo/workflows/deploy.yml)
+# Fetched / generated at build time (see .forgejo/workflows/deploy.yml)
 /static/toh/data.json
+/static/toh/devices/

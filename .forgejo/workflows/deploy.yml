@@ -31,6 +31,13 @@ jobs:
             https://openwrt.org/toh.json -o static/toh/data.json
           ls -la static/toh/data.json
 
+      - name: Split toh.json into per-device files
+        run: |
+          set -eu
+          # jq comes with codeberg-tiny; double-check.
+          command -v jq >/dev/null 2>&1 || (apt-get update && apt-get install -y --no-install-recommends jq)
+          sh scripts/split-toh.sh
+
       - name: Build
         run: hugo --minify --gc
 
