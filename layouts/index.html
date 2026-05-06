@@ -36,13 +36,48 @@
 
   <div class="home-col">
     <h2>Latest development</h2>
-    <p>Track ongoing work in the main OpenWrt repository:</p>
-    <ul class="link-list">
-      <li><a href="https://git.openwrt.org/?p=openwrt/openwrt.git;a=summary">openwrt.git on git.openwrt.org</a></li>
-      <li><a href="https://github.com/openwrt/openwrt/commits/main">commits to main on GitHub</a></li>
-      <li><a href="https://patchwork.ozlabs.org/project/openwrt/list/">patchwork — pending patches</a></li>
+    <ul id="latest-commits" class="post-list">
+      <li class="dim">Loading recent commits…</li>
     </ul>
-    <p class="more"><a href="https://git.openwrt.org/">Browse all repositories →</a></p>
+    <p class="more"><a href="https://git.openwrt.org/openwrt/openwrt/log/">All commits →</a></p>
   </div>
 </section>
+
+<script>
+(function () {
+  var target = document.getElementById('latest-commits');
+  if (!target) return;
+  var fmt = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  fetch('https://api.github.com/repos/openwrt/openwrt/commits?per_page=5')
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)); })
+    .then(function (commits) {
+      target.replaceChildren();
+      commits.forEach(function (c) {
+        var li = document.createElement('li');
+        var t = document.createElement('time');
+        t.dateTime = c.commit.author.date;
+        t.textContent = fmt.format(new Date(c.commit.author.date));
+        var subject = (c.commit.message || '').split('\n')[0];
+        var a = document.createElement('a');
+        a.href = 'https://git.openwrt.org/openwrt/openwrt/commit/?id=' + c.sha;
+        a.textContent = subject;
+        a.title = (c.commit.author.name || '') + ' — ' + subject;
+        li.appendChild(t);
+        li.append(' ');
+        li.appendChild(a);
+        target.appendChild(li);
+      });
+    })
+    .catch(function () {
+      target.replaceChildren();
+      var li = document.createElement('li');
+      li.className = 'dim';
+      var a = document.createElement('a');
+      a.href = 'https://git.openwrt.org/openwrt/openwrt/log/';
+      a.textContent = 'View latest commits on git.openwrt.org →';
+      li.appendChild(a);
+      target.appendChild(li);
+    });
+})();
+</script>
 {{ end }}
