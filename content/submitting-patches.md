@@ -7,13 +7,14 @@ OpenWrt accepts patches via the developer mailing list and via GitHub pull reque
 
 ## Where to send patches
 
-| Area                                  | Repository                                                              |
-|---------------------------------------|-------------------------------------------------------------------------|
-| Core / new device support             | [openwrt/openwrt](https://github.com/openwrt/openwrt)                   |
-| LuCI web interface                    | [openwrt/luci](https://github.com/openwrt/luci)                         |
-| Miscellaneous community packages      | [openwrt/packages](https://github.com/openwrt/packages)                 |
-| Community routing packages            | [openwrt-routing/packages](https://github.com/openwrt-routing/packages) |
-| Telephony / SIP / VoIP packages       | [openwrt/telephony](https://github.com/openwrt/telephony)               |
+| Area                             | Repository                                            |
+| -------------------------------- | ----------------------------------------------------- |
+| Core / new device support        | [openwrt.git](https://github.com/openwrt/openwrt)     |
+| LuCI web interface               | [luci.git](https://github.com/openwrt/luci)           |
+| Miscellaneous community packages | [packages.git](https://github.com/openwrt/packages)   |
+| Community routing packages       | [routing.git](https://github.com/openwrt/routing)     |
+| Telephony / SIP / VoIP packages  | [telephony.git](https://github.com/openwrt/telephony) |
+| Video                            | [video.git](https://github.com/openwrt/video)         |
 
 For mailing-list submissions, send to [openwrt-devel](https://lists.openwrt.org/mailman/listinfo/openwrt-devel). Look for `MAINTAINER` macros in the relevant Makefile and CC the maintainer if one is listed. Track patches on [Patchwork](https://patchwork.ozlabs.org/project/openwrt/list/).
 
@@ -22,10 +23,10 @@ For mailing-list submissions, send to [openwrt-devel](https://lists.openwrt.org/
 A good OpenWrt commit:
 
 - Has a single subject under 50 characters in the form `prefix: imperative summary` (prefix is the package name, target, tool, or `kernel`/`build`).
-- Uses imperative mood: *add support for X*, not *added support for X*.
+- Uses imperative mood: _add support for X_, not _added support for X_.
 - Has a blank line between subject and body.
 - Wraps the body at ~75 characters.
-- Explains *why* the change is needed, not just *what* changed. Reference bug reports by ID where applicable.
+- Explains _why_ the change is needed, not just _what_ changed. Reference bug reports by ID where applicable.
 - Ends with a `Signed-off-by:` line — your real name and a real email — certifying the [Developer's Certificate of Origin 1.1](https://developercertificate.org/). `git commit -s` adds it automatically.
 
 For changes you didn't author yourself, preserve the original signoffs and add your own at the end. Maintainer notes about modifications go in brackets between the signoffs:
@@ -86,7 +87,7 @@ Beyond `Signed-off-by:`, OpenWrt follows the kernel community's conventions:
 1. Single commit per logical change; multi-step work is split into a series.
 2. Subject line ≤ 50 characters.
 3. Blank line between subject and body.
-4. Body wraps at ~75 characters and explains the *why*.
+4. Body wraps at ~75 characters and explains the _why_.
 5. `Signed-off-by:` is present with real name and email.
 6. Author name/email matches the `Signed-off-by:` line.
 7. Style-checked with `checkpatch.pl`.
