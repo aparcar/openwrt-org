@@ -981,6 +981,63 @@ option.dl-snapshot-option {
 
 .vote-index td:first-child time { font-variant-numeric: tabular-nums; }
 
+/* Advisories — index + recent table */
+.advisory-index {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: 0.95em;
+}
+.advisory-index th, .advisory-index td {
+  text-align: left;
+  padding: 0.4rem 0.7rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.advisory-index th { background: var(--bg-soft); font-weight: 600; }
+.advisory-index td:first-child { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.advisory-cve {
+  font-family: var(--mono, ui-monospace, SFMono-Regular, monospace);
+  font-size: 0.9em;
+  /* Wrap on the spaces between comma-separated CVEs; keep individual
+     tokens (CVE-2020-25681) intact. */
+  white-space: normal;
+}
+.advisory-wiki { font-size: 0.9em; color: var(--muted); }
+
+/* Wide tables become horizontally-scrollable on narrow viewports
+   instead of forcing the surrounding layout to overflow.
+   `.table-scroll` is the explicit wrapper used by Hugo layouts and
+   shortcodes; the `.prose` rule catches plain Markdown tables
+   (e.g. the hardening flags table on /security/) without needing a
+   manual wrapper. */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1em 0;
+}
+.table-scroll > table { margin: 0; }
+.prose { overflow-x: auto; }
+
+/* Members roster */
+.members-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.95em;
+}
+.members-table th, .members-table td {
+  text-align: left;
+  padding: 0.4rem 0.7rem;
+  border-bottom: 1px solid var(--border);
+}
+.members-table th { background: var(--bg-soft); font-weight: 600; }
+.members-table code {
+  background: transparent;
+  padding: 0;
+  font-size: 0.95em;
+  color: var(--muted);
+}
+
 /* Release status badges */
 .status {
   display: inline-block;
