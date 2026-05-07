@@ -24,7 +24,7 @@
   <div class="home-col">
     <h2>News</h2>
     <ul class="post-list">
-      {{ range first 6 (where .Site.RegularPages "Section" "news").ByDate.Reverse }}
+      {{ range first 8 (where .Site.RegularPages "Section" "news").ByDate.Reverse }}
         <li>
           <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
           <a href="{{ .RelPermalink }}">{{ .Title }}</a>
@@ -32,19 +32,6 @@
       {{ end }}
     </ul>
     <p class="more"><a href="/news/">All news →</a></p>
-  </div>
-
-  <div class="home-col">
-    <h2>Security advisories</h2>
-    <ul class="post-list">
-      {{ range first 4 (where .Site.RegularPages "Section" "advisories").ByDate.Reverse }}
-        <li>
-          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
-          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-        </li>
-      {{ end }}
-    </ul>
-    <p class="more"><a href="/advisories/">All advisories →</a></p>
   </div>
 
   <div class="home-col">
