@@ -274,6 +274,23 @@ h1, h2, h3 { line-height: 1.25; }
   border-color: var(--cyan);
 }
 
+.dl-all-versions-btn {
+  font: inherit;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--white);
+  color: var(--text);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.dl-all-versions-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+.dl-all-versions-btn.is-active {
+  background: var(--cyan);
+  color: var(--navy);
+  border-color: var(--cyan);
+}
+
 .dl-card {
   padding: 1.25rem 1.5rem;
   background: var(--bg-soft);

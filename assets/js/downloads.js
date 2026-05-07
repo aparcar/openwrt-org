@@ -31,7 +31,11 @@
 
   let stable = '', oldstable = '', upcoming = '';
   let currentProfileIndex = []; // built from current overview's `.profiles[]`
-  let searchEl, versionEl, resultsEl;
+  let searchEl, versionEl, allVersionsBtn, resultsEl;
+  let allVersionsMode = false;
+  let allVersionsList = null; // cached array fetched from .versions.json
+
+  const VERSIONS_URL = 'https://downloads.openwrt.org/.versions.json';
 
   const releases = window.OPENWRT_RELEASES;
   if (!releases) {
@@ -65,11 +69,60 @@
     versionEl = document.createElement('select');
     versionEl.id = 'dl-version';
     versionEl.setAttribute('aria-label', 'OpenWrt release version');
+    versionEl.addEventListener('change', onVersionChange);
+    populateVersions();
 
-    const seen = new Set();
-    if (stable)    addVersionOption(versionEl, stable,    seriesOf(stable),    'stable',               seen);
-    if (oldstable) addVersionOption(versionEl, oldstable, seriesOf(oldstable), 'security maintenance', seen);
-    if (upcoming)  addVersionOption(versionEl, upcoming,  seriesOf(upcoming),  'release candidate',    seen);
+    allVersionsBtn = document.createElement('button');
+    allVersionsBtn.type = 'button';
+    allVersionsBtn.className = 'dl-all-versions-btn';
+    allVersionsBtn.textContent = 'All versions';
+    allVersionsBtn.title = 'Show every published patch release and RC';
+    allVersionsBtn.setAttribute('aria-pressed', 'false');
+    allVersionsBtn.addEventListener('click', toggleAllVersions);
+
+    bar.appendChild(searchEl);
+    bar.appendChild(versionEl);
+    bar.appendChild(allVersionsBtn);
+    root.appendChild(bar);
+
+    resultsEl = el('div');
+    resultsEl.id = 'dl-results';
+    root.appendChild(resultsEl);
+  }
+
+  function populateVersions() {
+    // Preserve the user's current selection across rebuilds where possible.
+    const prev = versionEl.selectedOptions[0]?.dataset.fullVersion || versionEl.value;
+    versionEl.replaceChildren();
+
+    if (allVersionsMode && Array.isArray(allVersionsList)) {
+      // Group every published version under its series, latest first.
+      const bySeries = new Map();
+      for (const v of allVersionsList) {
+        const s = seriesOf(v);
+        if (!s) continue;
+        if (!bySeries.has(s)) bySeries.set(s, []);
+        bySeries.get(s).push(v);
+      }
+      const sortedSeries = [...bySeries.keys()].sort((a, b) => seriesWeight(a) - seriesWeight(b));
+      for (const s of sortedSeries) {
+        const og = document.createElement('optgroup');
+        og.label = `OpenWrt ${s}`;
+        for (const v of bySeries.get(s)) {
+          const opt = document.createElement('option');
+          opt.value = v;
+          opt.dataset.fullVersion = v;
+          opt.textContent = v;
+          og.appendChild(opt);
+        }
+        versionEl.appendChild(og);
+      }
+    } else {
+      const seen = new Set();
+      if (stable)    addVersionOption(versionEl, stable,    seriesOf(stable),    'stable',               seen);
+      if (oldstable) addVersionOption(versionEl, oldstable, seriesOf(oldstable), 'security maintenance', seen);
+      if (upcoming)  addVersionOption(versionEl, upcoming,  seriesOf(upcoming),  'release candidate',    seen);
+    }
 
     const snapOpt = document.createElement('option');
     snapOpt.value = 'snapshot';
@@ -77,15 +130,15 @@
     snapOpt.textContent = 'Snapshot — developers only';
     versionEl.appendChild(snapOpt);
 
-    versionEl.addEventListener('change', onVersionChange);
-
-    bar.appendChild(searchEl);
-    bar.appendChild(versionEl);
-    root.appendChild(bar);
-
-    resultsEl = el('div');
-    resultsEl.id = 'dl-results';
-    root.appendChild(resultsEl);
+    // Restore previous selection if still present.
+    if (prev) {
+      for (const opt of versionEl.options) {
+        if (opt.dataset.fullVersion === prev || opt.value === prev) {
+          versionEl.value = opt.value;
+          break;
+        }
+      }
+    }
   }
 
   function addVersionOption(sel, fullVersion, series, statusLabel, seen) {
@@ -96,6 +149,43 @@
     opt.dataset.fullVersion = fullVersion;
     opt.textContent = `OpenWrt ${fullVersion} (${statusLabel})`;
     sel.appendChild(opt);
+  }
+
+  // Numeric weight for descending semver-ish sort: 25.12 → -2512.
+  function seriesWeight(s) {
+    const m = /^(\d+)\.(\d+)/.exec(s || '');
+    return m ? -(parseInt(m[1], 10) * 1000 + parseInt(m[2], 10)) : 0;
+  }
+
+  function toggleAllVersions() {
+    if (!allVersionsMode) {
+      // Lazy-load the full list on first toggle.
+      const ensure = allVersionsList
+        ? Promise.resolve(allVersionsList)
+        : fetchJSON(VERSIONS_URL).then((j) => {
+            allVersionsList = j.versions_list || [];
+            return allVersionsList;
+          });
+      ensure
+        .then(() => {
+          allVersionsMode = true;
+          allVersionsBtn.setAttribute('aria-pressed', 'true');
+          allVersionsBtn.classList.add('is-active');
+          populateVersions();
+          onVersionChange();
+        })
+        .catch((err) => {
+          resultsEl.replaceChildren(
+            el('p', 'dl-error', 'Could not load full version list (' + err.message + ').')
+          );
+        });
+    } else {
+      allVersionsMode = false;
+      allVersionsBtn.setAttribute('aria-pressed', 'false');
+      allVersionsBtn.classList.remove('is-active');
+      populateVersions();
+      onVersionChange();
+    }
   }
 
   // ---- version handling / overview load ------------------------------------
