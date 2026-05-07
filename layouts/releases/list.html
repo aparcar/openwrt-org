@@ -1,0 +1,40 @@
+{{ define "main" }}
+<div class="container with-sidebar">
+  {{ partial "sidebar.html" . }}
+  <section class="page">
+    <h1>{{ .Title }}</h1>
+    {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+
+    <div class="table-scroll">
+    <table class="release-index">
+      <thead>
+        <tr>
+          <th>Series</th>
+          <th>Status</th>
+          <th>Initial release</th>
+          <th>Latest release</th>
+          <th>Latest release date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{/* Newest-first via the converter-encoded weight (smaller =
+             newer; e.g. 25.12 → -25012, 8.09 → -8009). */}}
+        {{ range .Pages.ByWeight }}
+        <tr>
+          <td><a href="{{ .RelPermalink }}"><strong>{{ .Params.series }}</strong></a></td>
+          <td>
+            {{ with .Params.status_label }}
+              <span class="status status-{{ $.Params.status | default "unknown" }}">{{ . }}</span>
+            {{ end }}
+          </td>
+          <td>{{ .Params.initial | default "—" }}</td>
+          <td>{{ .Params.latest | default "—" }}</td>
+          <td>{{ .Params.latest_date | default "—" }}</td>
+        </tr>
+        {{ end }}
+      </tbody>
+    </table>
+    </div>
+  </section>
+</div>
+{{ end }}

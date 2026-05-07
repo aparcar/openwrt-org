@@ -1,0 +1,28 @@
+{{ define "main" }}
+<div class="container with-sidebar">
+  {{ partial "sidebar.html" . }}
+  <article class="page">
+    <h1>{{ .Title }}</h1>
+
+    <p class="meta">
+      {{- with .Params.status_label }}
+        <span class="status status-{{ $.Params.status | default "unknown" }}">{{ . }}</span>
+      {{- end -}}
+      {{- with .Params.latest }} · latest <strong>{{ . }}</strong>{{ end -}}
+      {{- with .Params.latest_date }} on {{ . }}{{ end -}}
+      {{- with .Params.initial }} · initial release {{ . }}{{ end -}}
+      {{- with .Params.eol }} · EoL {{ . }}{{ end -}}
+    </p>
+
+    <p class="release-help">
+      Get firmware on <a href="{{ "/downloads/" | relURL }}">Downloads</a>{{ with .Params.latest }} (latest <code>{{ . }}</code>){{ end }}.
+      Each version's full technical changelog lives on the
+      <a href="https://openwrt.org/releases/{{ .Params.series }}/start">wiki</a>; the notes below are the per-release summary.
+    </p>
+
+    <div class="prose release-notes">{{ .Content }}</div>
+
+    <p><a href="{{ "/releases/" | relURL }}">← All releases</a></p>
+  </article>
+</div>
+{{ end }}

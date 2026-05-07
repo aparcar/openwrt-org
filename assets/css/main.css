@@ -1005,6 +1005,33 @@ option.dl-snapshot-option {
 }
 .advisory-wiki { font-size: 0.9em; color: var(--muted); }
 
+/* Releases — index + per-series notes */
+.release-index {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: 0.95em;
+}
+.release-index th, .release-index td {
+  text-align: left;
+  padding: 0.4rem 0.7rem;
+  border-bottom: 1px solid var(--border);
+}
+.release-index th { background: var(--bg-soft); font-weight: 600; }
+.release-help {
+  background: var(--bg-soft);
+  border-left: 3px solid var(--cyan);
+  padding: 0.6rem 0.9rem;
+  margin: 1em 0;
+  font-size: 0.95em;
+}
+.release-notes h2 {
+  margin-top: 2.5em;
+  padding-top: 0.4em;
+  border-top: 1px solid var(--border);
+}
+.release-notes h2:first-of-type { border-top: 0; padding-top: 0; }
+
 /* Wide tables become horizontally-scrollable on narrow viewports
    instead of forcing the surrounding layout to overflow.
    `.table-scroll` is the explicit wrapper used by Hugo layouts and
