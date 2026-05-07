@@ -72,13 +72,16 @@
     versionEl.addEventListener('change', onVersionChange);
     populateVersions();
 
-    allVersionsBtn = document.createElement('button');
-    allVersionsBtn.type = 'button';
-    allVersionsBtn.className = 'dl-all-versions-btn';
-    allVersionsBtn.textContent = 'All versions';
+    allVersionsBtn = document.createElement('label');
+    allVersionsBtn.className = 'dl-all-versions';
     allVersionsBtn.title = 'Show every published patch release and RC';
-    allVersionsBtn.setAttribute('aria-pressed', 'false');
-    allVersionsBtn.addEventListener('click', toggleAllVersions);
+    const allVersionsCheckbox = document.createElement('input');
+    allVersionsCheckbox.type = 'checkbox';
+    allVersionsCheckbox.id = 'dl-all-versions-checkbox';
+    allVersionsCheckbox.addEventListener('change', toggleAllVersions);
+    allVersionsBtn.appendChild(allVersionsCheckbox);
+    allVersionsBtn.appendChild(document.createTextNode(' All versions'));
+    allVersionsBtn._checkbox = allVersionsCheckbox;
 
     bar.appendChild(searchEl);
     bar.appendChild(versionEl);
@@ -158,7 +161,9 @@
   }
 
   function toggleAllVersions() {
-    if (!allVersionsMode) {
+    const cb = allVersionsBtn._checkbox;
+    const wantOn = cb.checked;
+    if (wantOn) {
       // Lazy-load the full list on first toggle.
       const ensure = allVersionsList
         ? Promise.resolve(allVersionsList)
@@ -169,20 +174,18 @@
       ensure
         .then(() => {
           allVersionsMode = true;
-          allVersionsBtn.setAttribute('aria-pressed', 'true');
-          allVersionsBtn.classList.add('is-active');
           populateVersions();
           onVersionChange();
         })
         .catch((err) => {
+          // Roll the checkbox back so its state matches reality.
+          cb.checked = false;
           resultsEl.replaceChildren(
             el('p', 'dl-error', 'Could not load full version list (' + err.message + ').')
           );
         });
     } else {
       allVersionsMode = false;
-      allVersionsBtn.setAttribute('aria-pressed', 'false');
-      allVersionsBtn.classList.remove('is-active');
       populateVersions();
       onVersionChange();
     }
@@ -213,10 +216,37 @@
         renderResults();
       })
       .catch((err) => {
-        resultsEl.replaceChildren(
-          el('p', 'dl-error', 'Could not load release overview (' + err.message + ').')
-        );
+        if (versionEl.selectedOptions[0]?.dataset.fullVersion !== fullVersion) return;
+        resultsEl.replaceChildren(noOverviewNotice(fullVersion, err));
       });
+  }
+
+  function noOverviewNotice(fullVersion, err) {
+    // Some older releases never had a .overview.json published. Drop a
+    // helpful pointer at downloads.openwrt.org so the user can still
+    // grab images for that version, even though search is unavailable.
+    const wrap = el('div', 'dl-error');
+    const p = el('p');
+    p.append('No searchable index for OpenWrt ' + fullVersion + ' (' + err.message + '). ');
+    p.append('Browse the release directory directly:');
+    wrap.appendChild(p);
+    const ul = el('ul');
+    ul.appendChild(buildLi(
+      RELEASE_BASE + fullVersion + '/targets/',
+      'Per-target firmware images'
+    ));
+    ul.appendChild(buildLi(
+      RELEASE_BASE + fullVersion + '/',
+      'All ' + fullVersion + ' release files'
+    ));
+    wrap.appendChild(ul);
+    return wrap;
+  }
+
+  function buildLi(href, text) {
+    const li = document.createElement('li');
+    li.appendChild(link(href, text));
+    return li;
   }
 
   function loadOverview(fullVersion) {

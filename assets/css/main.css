@@ -274,8 +274,10 @@ h1, h2, h3 { line-height: 1.25; }
   border-color: var(--cyan);
 }
 
-.dl-all-versions-btn {
-  font: inherit;
+.dl-all-versions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   padding: 0.55rem 0.9rem;
   border: 1px solid var(--border);
   border-radius: 3px;
@@ -283,9 +285,11 @@ h1, h2, h3 { line-height: 1.25; }
   color: var(--text);
   cursor: pointer;
   white-space: nowrap;
+  user-select: none;
 }
-.dl-all-versions-btn:hover { border-color: var(--cyan); color: var(--cyan); }
-.dl-all-versions-btn.is-active {
+.dl-all-versions:hover { border-color: var(--cyan); }
+.dl-all-versions input[type="checkbox"] { margin: 0; cursor: pointer; }
+.dl-all-versions:has(input:checked) {
   background: var(--cyan);
   color: var(--navy);
   border-color: var(--cyan);
