@@ -1,0 +1,27 @@
+{{- $advisories := where .Site.RegularPages "Section" "advisories" -}}
+{{- $latest := first 5 ($advisories.ByDate.Reverse) -}}
+<div class="table-scroll">
+<table class="advisory-index">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>CVE</th>
+      <th>Summary</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{- range $latest }}
+    <tr>
+      <td><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time></td>
+      <td class="advisory-cve">
+        {{- with .Params.cve -}}
+          {{- range $i, $c := . }}{{ if $i }}, {{ end }}{{ $c }}{{ end -}}
+        {{- else -}}—{{- end -}}
+      </td>
+      <td><a href="{{ .RelPermalink }}">{{ .Title }}</a></td>
+    </tr>
+  {{- end }}
+  </tbody>
+</table>
+</div>
+<p><a href="{{ "/advisories/" | relURL }}">All advisories ({{ len $advisories }}) →</a></p>

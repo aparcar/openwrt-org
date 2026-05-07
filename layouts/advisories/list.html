@@ -1,0 +1,38 @@
+{{ define "main" }}
+<div class="container with-sidebar">
+  {{ partial "sidebar.html" . }}
+  <section class="page">
+    <h1>{{ .Title }}</h1>
+    {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+
+    <div class="table-scroll">
+    <table class="advisory-index">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>CVE</th>
+          <th>Summary</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ range .Pages.ByDate.Reverse }}
+        <tr>
+          <td>
+            {{ if not .Date.IsZero }}
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+            {{ end }}
+          </td>
+          <td class="advisory-cve">
+            {{- with .Params.cve -}}
+              {{- range $i, $c := . }}{{ if $i }}, {{ end }}{{ $c }}{{ end -}}
+            {{- else -}}—{{- end -}}
+          </td>
+          <td><a href="{{ .RelPermalink }}">{{ .Title }}</a></td>
+        </tr>
+        {{ end }}
+      </tbody>
+    </table>
+    </div>
+  </section>
+</div>
+{{ end }}

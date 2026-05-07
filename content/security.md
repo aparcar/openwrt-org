@@ -32,34 +32,13 @@ Caveats:
 
 ## Advisories
 
-Each row links to the full advisory on the wiki, with affected versions, fixed versions, technical details, and credits. This list covers components directly maintained by the OpenWrt project; it does not enumerate fixes for third-party components, although those are backported into supported releases when they affect OpenWrt.
+Vulnerabilities in components maintained by the OpenWrt project are tracked at [/advisories/](/advisories/). Each entry has affected versions, the fix landing point, and credits.
 
-| Date       | CVE | Summary |
-|------------|-----|---------|
-| 2025-12-16 | CVE-2025-14282 | [Dropbear privilege escalation via Unix domain socket forwarding](https://openwrt.org/advisory/2025-12-16-1) |
-| 2025-10-22 | CVE-2025-62525 | [ltq-ptm: local privilege escalation](https://openwrt.org/advisory/2025-10-22-2) |
-| 2025-10-22 | CVE-2025-62526 | [ubusd: heap buffer overflow](https://openwrt.org/advisory/2025-10-22-1) |
-| 2024-12-06 | CVE-2024-54143 | [Attended SysUpgrade server: build-artifact poisoning via truncated SHA-256 and command injection](https://openwrt.org/advisory/2024-12-06) |
-| 2022-10-17 | CVE-2022-41674, -42719, -42720, -42721, -42722 | [Multiple issues in mac80211 and cfg80211](https://openwrt.org/advisory/2022-10-17-1) |
-| 2022-10-04 | CVE-2022-39173 | [wolfSSL buffer overflow during a TLS 1.3 handshake](https://openwrt.org/advisory/2022-10-04-1) |
-| 2021-08-01 | CVE-2021-28961 | [luci-app-ddns: multiple authenticated RCEs](https://openwrt.org/advisory/2021-08-01-3) |
-| 2021-08-01 | CVE-2021-33425 | [Stored XSS in hostname UCI variable](https://openwrt.org/advisory/2021-08-01-2) |
-| 2021-08-01 | CVE-2021-32019 | [XSS via missing input validation of displayed hostnames](https://openwrt.org/advisory/2021-08-01-1) |
-| 2021-02-02 | CVE-2020-36177 | [wolfSSL heap buffer overflow in `RsaPad_PSS`](https://openwrt.org/advisory/2021-02-02-2) |
-| 2021-02-02 | CVE-2021-22161 | [netifd and odhcp6c routing loop on IPv6 point-to-point links](https://openwrt.org/advisory/2021-02-02-1) |
-| 2021-01-19 | CVE-2020-25681 … CVE-2020-25687 | [dnsmasq multiple vulnerabilities](https://openwrt.org/advisory/2021-01-19-1) |
-| 2021-01-17 | —             | [OpenWrt forum break-in on 16 Jan 2021](https://openwrt.org/advisory/2021-01-17-1) |
-| 2020-12-09 | CVE-2020-28951 | [libuci import: heap use-after-free](https://openwrt.org/advisory/2020-12-09-2) |
-| 2020-12-09 | CVE-2020-25705 | [Linux kernel ICMP rate-limit DNS-poisoning facilitator](https://openwrt.org/advisory/2020-12-09-1) |
-| 2020-05-06 | CVE-2020-11752 | [relayd: out-of-bounds heap reads and possible buffer overflow](https://openwrt.org/advisory/2020-05-06-2) |
-| 2020-05-06 | CVE-2020-11750 | [umdns: out-of-bounds heap reads and possible buffer overflow](https://openwrt.org/advisory/2020-05-06-1) |
-| 2020-02-21 | CVE-2020-8597 | [ppp buffer overflow](https://openwrt.org/advisory/2020-02-21-1) |
-| 2020-01-31 | CVE-2020-7248 | [libubox tagged binary data JSON serialization vulnerability](https://openwrt.org/advisory/2020-01-31-2) |
-| 2020-01-31 | CVE-2020-7982 | [opkg susceptible to MITM](https://openwrt.org/advisory/2020-01-31-1) |
-| 2020-01-13 | CVE-2019-19945 | [uhttpd invalid data access via HTTP POST request](https://openwrt.org/advisory/2020-01-13-1) |
-| 2019-11-05 | CVE-2019-5101, -5102 | [ustream-ssl information disclosure](https://openwrt.org/advisory/2019-11-05-3) |
-| 2019-11-05 | CVE-2019-17367 | [LuCI CSRF vulnerability](https://openwrt.org/advisory/2019-11-05-2) |
-| 2019-11-05 | —             | [LuCI stored XSS](https://openwrt.org/advisory/2019-11-05-1) |
+Additional advisories are published as **GitHub Security Advisories** on the relevant repositories under [github.com/openwrt](https://github.com/openwrt) — notably [openwrt/asu](https://github.com/openwrt/asu/security/advisories), where issues affecting Attended SysUpgrade are coordinated. When such a GitHub advisory affects shipped OpenWrt builds, it is mirrored to [/advisories/](/advisories/) as well; otherwise the GitHub repo is the authoritative source.
+
+The list covers project-maintained components only; fixes for third-party components are backported into supported releases when they affect OpenWrt, but are not enumerated here.
+
+{{< recent-advisories >}}
 
 ## How problems get found
 
@@ -97,4 +76,4 @@ OpenWrt enables a number of compile-time hardening options for all package build
 ## Subscribing
 
 - **Mailing list:** [openwrt-announce](https://lists.openwrt.org/mailman/listinfo/openwrt-announce) carries release and security announcements.
-- **RSS:** [security advisory feed](https://openwrt.org/feed.php?type=rss&mode=list&sort=date&ns=advisory&linkto=current&content=html).
+- **RSS:** [security advisory feed](/advisories/index.xml).

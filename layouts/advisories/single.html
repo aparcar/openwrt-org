@@ -1,0 +1,31 @@
+{{ define "main" }}
+<div class="container with-sidebar">
+  {{ partial "sidebar.html" . }}
+  <article class="page">
+    <h1>{{ .Title }}</h1>
+
+    <p class="meta">
+      {{- if not .Date.IsZero }}
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+      {{- end }}
+      {{- with .Params.component }} · {{ . }}{{ end }}
+      {{- with .Params.cve }} ·
+        {{- range $i, $c := . }}{{ if $i }}, {{ end }}{{ $c }}{{ end -}}
+      {{ end }}
+    </p>
+
+    {{ with .Params.affected }}
+    <p><strong>Affected releases:</strong>
+      {{- range $i, $a := . }}{{ if $i }}, {{ end }}{{ $a }}{{ end }}.</p>
+    {{ end }}
+
+    <div class="prose">{{ .Content }}</div>
+
+    {{ with .Params.wiki }}
+    <p class="advisory-wiki">Full advisory on the wiki: <a href="{{ . }}">{{ . }}</a></p>
+    {{ end }}
+
+    <p><a href="{{ "/advisories/" | relURL }}">← All advisories</a></p>
+  </article>
+</div>
+{{ end }}
