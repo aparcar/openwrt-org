@@ -25,7 +25,7 @@ The [OpenWrt Forum](https://forum.openwrt.org/) is the place for web-based commu
 Important changes such as new releases or critical security fixes can be received via several channels:
 
 - [openwrt-announce mailing list](https://lists.openwrt.org/mailman/listinfo/openwrt-announce) — releases and security announcements
-- [Security advisory RSS feed](https://openwrt.org/feed.php?type=rss&mode=list&sort=date&ns=advisory&linkto=current&content=html)
+- [Security advisories](/advisories/) ([RSS](/advisories/index.xml))
 - [Forum announcements category](https://forum.openwrt.org/c/announcements/14) ([RSS](https://forum.openwrt.org/c/announcements/14.rss) / [JSON](https://forum.openwrt.org/c/announcements/14.json))
 
 ## Mailing lists
@@ -50,7 +50,7 @@ See the [IRC contact page](https://openwrt.org/irc) for further details.
 
 ## Bugs
 
-See [Reporting bugs](https://openwrt.org/bugs).
+See [Reporting bugs](/bugs/).
 
 ## Support
 
