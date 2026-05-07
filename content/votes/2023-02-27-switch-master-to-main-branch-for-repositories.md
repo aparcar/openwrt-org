@@ -2,6 +2,8 @@
 title: "Switch 'master' to 'main' branch for repositories"
 date: 2023-02-27
 started_by: "Felix"
+status: "Closed"
+result: "Accepted"
 subjects:
   - { key: "vote", label: "Vote" }
 proposal: |

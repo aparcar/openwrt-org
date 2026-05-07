@@ -5,6 +5,7 @@
     <h1>{{ .Title }}</h1>
     {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
 
+    <div class="table-scroll">
     <table class="vote-index">
       <thead>
         <tr>
@@ -26,17 +27,27 @@
           <td>{{ .Params.started_by | default "—" }}</td>
           <td>
             {{ $label := "" }}{{ $cls := "" }}
-            {{ with .Params.result }}
-              {{ $label = . }}{{ $cls = printf "vote-%s" (lower .) }}
+            {{ $resultRaw := .Params.result | default "" }}
+            {{ $statusLow := lower (.Params.status | default "") }}
+            {{ $resultLow := lower $resultRaw }}
+            {{/* Open / TBD beats everything else: a vote that's still
+                 collecting ballots shouldn't show a pass/fail badge. */}}
+            {{ if or (eq $statusLow "open") (eq $resultLow "tbd") }}
+              {{ $label = "Open" }}{{ $cls = "vote-open" }}
+            {{ else if $resultRaw }}
+              {{ $label = $resultRaw }}{{ $cls = printf "vote-%s" $resultLow }}
             {{ else }}
-              {{/* Compute simple-majority result from the vote data:
-                   more ✅ than ❌ → Accepted; more ❌ → Rejected. */}}
+              {{/* Compute by the OpenWrt rules currently in force:
+                   2/3 majority among participants, with neutrals counted
+                   as half-approvals. Integer arithmetic:
+                       yes >= 2*no + 0.5*neutral
+                     ⇔ 2*yes >= 4*no + neutral. */}}
               {{ $subjects := .Params.subjects | default slice }}
               {{ $hasActive := false }}
               {{ range $s := $subjects }}
                 {{ if eq $s.key "active" }}{{ $hasActive = true }}{{ end }}
               {{ end }}
-              {{ $yes := 0 }}{{ $no := 0 }}
+              {{ $yes := 0 }}{{ $no := 0 }}{{ $neutral := 0 }}
               {{ range $vote := (.Params.votes | default slice) }}
                 {{ $hasAny := false }}
                 {{ range $s := $subjects }}
@@ -52,13 +63,17 @@
                       {{ $val := index $vote $s.key }}
                       {{ if eq $val 1  }}{{ $yes = add $yes 1 }}{{ end }}
                       {{ if eq $val -1 }}{{ $no  = add $no  1 }}{{ end }}
+                      {{ if eq $val 0  }}{{ $neutral = add $neutral 1 }}{{ end }}
                     {{ end }}
                   {{ end }}
                 {{ end }}
               {{ end }}
-              {{ if gt $yes $no }}
+              {{ $participants := add (add $yes $no) $neutral }}
+              {{ if le $participants 0 }}
+                {{ $label = "Open" }}{{ $cls = "vote-open" }}
+              {{ else if ge (mul 2 $yes) (add (mul 4 $no) $neutral) }}
                 {{ $label = "Accepted" }}{{ $cls = "vote-accepted" }}
-              {{ else if gt $no $yes }}
+              {{ else }}
                 {{ $label = "Rejected" }}{{ $cls = "vote-rejected" }}
               {{ end }}
             {{ end }}
@@ -72,6 +87,7 @@
         {{ end }}
       </tbody>
     </table>
+    </div>
   </section>
 </div>
 {{ end }}
