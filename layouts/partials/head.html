@@ -47,14 +47,37 @@
   <link rel="manifest" href="/favicon/site.webmanifest">
   <meta name="theme-color" content="#002B49">
 
-  {{- /* RSS feed discovery — page-specific (e.g. /news/) plus a global pointer to /news/ on every page. */ -}}
+  {{- /* RSS discovery:
+         1. The current page's own feed (e.g. the /news/ list itself).
+         2. Its parent section's feed when the page is a single inside a
+            section that has a feed (so /news/2024-…/ also advertises
+            /news/index.xml, /votes/2026-…/ advertises /votes/index.xml,
+            etc.).
+         3. A global pointer to /news/ on every other page so site-wide
+            subscribers always have one obvious feed to follow. */ -}}
+  {{- $emitted := slice -}}
   {{- range .AlternativeOutputFormats -}}
-  {{- if eq .Name "RSS" }}
+    {{- if eq (lower .Name) "rss" }}
   <link rel="alternate" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}" title="{{ $.Site.Title }} – {{ $.Title }}">
-  {{- end -}}
+      {{- $emitted = $emitted | append .Permalink -}}
+    {{- end -}}
   {{- end }}
-  {{- if not (eq .Section "news") }}
-  <link rel="alternate" type="application/rss+xml" href="{{ printf "%s/news/index.xml" $base | safeURL }}" title="OpenWrt news">
+  {{- with .CurrentSection }}
+    {{- /* Skip the root section: /index.xml duplicates the news feed
+           emitted further down for everyone. Section-specific feeds
+           like /votes/index.xml still go through. */ -}}
+    {{- if .Section }}
+      {{- range .OutputFormats }}
+        {{- if and (eq (lower .Name) "rss") (not (in $emitted .Permalink)) }}
+  <link rel="alternate" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}" title="{{ $.Site.Title }} – {{ $.CurrentSection.Title }}">
+          {{- $emitted = $emitted | append .Permalink -}}
+        {{- end -}}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- $newsFeed := printf "%s/news/index.xml" $base -}}
+  {{- if not (in $emitted $newsFeed) }}
+  <link rel="alternate" type="application/rss+xml" href="{{ $newsFeed | safeURL }}" title="OpenWrt news">
   {{- end }}
 
   {{- range .Params.extra_scripts }}
