@@ -1,0 +1,161 @@
+{{ define "main" }}
+<div class="container with-sidebar">
+  {{ partial "sidebar.html" . }}
+  <article class="page">
+    <h1>{{ .Title }}</h1>
+
+    <p class="meta">
+      {{- if not .Date.IsZero }}
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+      {{- end }}
+      {{- with .Params.started_by }} · started by <strong>{{ . }}</strong>{{ end }}
+      {{- with .Params.ended }} · ended {{ . }}{{ end }}
+      {{- with .Params.status }} · status: {{ . | lower }}{{ end }}
+      {{- with .Params.result }} · result: <span class="vote-result vote-{{ . | lower }}">{{ . }}</span>{{ end }}
+    </p>
+
+    {{ with .Params.proposal }}
+    <h2>Proposal</h2>
+    <div class="prose">{{ . | markdownify }}</div>
+    {{ end }}
+
+    {{ if and .Params.subjects .Params.votes }}
+      {{ $subjects := .Params.subjects }}
+      {{ $votes := .Params.votes }}
+
+      {{/* If a vote has an "active" subject, treat it as a per-member
+           status flag rather than a vote column: hide the column, grey
+           out inactive rows, and exclude inactive members from stats
+           and totals. */}}
+      {{ $hasActive := false }}
+      {{ range $subj := $subjects }}
+        {{ if eq $subj.key "active" }}{{ $hasActive = true }}{{ end }}
+      {{ end }}
+      {{ $displaySubjects := $subjects }}
+      {{ if $hasActive }}
+        {{ $displaySubjects = where $subjects "key" "ne" "active" }}
+      {{ end }}
+
+      {{/* Stats: only active members count. A member is "voted" if any
+           displayed subject key is present in their map. A member is
+           considered active if explicitly marked (active: 1) OR if they
+           cast any vote — voting itself implies participation. */}}
+      {{ $members := 0 }}
+      {{ $voted := 0 }}
+      {{ range $vote := $votes }}
+        {{ $hasAny := false }}
+        {{ range $subj := $displaySubjects }}
+          {{ if isset $vote $subj.key }}{{ $hasAny = true }}{{ end }}
+        {{ end }}
+        {{ $isActive := true }}
+        {{ if $hasActive }}
+          {{ $isActive = or (eq (index $vote "active") 1) $hasAny }}
+        {{ end }}
+        {{ if $isActive }}
+          {{ $members = add $members 1 }}
+          {{ if $hasAny }}{{ $voted = add $voted 1 }}{{ end }}
+        {{ end }}
+      {{ end }}
+
+      <h2>Stats</h2>
+      <table class="vote-stats">
+        <thead><tr><th>Members</th><th>Voted</th><th>Missing</th></tr></thead>
+        <tbody><tr>
+          <td>{{ $members }}</td>
+          <td>{{ $voted }}</td>
+          <td>{{ sub $members $voted }}</td>
+        </tr></tbody>
+      </table>
+
+      <h2>Results</h2>
+      <table class="vote-results">
+        <thead>
+          <tr>
+            <th>Member</th>
+            {{ range $subj := $displaySubjects }}<th>{{ $subj.label }}</th>{{ end }}
+          </tr>
+        </thead>
+        <tbody>
+          {{ range $vote := $votes }}
+            {{ $hasAny := false }}
+            {{ range $subj := $displaySubjects }}
+              {{ if isset $vote $subj.key }}{{ $hasAny = true }}{{ end }}
+            {{ end }}
+            {{ $isActive := true }}
+            {{ if $hasActive }}
+              {{ $isActive = or (eq (index $vote "active") 1) $hasAny }}
+            {{ end }}
+          <tr{{ if not $isActive }} class="vote-inactive"{{ end }}>
+            <td>{{ $vote.name }}</td>
+            {{ range $subj := $displaySubjects }}
+              {{ $val := index $vote $subj.key }}
+              {{ $cls := "vote-cell" }}
+              {{ $display := "" }}
+              {{ if eq $subj.key "link" }}
+                {{ if $val }}
+                  {{ $href := printf "%v" $val }}
+                  {{ if not (hasPrefix $href "http") }}
+                    {{ $href = print "https://lists.openwrt.org/pipermail/openwrt-adm/" $href }}
+                  {{ end }}
+                  {{ $display = printf "[vote](%s)" $href }}
+                {{ end }}
+              {{ else if eq $val 1 }}
+                {{ $cls = "vote-cell vote-pos" }}{{ $display = "✅" }}
+              {{ else if eq $val -1 }}
+                {{ $cls = "vote-cell vote-neg" }}{{ $display = "❌" }}
+              {{ else if eq $val 0 }}
+                {{ $cls = "vote-cell vote-zero" }}{{ $display = "🤷" }}
+              {{ else if $val }}
+                {{ $display = printf "%v" $val }}
+              {{ end }}
+              <td class="{{ $cls }}">{{ $display | markdownify }}</td>
+            {{ end }}
+          </tr>
+          {{ end }}
+          {{/* Totals: per-subject counts of +1 / -1 / 0 cells. Inactive
+               members are excluded. */}}
+          {{ $tally := dict }}
+          {{ range $subj := $displaySubjects }}
+            {{ $pos := 0 }}{{ $neg := 0 }}{{ $zero := 0 }}
+            {{ range $vote := $votes }}
+              {{ $hasAny := false }}
+              {{ range $s := $displaySubjects }}
+                {{ if isset $vote $s.key }}{{ $hasAny = true }}{{ end }}
+              {{ end }}
+              {{ $isActive := true }}
+              {{ if $hasActive }}
+                {{ $isActive = or (eq (index $vote "active") 1) $hasAny }}
+              {{ end }}
+              {{ if $isActive }}
+                {{ $val := index $vote $subj.key }}
+                {{ if eq $val 1  }}{{ $pos  = add $pos 1 }}{{ end }}
+                {{ if eq $val -1 }}{{ $neg  = add $neg 1 }}{{ end }}
+                {{ if eq $val 0  }}{{ $zero = add $zero 1 }}{{ end }}
+              {{ end }}
+            {{ end }}
+            {{ $tally = merge $tally (dict $subj.key (slice $pos $neg $zero)) }}
+          {{ end }}
+          <tr class="vote-total">
+            <td><strong>✅ Yes</strong></td>
+            {{ range $subj := $displaySubjects }}
+              <td><strong>{{ index (index $tally $subj.key) 0 }}</strong></td>
+            {{ end }}
+          </tr>
+          <tr class="vote-total">
+            <td><strong>❌ No</strong></td>
+            {{ range $subj := $displaySubjects }}
+              <td><strong>{{ index (index $tally $subj.key) 1 }}</strong></td>
+            {{ end }}
+          </tr>
+          <tr class="vote-total">
+            <td><strong>🤷 Neutral</strong></td>
+            {{ range $subj := $displaySubjects }}
+              <td><strong>{{ index (index $tally $subj.key) 2 }}</strong></td>
+            {{ end }}
+          </tr>
+        </tbody>
+      </table>
+    {{ end }}
+  </article>
+</div>
+{{ end }}

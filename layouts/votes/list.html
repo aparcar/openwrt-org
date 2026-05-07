@@ -1,0 +1,77 @@
+{{ define "main" }}
+<div class="container with-sidebar">
+  {{ partial "sidebar.html" . }}
+  <section class="page">
+    <h1>{{ .Title }}</h1>
+    {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+
+    <table class="vote-index">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Topic</th>
+          <th>Started by</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ range .Pages.ByDate.Reverse }}
+        <tr>
+          <td>
+            {{ if not .Date.IsZero }}
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+            {{ end }}
+          </td>
+          <td><a href="{{ .RelPermalink }}">{{ .Title }}</a></td>
+          <td>{{ .Params.started_by | default "—" }}</td>
+          <td>
+            {{ $label := "" }}{{ $cls := "" }}
+            {{ with .Params.result }}
+              {{ $label = . }}{{ $cls = printf "vote-%s" (lower .) }}
+            {{ else }}
+              {{/* Compute simple-majority result from the vote data:
+                   more ✅ than ❌ → Accepted; more ❌ → Rejected. */}}
+              {{ $subjects := .Params.subjects | default slice }}
+              {{ $hasActive := false }}
+              {{ range $s := $subjects }}
+                {{ if eq $s.key "active" }}{{ $hasActive = true }}{{ end }}
+              {{ end }}
+              {{ $yes := 0 }}{{ $no := 0 }}
+              {{ range $vote := (.Params.votes | default slice) }}
+                {{ $hasAny := false }}
+                {{ range $s := $subjects }}
+                  {{ if and (ne $s.key "active") (isset $vote $s.key) }}{{ $hasAny = true }}{{ end }}
+                {{ end }}
+                {{ $isActive := true }}
+                {{ if $hasActive }}
+                  {{ $isActive = or (eq (index $vote "active") 1) $hasAny }}
+                {{ end }}
+                {{ if $isActive }}
+                  {{ range $s := $subjects }}
+                    {{ if ne $s.key "active" }}
+                      {{ $val := index $vote $s.key }}
+                      {{ if eq $val 1  }}{{ $yes = add $yes 1 }}{{ end }}
+                      {{ if eq $val -1 }}{{ $no  = add $no  1 }}{{ end }}
+                    {{ end }}
+                  {{ end }}
+                {{ end }}
+              {{ end }}
+              {{ if gt $yes $no }}
+                {{ $label = "Accepted" }}{{ $cls = "vote-accepted" }}
+              {{ else if gt $no $yes }}
+                {{ $label = "Rejected" }}{{ $cls = "vote-rejected" }}
+              {{ end }}
+            {{ end }}
+            {{ if $label }}
+              <span class="vote-result {{ $cls }}">{{ $label }}</span>
+            {{ else }}
+              <span class="vote-result vote-unknown">—</span>
+            {{ end }}
+          </td>
+        </tr>
+        {{ end }}
+      </tbody>
+    </table>
+  </section>
+</div>
+{{ end }}

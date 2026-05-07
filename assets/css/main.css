@@ -929,6 +929,58 @@ option.dl-snapshot-option {
 .toh-table tbody tr:hover { background: var(--bg-soft); }
 .toh-links a { white-space: nowrap; }
 
+/* Votes */
+.vote-stats,
+.vote-results,
+.vote-index {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: 0.95em;
+}
+.vote-stats th, .vote-stats td,
+.vote-results th, .vote-results td,
+.vote-index th, .vote-index td {
+  text-align: left;
+  padding: 0.4rem 0.7rem;
+  border-bottom: 1px solid var(--border);
+}
+.vote-stats th,
+.vote-results th,
+.vote-index th {
+  background: var(--bg-soft);
+  font-weight: 600;
+}
+.vote-cell {
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.vote-pos  { background: #dcefdc; color: #1d6b1d; font-weight: 600; }
+.vote-neg  { background: #f4dada; color: #8a1f1f; font-weight: 600; }
+.vote-zero { background: #fdf3cf; color: #836914; }
+.vote-total td { background: var(--bg-soft); }
+
+.vote-inactive td { color: #999; background: #f5f5f5; font-style: italic; }
+
+.vote-result {
+  display: inline-block;
+  padding: 0.05em 0.55em;
+  border-radius: 3px;
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: lowercase;
+}
+.vote-accepted { background: #dcefdc; color: #1d6b1d; }
+.vote-rejected,
+.vote-failed   { background: #f4dada; color: #8a1f1f; }
+.vote-closed,
+.vote-tbd,
+.vote-open,
+.vote-unknown  { background: var(--bg-soft); color: var(--muted); }
+
+.vote-index td:first-child time { font-variant-numeric: tabular-nums; }
+
 /* Release status badges */
 .status {
   display: inline-block;
