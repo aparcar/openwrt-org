@@ -26,18 +26,30 @@ votes:
     active: 1
   - name: "Álvaro"
     active: 1
+    jonasjelonek: 1
+    plappermaul: 1
+    link: "2026-May/002989.html"
   - name: "Baptiste"
     active: 1
   - name: "Christian L."
     active: 1
+    jonasjelonek: 1
+    plappermaul: 1
+    link: "2026-May/002987.html"
   - name: "Christian M."
     active: 1
   - name: "Chuanhong"
     active: 1
   - name: "Daniel"
     active: 1
+    jonasjelonek: 1
+    plappermaul: 1
+    link: "2026-May/002974.html"
   - name: "David B."
     active: 1
+    jonasjelonek: 1
+    plappermaul: 1
+    link: "2026-May/002988.html"
   - name: "David W."
     active: 1
   - name: "Felix"
@@ -48,6 +60,9 @@ votes:
     active: 1
   - name: "Hauke"
     active: 1
+    jonasjelonek: 1
+    plappermaul: 1
+    link: "2026-May/002973.html"
   - name: "Imre"
     active: 1
   - name: "Jo-Philipp"
@@ -69,6 +84,9 @@ votes:
     active: 1
   - name: "Mirko"
     active: 1
+    jonasjelonek: 0
+    plappermaul: 1
+    link: "2026-May/002980.html"
   - name: "Nick"
     active: 1
     jonasjelonek: 1
@@ -76,6 +94,9 @@ votes:
     link: "2026-May/002972.html"
   - name: "Paul"
     active: 1
+    jonasjelonek: 1
+    plappermaul: 1
+    link: "2026-May/002971.html"
   - name: "Petr"
     active: 1
   - name: "Piotr"
@@ -84,19 +105,34 @@ votes:
     active: 1
   - name: "Rich"
     active: 1
+    jonasjelonek: 1
+    plappermaul: 1
+    link: "2026-May/002975.html"
   - name: "Robert"
     active: 1
+    jonasjelonek: 1
+    plappermaul: 1
+    link: "2026-May/002982.html"
   - name: "Rui"
     active: 1
+    jonasjelonek: 1
+    plappermaul: 1
+    link: "2026-May/002978.html"
   - name: "Sander"
     active: 1
   - name: "Steven"
   - name: "Stijn"
     active: 1
+    jonasjelonek: 1
+    plappermaul: 1
+    link: "2026-May/002979.html"
   - name: "Sungbo"
     active: 1
   - name: "Ted"
     active: 1
+    jonasjelonek: 1
+    plappermaul: 1
+    link: "2026-May/002977.html"
   - name: "Thomas"
   - name: "Yousong"
   - name: "Zoltan"
