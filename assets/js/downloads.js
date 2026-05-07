@@ -1,21 +1,21 @@
 // Downloads page (search-first device picker).
 //
 // Data flow (no wiki dependency for the device list):
-//   1. .versions.json → release dropdown.
+//   1. window.OPENWRT_RELEASES (server-rendered from data/releases.toml
+//      via the {{< releases-data >}} shortcode) → release dropdown.
 //   2. /releases/{ver}/.overview.json → list of profiles (search index).
 //   3. On row expand:
 //        a. /toh/devices/{id}.json (per-device snapshot of toh.json,
 //           produced by scripts/split-toh.sh in CI) → specs.
 //        b. /releases/{ver}/targets/{target}/profiles.json → image URLs.
 //
-// All four endpoints are CORS-permissive. Snapshot mode (developers only)
-// is currently a card-only view because no per-release overview is
+// The release endpoints are CORS-permissive. Snapshot mode (developers
+// only) is currently a card-only view because no per-release overview is
 // published for snapshots.
 (function () {
   const root = document.getElementById('downloads-app');
   if (!root) return;
 
-  const VERSIONS_URL = 'https://downloads.openwrt.org/.versions.json';
   const RELEASE_BASE = 'https://downloads.openwrt.org/releases/';
   const NOTES_BASE = 'https://openwrt.org/releases/';
   const SNAPSHOTS_URL = 'https://downloads.openwrt.org/snapshots/';
@@ -33,22 +33,21 @@
   let currentProfileIndex = []; // built from current overview's `.profiles[]`
   let searchEl, versionEl, resultsEl;
 
-  fetchJSON(VERSIONS_URL)
-    .then((versions) => {
-      stable = versions.stable_version || '';
-      oldstable = versions.oldstable_version || '';
-      upcoming = versions.upcoming_version || '';
-      buildShell();
-      onVersionChange();
-    })
-    .catch((err) => {
-      root.replaceChildren();
-      const p = el('p', 'dl-error');
-      p.append('Could not load release info (' + err.message + '). Browse ');
-      p.appendChild(link('https://downloads.openwrt.org/', 'downloads.openwrt.org'));
-      p.append(' directly.');
-      root.appendChild(p);
-    });
+  const releases = window.OPENWRT_RELEASES;
+  if (!releases) {
+    root.replaceChildren();
+    const p = el('p', 'dl-error');
+    p.append('Release data missing. Browse ');
+    p.appendChild(link('https://downloads.openwrt.org/', 'downloads.openwrt.org'));
+    p.append(' directly.');
+    root.appendChild(p);
+    return;
+  }
+  stable = releases.stable || '';
+  oldstable = releases.oldstable || '';
+  upcoming = releases.upcoming || '';
+  buildShell();
+  onVersionChange();
 
   // ---- shell ---------------------------------------------------------------
 

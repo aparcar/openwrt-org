@@ -1,0 +1,17 @@
+{{- /* Inject release lifecycle data into the page so client-side scripts
+       (downloads.js) can build their UI from data/releases.toml rather
+       than fetching .versions.json from upstream. The script tag uses
+       application/json so the HTML/JS minifier leaves it alone; the
+       consuming script reads it via JSON.parse. */ -}}
+{{- $supported     := where .Site.Data.releases.releases "status" "supported"   -}}
+{{- $maintenance   := where .Site.Data.releases.releases "status" "maintenance" -}}
+{{- $stableEntry   := index $supported   0 -}}
+{{- $oldEntry      := index $maintenance 0 -}}
+{{- $stable        := "" -}}{{- if $stableEntry }}{{ $stable    = $stableEntry.latest }}{{ end -}}
+{{- $oldstable     := "" -}}{{- if $oldEntry    }}{{ $oldstable = $oldEntry.latest    }}{{ end -}}
+{{- $payload := dict
+    "stable"    $stable
+    "oldstable" $oldstable
+    "upcoming"  ""
+    "series"    .Site.Data.releases.releases -}}
+<script>window.OPENWRT_RELEASES = {{ $payload | jsonify | safeJS }};</script>

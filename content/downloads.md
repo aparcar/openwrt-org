@@ -6,6 +6,8 @@ extra_scripts: ["js/downloads.js"]
 
 Find OpenWrt firmware for your device. Search by brand or model below, or browse the full [Table of Hardware](/toh/) to filter by capabilities.
 
+{{< releases-data >}}
+
 <div id="downloads-app">
   <p class="dl-loading">Loading device list…</p>
 </div>
