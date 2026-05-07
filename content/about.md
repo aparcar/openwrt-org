@@ -30,3 +30,9 @@ The merged project uses LEDE's codebase with compatible OpenWrt patches integrat
 ## Name
 
 OpenWrt's name derives from early wireless router firmware development, particularly the White Russian releases for Linksys WRT54G routers. LEDE stood for Linux Embedded Development Environment, reflecting its embedded buildroot origins and flexibility.
+
+## Project members
+
+OpenWrt's active members hold commit access to the project's repositories and participate in formal [votes](/votes/) on project matters. New members are added by formal vote.
+
+{{< members-table >}}

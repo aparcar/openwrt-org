@@ -1,0 +1,166 @@
+# OpenWrt project members. Source of truth for the /members/ page.
+# Mirrors https://openwrt.org/about — keep in sync when membership changes.
+
+[[active]]
+name   = "Adrian Schmutzler"
+handle = "adrianschmutzler"
+
+[[active]]
+name   = "Alexander Couzens"
+handle = "lynxis"
+
+[[active]]
+name   = "Álvaro Fernández Rojas"
+handle = "noltari"
+
+[[active]]
+name   = "Baptiste Jonglez"
+handle = "zorun"
+
+[[active]]
+name   = "Christian Lamparter"
+handle = "lach1012"
+
+[[active]]
+name   = "Christian Marangi"
+handle = "ansuel"
+
+[[active]]
+name   = "Chuanhong Guo"
+handle = "981213"
+
+[[active]]
+name   = "Daniel Golle"
+handle = "dangole"
+
+[[active]]
+name   = "David Bauer"
+handle = "blocktrron"
+
+[[active]]
+name   = "David Woodhouse"
+handle = "dwmw2"
+
+[[active]]
+name   = "Felix Fietkau"
+handle = "nbd"
+
+[[active]]
+name   = "Florian Fainelli"
+handle = "florian"
+
+[[active]]
+name   = "Hans Dedecker"
+handle = "dedeckeh"
+
+[[active]]
+name   = "Hauke Mehrtens"
+handle = "hauke"
+
+[[active]]
+name   = "Imre Kaloz"
+handle = "kaloz"
+
+[[active]]
+name   = "Jo-Philipp Wich"
+handle = "jow"
+
+[[active]]
+name   = "John Crispin"
+handle = "blogic"
+
+[[active]]
+name   = "Jonas Gorski"
+handle = "jogo"
+
+[[active]]
+name   = "Kevin Darbyshire-Bryant"
+handle = "ldir"
+
+[[active]]
+name   = "Koen Vandeputte"
+handle = "xback"
+
+[[active]]
+name   = "Linus Walleij"
+handle = "linus"
+
+[[active]]
+name   = "Luka Perkov"
+handle = "luka"
+
+[[active]]
+name   = "Mathias Kresin"
+handle = "mkresin"
+
+[[active]]
+name   = "Mirko Vogt"
+handle = "mirko"
+
+[[active]]
+name   = "Nick Hainke"
+handle = "nick"
+
+[[active]]
+name   = "Nora Schiffer"
+handle = "neocturne"
+
+[[active]]
+name   = "Paul Spooren"
+handle = "aparcar"
+
+[[active]]
+name   = "Petr Štetiar"
+handle = "ynezz"
+
+[[active]]
+name   = "Piotr Dymacz"
+handle = "pepe2k"
+
+[[active]]
+name   = "Rafał Miłecki"
+handle = "rmilecki"
+
+[[active]]
+name   = "Rich Brown"
+handle = "richb-hanover"
+
+[[active]]
+name   = "Robert Marko"
+handle = "robimarko"
+
+[[active]]
+name   = "Rui Salvaterra"
+handle = "rsalvaterra"
+
+[[active]]
+name   = "Sander Vanheule"
+handle = "svanheule"
+
+[[active]]
+name   = "Steven Barth"
+handle = "cyrus"
+
+[[active]]
+name   = "Stijn Tintel"
+handle = "stintel"
+
+[[active]]
+name   = "Sungbo Eo"
+handle = "mans0n"
+
+[[active]]
+name   = "Ted Hess"
+handle = "thess"
+
+[[active]]
+name   = "Thomas Endt"
+handle = "tmomas"
+
+[[active]]
+name   = "Yousong Zhou"
+handle = "yousong"
+
+[[active]]
+name   = "Zoltan Herpai"
+handle = "wigyori"

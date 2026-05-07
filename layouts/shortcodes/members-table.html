@@ -1,0 +1,20 @@
+{{- $active := sort (.Site.Data.members.active | default slice) "name" -}}
+<p>{{ len $active }} active members:</p>
+<div class="table-scroll">
+<table class="members-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{- range $active }}
+    <tr>
+      <td>{{ .name }}</td>
+      <td><code>{{ .handle }}</code></td>
+    </tr>
+  {{- end }}
+  </tbody>
+</table>
+</div>
