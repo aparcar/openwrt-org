@@ -196,6 +196,7 @@
   function onVersionChange() {
     const isSnapshot = versionEl.value === 'snapshot';
     versionEl.classList.toggle('dl-snapshot-active', isSnapshot);
+    setSearchEnabled(true);
 
     if (isSnapshot) {
       currentProfileIndex = [];
@@ -217,8 +218,17 @@
       })
       .catch((err) => {
         if (versionEl.selectedOptions[0]?.dataset.fullVersion !== fullVersion) return;
+        currentProfileIndex = [];
+        setSearchEnabled(false);
         resultsEl.replaceChildren(noOverviewNotice(fullVersion, err));
       });
+  }
+
+  function setSearchEnabled(on) {
+    searchEl.disabled = !on;
+    searchEl.placeholder = on
+      ? 'Search brand or model…'
+      : 'Search unavailable for this version';
   }
 
   function noOverviewNotice(fullVersion, err) {
