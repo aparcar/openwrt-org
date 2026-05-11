@@ -198,13 +198,9 @@
     versionEl.classList.toggle('dl-snapshot-active', isSnapshot);
     setSearchEnabled(true);
 
-    if (isSnapshot) {
-      currentProfileIndex = [];
-      renderResults();
-      return;
-    }
-
-    const fullVersion = versionEl.selectedOptions[0]?.dataset.fullVersion;
+    const fullVersion = isSnapshot
+      ? 'snapshot'
+      : versionEl.selectedOptions[0]?.dataset.fullVersion;
     if (!fullVersion) return;
 
     resultsEl.replaceChildren(el('p', 'dl-loading', 'Loading firmware list…'));
@@ -212,16 +208,28 @@
     loadOverview(fullVersion)
       .then((data) => {
         // Race check: user may have switched versions while we were fetching.
-        if (versionEl.selectedOptions[0]?.dataset.fullVersion !== fullVersion) return;
+        if (selectedFullVersion() !== fullVersion) return;
         currentProfileIndex = buildProfileIndex(data);
         renderResults();
       })
       .catch((err) => {
-        if (versionEl.selectedOptions[0]?.dataset.fullVersion !== fullVersion) return;
+        if (selectedFullVersion() !== fullVersion) return;
         currentProfileIndex = [];
         setSearchEnabled(false);
         resultsEl.replaceChildren(noOverviewNotice(fullVersion, err));
       });
+  }
+
+  function selectedFullVersion() {
+    return versionEl.value === 'snapshot'
+      ? 'snapshot'
+      : versionEl.selectedOptions[0]?.dataset.fullVersion;
+  }
+
+  function baseUrlFor(fullVersion) {
+    return fullVersion === 'snapshot'
+      ? SNAPSHOTS_URL
+      : RELEASE_BASE + fullVersion + '/';
   }
 
   function setSearchEnabled(on) {
@@ -236,19 +244,15 @@
     // helpful pointer at downloads.openwrt.org so the user can still
     // grab images for that version, even though search is unavailable.
     const wrap = el('div', 'dl-error');
+    const base = baseUrlFor(fullVersion);
+    const label = fullVersion === 'snapshot' ? 'snapshot' : 'OpenWrt ' + fullVersion;
     const p = el('p');
-    p.append('No searchable index for OpenWrt ' + fullVersion + ' (' + err.message + '). ');
-    p.append('Browse the release directory directly:');
+    p.append('No searchable index for ' + label + ' (' + err.message + '). ');
+    p.append('Browse the directory directly:');
     wrap.appendChild(p);
     const ul = el('ul');
-    ul.appendChild(buildLi(
-      RELEASE_BASE + fullVersion + '/targets/',
-      'Per-target firmware images'
-    ));
-    ul.appendChild(buildLi(
-      RELEASE_BASE + fullVersion + '/',
-      'All ' + fullVersion + ' release files'
-    ));
+    ul.appendChild(buildLi(base + 'targets/', 'Per-target firmware images'));
+    ul.appendChild(buildLi(base, 'All ' + label + ' files'));
     wrap.appendChild(ul);
     return wrap;
   }
@@ -263,7 +267,7 @@
     if (overviewCache.has(fullVersion)) {
       return Promise.resolve(overviewCache.get(fullVersion));
     }
-    return fetchJSON(RELEASE_BASE + fullVersion + '/.overview.json').then((data) => {
+    return fetchJSON(baseUrlFor(fullVersion) + '.overview.json').then((data) => {
       overviewCache.set(fullVersion, data);
       return data;
     });
@@ -290,18 +294,14 @@
   function renderResults() {
     const q = searchEl.value.trim().toLowerCase();
     const isSnapshot = versionEl.value === 'snapshot';
-    const fullVersion = versionEl.selectedOptions[0]?.dataset.fullVersion || versionEl.value;
+    const fullVersion = selectedFullVersion();
 
     resultsEl.replaceChildren();
     if (isSnapshot) resultsEl.appendChild(snapshotWarning());
 
-    if (isSnapshot) {
-      resultsEl.appendChild(snapshotCard());
-      return;
-    }
-
     if (!q) {
-      resultsEl.appendChild(stableCard(fullVersion, seriesOf(fullVersion)));
+      if (isSnapshot) resultsEl.appendChild(snapshotCard());
+      else resultsEl.appendChild(stableCard(fullVersion, seriesOf(fullVersion)));
       resultsEl.appendChild(searchHint());
       return;
     }
@@ -381,7 +381,7 @@
 
     const actions = el('p', 'dl-actions');
     if (profile && Array.isArray(profile.images) && profile.images.length) {
-      const baseUrl = RELEASE_BASE + fullVersion + '/targets/' + profileMeta.target + '/';
+      const baseUrl = baseUrlFor(fullVersion) + 'targets/' + profileMeta.target + '/';
       const installImg = pickImage(profile.images, [
         'factory',
         'combined-factory',
@@ -417,12 +417,14 @@
     return p;
   }
 
-  // /releases/{ver}/targets/{target}/profiles.json — authoritative URLs.
+  // /releases/{ver}/targets/{target}/profiles.json (or
+  // /snapshots/targets/{target}/profiles.json for snapshot) —
+  // authoritative URLs.
   function loadProfiles(fullVersion, targetPath) {
     const key = fullVersion + '|' + targetPath;
     if (profilesCache.has(key)) return profilesCache.get(key);
     const p = fetchJSON(
-      RELEASE_BASE + fullVersion + '/targets/' + targetPath + '/profiles.json'
+      baseUrlFor(fullVersion) + 'targets/' + targetPath + '/profiles.json'
     ).catch((err) => {
       profilesCache.delete(key); // don't cache failures
       throw err;
