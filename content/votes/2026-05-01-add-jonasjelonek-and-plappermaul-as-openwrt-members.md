@@ -38,6 +38,9 @@ votes:
     link: "2026-May/002987.html"
   - name: "Christian M."
     active: 1
+    jonasjelonek: 1
+    plappermaul: 1
+    link: "2026-May/002993.html"
   - name: "Chuanhong"
     active: 1
   - name: "Daniel"
@@ -54,6 +57,9 @@ votes:
     active: 1
   - name: "Felix"
     active: 1
+    jonasjelonek: 1
+    plappermaul: 1
+    link: "2026-May/002991.html"
   - name: "Florian"
     active: 1
   - name: "Hans"
@@ -69,12 +75,18 @@ votes:
     active: 1
   - name: "John"
     active: 1
+    jonasjelonek: 1
+    plappermaul: 1
+    link: "2026-May/002990.html"
   - name: "Jonas"
     active: 1
   - name: "Kevin"
     active: 1
   - name: "Koen"
     active: 1
+    jonasjelonek: 1
+    plappermaul: 1
+    link: "2026-May/002994.html"
   - name: "Luka"
     active: 1
   - name: "Linus"
