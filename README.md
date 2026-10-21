@@ -82,6 +82,13 @@ The workflow:
 Edit the `site:` URL in `deploy.yml` if you fork — by default it points at
 the upstream Codeberg Pages site.
 
+The GitHub mirror has an equivalent workflow in
+`.github/workflows/deploy.yml` that runs the same build steps and publishes
+`public/` to GitHub Pages (`actions/deploy-pages`). It needs Pages enabled
+with "GitHub Actions" as the source in the repo settings; the site is built
+with `--baseURL` set to the Pages URL, so it works under a `/<repo>/`
+project path. Keep the build steps in the two workflows in sync.
+
 ## Repo layout
 
 ```
