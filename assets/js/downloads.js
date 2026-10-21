@@ -22,7 +22,8 @@
   const WIKI_BASE = 'https://openwrt.org/';
   // Per-device toh files live next to /toh/. Use document.baseURI so the
   // path resolves correctly under any deploy prefix.
-  const TOH_DEVICE_BASE = new URL('../toh/devices/', document.baseURI).href;
+  const TOH_URL = new URL('../toh/', document.baseURI).href;
+  const TOH_DEVICE_BASE = TOH_URL + 'devices/';
   const RESULT_CAP = 30;
 
   const overviewCache = new Map();   // fullVersion -> overview JSON
@@ -581,7 +582,7 @@
     const p = el('p', 'dl-empty');
     p.append(
       'Start typing your device above to see download links, or ',
-      link('/toh/', 'browse the full Table of Hardware'),
+      link(TOH_URL, 'browse the full Table of Hardware'),
       ' to filter by capabilities.'
     );
     return p;
@@ -595,7 +596,7 @@
       el('strong', null, '"' + q + '"'),
       '. Pick a different release above, or '
     );
-    p.appendChild(link('/toh/', 'browse the full Table of Hardware'));
+    p.appendChild(link(TOH_URL, 'browse the full Table of Hardware'));
     p.append('.');
     wrap.appendChild(p);
     return wrap;

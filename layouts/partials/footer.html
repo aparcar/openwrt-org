@@ -1,13 +1,13 @@
 <footer class="site-footer">
   <div class="container">
     <p class="footer-links">
-      <a href="/about/">About</a> ·
-      <a href="/donate/">Donate</a> ·
-      <a href="/trademark/">Trademark</a> ·
-      <a href="/license/">License</a> ·
-      <a href="/contact/">Contact</a> ·
-      <a href="/rules/">Rules</a> ·
-      <a href="/infrastructure/">Infrastructure</a>
+      <a href="{{ "about/" | relURL }}">About</a> ·
+      <a href="{{ "donate/" | relURL }}">Donate</a> ·
+      <a href="{{ "trademark/" | relURL }}">Trademark</a> ·
+      <a href="{{ "license/" | relURL }}">License</a> ·
+      <a href="{{ "contact/" | relURL }}">Contact</a> ·
+      <a href="{{ "rules/" | relURL }}">Rules</a> ·
+      <a href="{{ "infrastructure/" | relURL }}">Infrastructure</a>
     </p>
     <p>&copy; {{ now.Format "2006" }} OpenWrt project. Content licensed under
        <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>

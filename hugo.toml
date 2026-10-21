@@ -1,5 +1,4 @@
-baseURL = "https://openwrt.org/"
-relativeURLs = true
+baseURL = "http://aparcar.org/openwrt-org/"
 enableRobotsTXT = true
 [languages.en]
   locale = "en-us"

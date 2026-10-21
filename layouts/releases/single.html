@@ -15,14 +15,14 @@
     </p>
 
     <p class="release-help">
-      Get firmware on <a href="{{ "/downloads/" | relURL }}">Downloads</a>{{ with .Params.latest }} (latest <code>{{ . }}</code>){{ end }}.
+      Get firmware on <a href="{{ "downloads/" | relURL }}">Downloads</a>{{ with .Params.latest }} (latest <code>{{ . }}</code>){{ end }}.
       Each version's full technical changelog lives on the
       <a href="https://openwrt.org/releases/{{ .Params.series }}/start">wiki</a>; the notes below are the per-release summary.
     </p>
 
     <div class="prose release-notes">{{ .Content }}</div>
 
-    <p><a href="{{ "/releases/" | relURL }}">← All releases</a></p>
+    <p><a href="{{ "releases/" | relURL }}">← All releases</a></p>
   </article>
 </div>
 {{ end }}

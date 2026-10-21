@@ -59,8 +59,8 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Build
-        # Project pages live under /<repo>/, so override the openwrt.org baseURL.
-        run: hugo --minify --gc --baseURL "${{ steps.pages.outputs.base_url }}/"
+        # baseURL (including the /openwrt-org/ sub-path) comes from hugo.toml.
+        run: hugo --minify --gc
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

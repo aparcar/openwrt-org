@@ -6,14 +6,14 @@
     <p>The page you tried to reach is not here. It may have moved, been renamed, or live on the wiki under a slightly different path.</p>
     <h2>Useful starting points</h2>
     <ul>
-      <li><a href="/">Homepage</a></li>
+      <li><a href="{{ "" | relURL }}">Homepage</a></li>
       <li><a href="https://openwrt.org/docs/start">Documentation (wiki)</a></li>
-      <li><a href="/toh/">Supported devices</a></li>
+      <li><a href="{{ "toh/" | relURL }}">Supported devices</a></li>
       <li><a href="https://forum.openwrt.org/">Forum</a></li>
-      <li><a href="/news/">News and release announcements</a></li>
-      <li><a href="/security/">Security advisories and policy</a></li>
+      <li><a href="{{ "news/" | relURL }}">News and release announcements</a></li>
+      <li><a href="{{ "security/" | relURL }}">Security advisories and policy</a></li>
     </ul>
-    <p>If you arrived here from a link inside this site, please <a href="/bugs/">report it</a>.</p>
+    <p>If you arrived here from a link inside this site, please <a href="{{ "bugs/" | relURL }}">report it</a>.</p>
   </article>
 </div>
 {{ end }}

@@ -1,8 +1,8 @@
 <header class="site-header">
   <div class="container header-inner">
     {{ if not .IsHome }}
-      <a class="brand" href="/" aria-label="OpenWrt home">
-        <img src="/images/openwrt-logo-horizontal.svg" alt="OpenWrt" height="40">
+      <a class="brand" href="{{ "" | relURL }}" aria-label="OpenWrt home">
+        <img src="{{ "images/openwrt-logo-horizontal.svg" | relURL }}" alt="OpenWrt" height="40">
       </a>
     {{ end }}
     <nav class="main-nav" aria-label="Primary">

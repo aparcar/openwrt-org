@@ -85,9 +85,19 @@ the upstream Codeberg Pages site.
 The GitHub mirror has an equivalent workflow in
 `.github/workflows/deploy.yml` that runs the same build steps and publishes
 `public/` to GitHub Pages (`actions/deploy-pages`). It needs Pages enabled
-with "GitHub Actions" as the source in the repo settings; the site is built
-with `--baseURL` set to the Pages URL, so it works under a `/<repo>/`
-project path. Keep the build steps in the two workflows in sync.
+with "GitHub Actions" as the source in the repo settings. Keep the build
+steps in the two workflows in sync.
+
+The test deploy serves the site under a sub-path, so `baseURL` in
+`hugo.toml` includes it (`http://aparcar.org/openwrt-org/`); switch it to
+`https://openwrt.org/` for production. For links to keep working under any
+`baseURL`:
+
+- In templates, write internal links as `{{ "about/" | relURL }}` — no
+  leading slash, or `relURL` drops the sub-path.
+- In Markdown, `/about/`-style links are fine; the render hook in
+  `layouts/_default/_markup/render-link.html` adds the prefix.
+- In JS, resolve paths against `document.baseURI` (see `downloads.js`).
 
 ## Repo layout
 
